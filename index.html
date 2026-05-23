@@ -789,9 +789,9 @@
     <div class="card">
       <div class="summary-rows">
         <div class="sum-row"><span class="k">Purchase Price</span><span class="v" id="s-price"></span></div>
-        <div class="sum-row"><span class="k">Down Payment <span class="pill fixed">25%</span></span><span class="v" id="s-down"></span></div>
+        <div class="sum-row"><span class="k">Down Payment <span class="pill fixed" id="s-down-pct">25%</span></span><span class="v" id="s-down"></span></div>
         <div class="sum-row"><span class="k">Loan Amount</span><span class="v" id="s-loan"></span></div>
-        <div class="sum-row"><span class="k">Interest Rate <span class="pill fixed">30 yr fixed</span></span><span class="v" id="s-rate"></span></div>
+        <div class="sum-row"><span class="k">Interest Rate <span class="pill fixed" id="s-term">30 yr fixed</span></span><span class="v" id="s-rate"></span></div>
         <div class="sum-row"><span class="k">Monthly Housing Payment</span><span class="v" id="s-monthly-housing"></span></div>
         <div class="sum-row highlight"><span class="k">Monthly All In Cost</span><span class="v" id="s-monthly-all"></span></div>
         <div class="sum-row"><span class="k">Estimated Closing Costs <span class="pill est">Estimate</span></span><span class="v" id="s-closing"></span></div>
@@ -1387,8 +1387,10 @@
     // ===== Summary =====
     $('s-price').textContent = fmt(v.price);
     $('s-down').textContent = fmt(down);
+    $('s-down-pct').textContent = (v.downPct % 1 === 0 ? v.downPct.toFixed(0) : v.downPct.toFixed(2)) + '%';
     $('s-loan').textContent = fmt(loan);
     $('s-rate').textContent = fmtPct(v.ratePct);
+    $('s-term').textContent = v.termYrs + ' yr fixed';
     $('s-monthly-housing').textContent = fmt(housingMonthly);
     $('s-monthly-all').textContent = fmt(trueMonthlyFinal);
     $('s-closing').textContent = fmt(closingTotal);
