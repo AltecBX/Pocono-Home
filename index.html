@@ -883,6 +883,36 @@
   }
 
   /* Adjustable Assumptions */
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 999px;
+    color: var(--gold-2);
+    font-size: 11.5px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: background 0.18s, border-color 0.18s, transform 0.18s;
+    white-space: nowrap;
+  }
+  .back-to-top:hover {
+    background: rgba(212, 175, 55, 0.16);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: translateY(-1px);
+  }
+  @media (max-width: 480px) {
+    .back-to-top {
+      font-size: 11px;
+      padding: 9px 12px;
+      min-height: 36px;
+      white-space: normal;
+      text-align: center;
+    }
+  }
   .inputs-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1247,7 +1277,7 @@
 <div class="shell">
 
   <!-- ========== Top bar ========== -->
-  <header class="topbar">
+  <header class="topbar" id="top">
     <div class="brand">
       <div class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block">
@@ -1348,14 +1378,24 @@
           <tbody id="comps-tbody"></tbody>
         </table>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px;">
-        <div style="padding: 12px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
-          <div style="font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em;">Locust Lake Village, past 12 mo</div>
-          <div style="font-size: 13px; color: var(--text-primary); margin-top: 6px;">61 sold, $310K median list, $290K median sold</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px;">
+        <div style="padding: 14px 16px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
+          <div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;">Locust Lake Village</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-top: 10px;">
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Active</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">25</div></div>
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Sold past 12 mo</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">61</div></div>
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Median sold</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$290K</div></div>
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">$ / SF avg</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$215</div></div>
+          </div>
         </div>
-        <div style="padding: 12px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
-          <div style="font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em;">Arrowhead Lakes, current</div>
-          <div style="font-size: 13px; color: var(--text-primary); margin-top: 6px;">60 active, 146 day avg DOM, $225 per SF avg</div>
+        <div style="padding: 14px 16px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
+          <div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;">Arrowhead Lakes</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-top: 10px;">
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Active</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">60</div></div>
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Sold past 12 mo</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">95</div></div>
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Median sold</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$295K</div></div>
+            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">$ / SF avg</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$225</div></div>
+          </div>
         </div>
       </div>
       <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
@@ -1706,7 +1746,12 @@
   <section class="section">
     <div class="section-head">
       <h2>Adjustable Assumptions</h2>
-      <span class="hint">Edit and watch the dashboard recalculate</span>
+      <a href="#top" class="back-to-top" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' });">
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" style="display: block;">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+        Jump to top to see updated numbers
+      </a>
     </div>
     <div class="card">
       <div class="inputs-grid">
@@ -2072,23 +2117,34 @@
       { address: '57 Minisink Dr', sub: 'Active listing. Lowest in set, likely needs work.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 2040, psf: 95, price: 194500, zurl: 'https://www.zillow.com/homes/57-Minisink-Dr-Pocono-Lake-PA-18347_rb/' },
       { address: '127 Ridge Rd', sub: 'Active listing. Built 1962.', community: 'Locust Lake', bedbath: '2 / 1', sqft: 768, psf: 260, price: 199999, zurl: 'https://www.zillow.com/homes/127-Ridge-Rd-Pocono-Lake-PA-18347_rb/' },
       { address: '154 Ski Trl', sub: 'Active listing. Built 1968.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1115, psf: 233, price: 259900, zurl: 'https://www.zillow.com/homes/154-Ski-Trl-Pocono-Lake-PA-18347_rb/' },
+      { address: '1030 Wyoming Dr', sub: 'Active listing.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1248, psf: 220, price: 274900, zurl: 'https://www.zillow.com/homedetails/1030-Wyoming-Dr-Pocono-Lake-PA-18347/9794463_zpid/' },
       { address: '177 Minisink Dr', sub: 'Active listing.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1422, psf: 193, price: 274900, zurl: 'https://www.zillow.com/homes/177-Minisink-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '1505 Lake Ln', sub: 'Active listing. 3 BR / 3 BA, similar to subject.', community: 'Locust Lake', bedbath: '3 / 3', sqft: 1385, psf: 209, price: 288900, zurl: 'https://www.zillow.com/homedetails/1505-Lake-Ln-Pocono-Lake-PA-18347/9839087_zpid/' },
       { address: '1113 Wiconisco Dr', sub: 'Active listing. Built 1992.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1080, psf: 324, price: 350000, zurl: 'https://www.zillow.com/homes/1113-Wiconisco-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '1731 Lake Ln', sub: 'Active listing. Smaller home, premium psf.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1000, psf: 350, price: 349999, zurl: 'https://www.zillow.com/homedetails/1731-Lake-Ln-Pocono-Lake-PA-18347/9838615_zpid/' },
+      { address: '2158 Tuscarora Dr', sub: 'Active listing. Partially finished basement.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1707, psf: 217, price: 369900, zurl: 'https://www.zillow.com/homedetails/2158-Tuscarora-Dr-Pocono-Lake-PA-18347/9795339_zpid/' },
+      { address: '1769 Stag Run', sub: 'Active listing. Large 6 BR. Listed 3 days.', community: 'Locust Lake', bedbath: '6 / 3', sqft: 2056, psf: 181, price: 372500, zurl: 'https://www.zillow.com/homedetails/1769-Stag-Run-Pocono-Lake-PA-18347/9838965_zpid/' },
+      { address: '130 Beech Ln', sub: 'Active listing. Price cut $25K Feb 26.', community: 'Locust Lake', bedbath: '4 / 2', sqft: 1964, psf: 191, price: 374900, zurl: 'https://www.zillow.com/homedetails/130-Beech-Ln-Pocono-Lake-PA-18347/9839131_zpid/' },
       { address: '7751 Lake Shore Dr', sub: 'Active listing. Lake view.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1224, psf: 326, price: 399000, zurl: 'https://www.zillow.com/homes/7751-Lake-Shore-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '243 White Pine Dr', sub: 'Active listing. 3 BR / 3 BA, large.', community: 'Locust Lake', bedbath: '3 / 3', sqft: 2496, psf: 160, price: 400000, zurl: 'https://www.zillow.com/homedetails/243-White-Pine-Dr-Pocono-Lake-PA-18347/9838920_zpid/' },
+      { address: '204 Yuma Trl', sub: 'Active listing.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1778, psf: 236, price: 419900, zurl: 'https://www.zillow.com/homedetails/204-Yuma-Trl-Pocono-Lake-PA-18347/9795044_zpid/' },
       { address: '1101 Arrowhead Dr', sub: 'Active. Recent price cut.', community: 'Arrowhead', bedbath: '3 / 1', sqft: 1150, psf: 387, price: 445000, zurl: 'https://www.zillow.com/homes/1101-Arrowhead-Dr-Pocono-Lake-PA-18347_rb/' }
     ],
     sold: [
       // Subject pinned first
       { isSubject: true, address: '157 Cardinal Ln', sub: 'Subject. MLS PM-141523. Under contract.', community: 'Locust Lake', bedbath: '3 / 3', sqft: 1432, psf: 230, price: 329999, delta: null, zurl: 'https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/' },
-      { address: '1684 Stag Run', sub: 'Sold May 15, 2026. Sold at asking.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 3217, psf: 130, price: 419000, delta: 0.0, zurl: 'https://www.zillow.com/homes/1684-Stag-Run-Pocono-Lake-PA-18347_rb/' },
-      { address: '102 Chitimacha Dr', sub: 'Sold Apr 1, 2026. 55 DOM. Built 2008.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1456, psf: 206, price: 300000, delta: -8.0, zurl: 'https://www.zillow.com/homes/102-Chitimacha-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '1684 Stag Run', sub: 'Sold May 15, 2026. Above asking.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 3217, psf: 132, price: 425561, delta: 1.6, zurl: 'https://www.zillow.com/homedetails/1684-Stag-Run-Pocono-Lake-PA-18347/9840114_zpid/' },
+      { address: '7814 Lake Shore Dr', sub: 'Sold May 6, 2026. Listed $899.9K.', community: 'Locust Lake', bedbath: '5 / 4', sqft: 3120, psf: 264, price: 825000, delta: -8.3, zurl: 'https://www.zillow.com/homedetails/7814-Lake-Shore-Dr-Pocono-Lake-PA-18347/338930253_zpid/' },
+      { address: '105 Wagner Way', sub: 'Sold May 1, 2026. Bi-level.', community: 'Arrowhead', bedbath: '4 / 2', sqft: 2148, psf: 138, price: 296000, delta: -1.3, zurl: 'https://www.zillow.com/homedetails/105-Wagner-Way-Pocono-Lake-PA-18347/9838662_zpid/' },
+      { address: '118 Owassa Dr', sub: 'Sold May 1, 2026.', community: 'Arrowhead', bedbath: '3 / 1', sqft: 1728, psf: 148, price: 255000, delta: -8.9, zurl: 'https://www.zillow.com/homedetails/118-Owassa-Dr-Pocono-Lake-PA-18347/9839825_zpid/' },
+      { address: '5151 Cresco Dr', sub: 'Sold Apr 17, 2026. New roof.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1584, psf: 183, price: 290000, delta: -10.7, zurl: 'https://www.zillow.com/homedetails/5151-Cresco-Dr-Pocono-Lake-PA-18347/9796076_zpid/' },
+      { address: '1819 Stag Run', sub: 'Sold Apr 17, 2026.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1392, psf: 255, price: 355000, delta: -6.3, zurl: 'https://www.zillow.com/homedetails/1819-Stag-Run-Pocono-Lake-PA-18347/401760067_zpid/' },
+      { address: '102 Chitimacha Dr', sub: 'Sold Apr 1, 2026. Built 2008.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1456, psf: 206, price: 300000, delta: -8.0, zurl: 'https://www.zillow.com/homedetails/102-Chitimacha-Dr-Pocono-Lake-PA-18347/87896681_zpid/' },
       { address: '137 Sundance Dr', sub: 'Sold Mar 11, 2026. Above asking.', community: 'Arrowhead', bedbath: '2 / 1', sqft: 960, psf: 268, price: 257000, delta: 4.0, zurl: 'https://www.zillow.com/homedetails/137-Sundance-Dr-Pocono-Lake-PA-18347/9839701_zpid/' },
       { address: '2134 Sheshequin Dr', sub: 'Sold Mar 4, 2026.', community: 'Arrowhead', bedbath: '3 / 3', sqft: 1834, psf: 183, price: 335000, delta: -4.3, zurl: 'https://www.zillow.com/homedetails/2134-Sheshequin-Dr-Pocono-Lake-PA-18347/61431105_zpid/' },
       { address: '1540 Lake Ln', sub: 'Sold Feb 27, 2026. Built 2025.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1224, psf: 278, price: 340000, delta: 1.5, zurl: 'https://www.zillow.com/homedetails/1540-Lake-Ln-Pocono-Lake-PA-18347/456339563_zpid/' },
-      { address: '122 Paxinos Dr', sub: 'Sold Feb 27, 2026.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1120, psf: 219, price: 245000, delta: -5.7, zurl: 'https://www.zillow.com/homedetails/122-Paxinos-Dr-Pocono-Lake-PA-18347/9794600_zpid/' },
       { address: '216 Muskwink Dr', sub: 'Sold Feb 27, 2026.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1573, psf: 175, price: 275000, delta: -1.4, zurl: 'https://www.zillow.com/homedetails/216-Muskwink-Dr-Pocono-Lake-PA-18347/9794650_zpid/' },
       { address: '218 Barberry Ln', sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1176, psf: 340, price: 400000, delta: -7.0, zurl: 'https://www.zillow.com/homedetails/218-Barberry-Ln-Pocono-Lake-PA-18347/9795143_zpid/' },
-      { address: '104 White Pine Dr', sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 960, psf: 302, price: 290000, delta: -1.7, zurl: 'https://www.zillow.com/homedetails/104-White-Pine-Dr-Pocono-Lake-PA-18347/9839046_zpid/' },
       { address: '233 Pontiac Path', sub: 'Sold Feb 26, 2026. At asking.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1410, psf: 206, price: 289900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/233-Pontiac-Path-Pocono-Lake-PA-18347/9796017_zpid/' },
       { address: '164 Fawn Rd', sub: 'Sold Feb 25, 2026.', community: 'Locust Lake', bedbath: '5 / 3', sqft: 1688, psf: 184, price: 310000, delta: -1.6, zurl: 'https://www.zillow.com/homedetails/164-Fawn-Rd-Pocono-Lake-PA-18347/197130754_zpid/' },
       { address: '1428 Lake Ln', sub: 'Sold Feb 19, 2026.', community: 'Locust Lake', bedbath: '4 / 3', sqft: 1978, psf: 207, price: 410000, delta: -6.6, zurl: 'https://www.zillow.com/homedetails/1428-Lake-Ln-Pocono-Lake-PA-18347/67937643_zpid/' }
