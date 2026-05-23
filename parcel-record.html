@@ -310,6 +310,83 @@
   footer a { color: var(--gold-2); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
+  /* iPhone-specific responsive */
+  @media (max-width: 480px) {
+    body { padding: 20px 14px 40px; }
+
+    .topbar {
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 14px;
+      margin-bottom: 22px;
+    }
+    .brand { font-size: 12px; }
+    .back-link {
+      font-size: 11.5px;
+      padding: 8px 12px;
+      min-height: 36px;
+    }
+
+    h1 { font-size: 22px; line-height: 1.2; }
+    .subtitle { font-size: 13px; }
+    .snapshot-badge { font-size: 10.5px; padding: 4px 9px; }
+
+    .quick-facts { gap: 8px; margin: 22px 0; }
+    .fact-tile { padding: 13px 14px; }
+    .fact-label { font-size: 9px; letter-spacing: 0.07em; }
+    .fact-value { font-size: 17px; }
+    .fact-note { font-size: 10px; line-height: 1.35; }
+
+    section { margin-top: 28px; }
+    h2 { font-size: 11.5px; margin-bottom: 12px; }
+    .card { padding: 16px; border-radius: 12px; }
+
+    .bonus-card h3 { font-size: 12px; margin-bottom: 12px; }
+    .bonus-grid { gap: 8px; }
+    .bonus-item { padding: 11px 12px; }
+    .bonus-label { font-size: 9px; }
+    .bonus-value { font-size: 17px; margin-top: 4px; }
+    .bonus-note { font-size: 10.5px; line-height: 1.35; }
+
+    .data-list li {
+      padding: 9px 0;
+      font-size: 12px;
+      gap: 10px;
+    }
+    .data-list li .v.flag {
+      max-width: 60%;
+      font-size: 11px;
+    }
+
+    h3 { font-size: 13px; margin-bottom: 12px; }
+
+    thead th {
+      font-size: 9.5px;
+      padding: 7px 8px 7px 0;
+    }
+    tbody td {
+      font-size: 11.5px;
+      padding: 9px 8px 9px 0;
+      word-break: break-word;
+    }
+
+    .note { font-size: 10.5px; line-height: 1.5; padding-top: 12px; margin-top: 12px; }
+
+    footer { margin-top: 36px; padding-top: 20px; font-size: 10.5px; }
+  }
+
+  @media (max-width: 380px) {
+    /* iPhone SE / very narrow */
+    body { padding: 16px 12px 32px; }
+    .brand span:not(.brand-mark) { display: none; }
+    h1 { font-size: 20px; }
+    .fact-value { font-size: 15px; }
+    .bonus-value { font-size: 15px; }
+    tbody td, thead th { padding: 6px 4px 6px 0; }
+    tbody td { font-size: 11px; }
+    thead th { font-size: 9px; }
+  }
+
   /* Print */
   @media print {
     body { background: white; color: black; max-width: 100%; padding: 12px; }
