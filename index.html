@@ -4,6 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>157 Cardinal Ln, Pocono Lake</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f4d27a'/><stop offset='1' stop-color='%23d4af37'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='%23000'/><rect x='0.5' y='0.5' width='63' height='63' rx='13.5' fill='none' stroke='url(%23g)' stroke-opacity='0.45' stroke-width='1'/><path d='M32 12 L12 30 L17 30 L17 50 L27 50 L27 38 L37 38 L37 50 L47 50 L47 30 L52 30 Z' fill='url(%23g)'/></svg>" />
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f4d27a'/><stop offset='1' stop-color='%23d4af37'/></linearGradient></defs><rect width='180' height='180' rx='40' fill='%23000'/><path d='M90 38 L36 86 L50 86 L50 140 L78 140 L78 108 L102 108 L102 140 L130 140 L130 86 L144 86 Z' fill='url(%23g)'/></svg>" />
+<meta name="theme-color" content="#000000" />
+<meta name="apple-mobile-web-app-title" content="Cardinal Ln" />
+<meta name="application-name" content="Cardinal Ln" />
 <style>
   /* ========== Apple Wallet inspired premium dashboard ========== */
   :root {
@@ -136,6 +141,14 @@
     background: var(--accent-green);
     box-shadow: 0 0 8px var(--accent-green);
   }
+  .eyebrow .dot.pulse {
+    width: 8px; height: 8px;
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+  @keyframes dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.6), 0 0 8px var(--accent-green); transform: scale(1); }
+    50% { box-shadow: 0 0 0 8px rgba(48, 209, 88, 0); transform: scale(1.15); }
+  }
   .hero h1 {
     font-family: var(--font-display);
     font-size: clamp(36px, 5.2vw, 64px);
@@ -168,11 +181,13 @@
     gap: 18px;
     margin-top: 36px;
   }
-  @media (max-width: 720px) { .hero-grid { grid-template-columns: 1fr; } }
+  .hero-grid.four-up { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 1100px) { .hero-grid.four-up { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 720px) { .hero-grid { grid-template-columns: 1fr; } .hero-grid.four-up { grid-template-columns: 1fr; } }
 
   .metric-tile {
     position: relative;
-    padding: 28px 30px 30px;
+    padding: 18px 22px 20px;
     border-radius: var(--radius-lg);
     background: var(--surface-1);
     border: 1px solid var(--hairline);
@@ -185,27 +200,30 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 50%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent 50%);
     pointer-events: none;
   }
   .metric-tile .label {
-    font-size: 12px;
-    color: var(--text-secondary);
+    font-size: 10px;
+    color: var(--text-tertiary);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
+    font-weight: 500;
   }
   .metric-tile .value {
     font-family: var(--font-display);
-    font-size: clamp(40px, 5.4vw, 56px);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    margin-top: 14px;
-    line-height: 1;
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: 6px;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
   }
   .metric-tile .meta {
-    margin-top: 14px;
+    margin-top: 8px;
     color: var(--text-tertiary);
-    font-size: 13px;
+    font-size: 11px;
+    line-height: 1.4;
   }
   .metric-tile.primary {
     background:
@@ -337,6 +355,202 @@
   .stack > span { display: block; height: 100%; }
 
   /* ========== Line item table ========== */
+  /* ========== Tabs ========== */
+  .tabs-wrap {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 0;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.18s, border-color 0.18s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: var(--text-primary); }
+  .tab-btn.active {
+    color: var(--gold-1);
+    border-bottom-color: var(--gold-1);
+  }
+  .tab-btn .tab-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent-green);
+    box-shadow: 0 0 6px var(--accent-green);
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+  .tab-btn .tab-count {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    background: var(--surface-2);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tab-btn.active .tab-count { color: var(--gold-1); background: rgba(212, 175, 55, 0.1); }
+  .sort-arrow {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 9px;
+    opacity: 0.4;
+    transition: opacity 0.18s;
+  }
+  .comps-table th[data-active-sort] .sort-arrow { opacity: 1; color: var(--gold-1); }
+  .comps-table.sortable th { cursor: pointer; user-select: none; }
+  .comps-table.sortable th:hover { color: var(--text-primary); }
+  .comps-table .delta-pos { color: var(--accent-green); font-weight: 600; }
+  .comps-table .delta-neg { color: var(--accent-pink); font-weight: 600; }
+  .comps-table .delta-na { color: var(--text-tertiary); }
+  .comps-table .comp-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    transition: border-color 0.18s, color 0.18s;
+    padding-bottom: 1px;
+  }
+  .comps-table .comp-link:hover {
+    color: var(--gold-2);
+    border-bottom-color: var(--gold-1);
+  }
+  .comps-table .comp-link-quiet {
+    border-bottom-color: transparent;
+  }
+  .comps-table .comp-link-quiet:hover {
+    color: var(--gold-2);
+    border-bottom-color: rgba(212, 175, 55, 0.4);
+  }
+  .comps-table[data-tab="active"] .sold-only { display: none; }
+  @media (max-width: 720px) {
+    .tab-btn { padding: 10px 10px; font-size: 12px; }
+    .tab-btn .tab-count { font-size: 10px; padding: 1px 6px; }
+  }
+
+  /* ========== Waterfall and Comp Chart ========== */
+  .waterfall-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .waterfall-bar:last-child { border-bottom: none; }
+  .waterfall-bar .wf-label {
+    font-size: 13px;
+    color: var(--text-primary);
+    min-width: 180px;
+    font-weight: 500;
+  }
+  .waterfall-bar .wf-fill {
+    flex: 1;
+    height: 26px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .waterfall-bar .wf-fill-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .waterfall-bar .wf-fill-inner.equity {
+    background: linear-gradient(90deg, var(--accent-green), #2ba94d);
+  }
+  .waterfall-bar .wf-fill-inner.fees {
+    background: var(--surface-3);
+  }
+  .waterfall-bar .wf-amt {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+    min-width: 110px;
+    text-align: right;
+  }
+  .waterfall-total {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 2px solid var(--gold-1);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .waterfall-total .wt-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+  }
+  .waterfall-total .wt-amt {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    font-size: 22px;
+    color: var(--gold-1);
+    font-weight: 600;
+  }
+  @media (max-width: 720px) {
+    .waterfall-bar .wf-label { min-width: 110px; font-size: 12px; }
+    .waterfall-bar .wf-amt { min-width: 80px; font-size: 13px; }
+  }
+
+  /* Comp position chart */
+  .comp-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .comp-row {
+    display: grid;
+    grid-template-columns: 170px 1fr 60px;
+    gap: 10px;
+    align-items: center;
+    padding: 4px 0;
+  }
+  .comp-row .cr-addr { font-size: 12px; color: var(--text-secondary); }
+  .comp-row.subject .cr-addr { color: var(--gold-1); font-weight: 600; }
+  .comp-row .cr-bar-wrap {
+    height: 18px;
+    background: var(--surface-2);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .comp-row .cr-bar {
+    height: 100%;
+    background: var(--surface-3);
+    border-radius: 3px;
+  }
+  .comp-row.subject .cr-bar {
+    background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+  }
+  .comp-row .cr-val {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: right;
+  }
+  .comp-row.subject .cr-val { color: var(--gold-1); font-weight: 600; }
+  @media (max-width: 720px) {
+    .comp-row { grid-template-columns: 110px 1fr 48px; gap: 6px; }
+    .comp-row .cr-addr { font-size: 11px; }
+    .comp-row .cr-val { font-size: 11px; }
+  }
+
   .lineitems {
     display: grid;
     grid-template-columns: 1fr;
@@ -641,17 +855,17 @@
       margin-top: 24px;
     }
     .metric-tile {
-      padding: 22px 22px 24px;
-      border-radius: 20px;
+      padding: 16px 18px 18px;
+      border-radius: 18px;
     }
     .metric-tile .value {
-      font-size: 38px;
+      font-size: 26px;
     }
     .metric-tile .label {
-      font-size: 11px;
+      font-size: 10px;
     }
     .metric-tile .meta {
-      font-size: 12px;
+      font-size: 11px;
     }
 
     /* Sections */
@@ -840,31 +1054,39 @@
     </div>
     <div class="topbar-right">
       <div>Second Home Brief</div>
-      <div>Settlement July 6, 2026</div>
+      <div><span id="settlement-countdown" style="color: var(--gold-1); font-weight: 600;">Loading</span> · Settlement July 6, 2026</div>
     </div>
   </header>
 
-  <!-- ========== Hero ========== -->
+  <!-- ========== Hero, The Deal ========== -->
   <section class="hero">
-    <span class="eyebrow"><span class="dot"></span>Under contract · Settlement July 6, 2026</span>
+    <span class="eyebrow"><span class="dot pulse"></span><span id="listing-fresh">Listed recently</span> · MLS PM-141523 · Under Contract</span>
     <h1>157 Cardinal Ln<br/>Pocono Lake, PA 18347</h1>
     <p class="sub">
-      A single page financial brief covering monthly cost, true monthly cost with reserves, and total cash needed to close.
-      Loan amount, rate, down payment, and HOA are pulled from the executed Agreement of Sale and Seller Disclosure.
-      Inputs are editable below.
+      The deal at a glance. Purchase price, what we pay per square foot, the monthly payment, and the cash we are bringing to the closing table.
       <a class="zillow" href="https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid" target="_blank" rel="noopener">View on Zillow</a>
     </p>
 
-    <div class="hero-grid">
+    <div class="hero-grid four-up">
+      <div class="metric-tile">
+        <div class="label">Purchase Price</div>
+        <div class="value">$329,999</div>
+        <div class="meta">3 BR / 3 BA, 1,432 SF, built 1995</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Price per Square Foot</div>
+        <div class="value">$230</div>
+        <div class="meta">LLV avg $208, AHL avg $225</div>
+      </div>
       <div class="metric-tile primary">
-        <div class="label">Estimated Monthly Housing Payment</div>
+        <div class="label">Estimated Monthly Payment</div>
         <div class="value" id="hero-housing">$0</div>
-        <div class="meta">Principal, interest, taxes, insurance, HOA.</div>
+        <div class="meta">Principal, interest, taxes, insurance, HOA</div>
       </div>
       <div class="metric-tile gold">
-        <div class="label">Total Cash Needed to Close</div>
+        <div class="label">Cash to Close</div>
         <div class="value" id="hero-cash">$0</div>
-        <div class="meta">Down payment plus estimated closing costs.</div>
+        <div class="meta">25% down plus estimated closing costs</div>
       </div>
     </div>
   </section>
@@ -878,6 +1100,7 @@
     <div class="card">
       <div class="summary-rows">
         <div class="sum-row"><span class="k">Purchase Price</span><span class="v" id="s-price"></span></div>
+        <div class="sum-row"><span class="k">Price per Square Foot <span class="pill fixed">1,432 SF</span></span><span class="v">$230</span></div>
         <div class="sum-row"><span class="k">Down Payment <span class="pill fixed" id="s-down-pct">25%</span></span><span class="v" id="s-down"></span></div>
         <div class="sum-row"><span class="k">Loan Amount</span><span class="v" id="s-loan"></span></div>
         <div class="sum-row"><span class="k">Interest Rate <span class="pill fixed" id="s-term">30 yr fixed</span></span><span class="v" id="s-rate"></span></div>
@@ -888,6 +1111,79 @@
       </div>
     </div>
   </section>
+
+  <!-- ========== Comps ========== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Recent Comps</h2>
+      <span class="hint">Locust Lake Village and Arrowhead Lakes only</span>
+    </div>
+    <div class="card" style="margin-bottom: 14px;">
+      <div class="tabs-wrap">
+        <button class="tab-btn active" data-tab="active" onclick="switchCompTab('active')">
+          <span class="tab-dot"></span>
+          Active Listings <span class="tab-count" id="tab-count-active">0</span>
+        </button>
+        <button class="tab-btn" data-tab="sold" onclick="switchCompTab('sold')">
+          Recently Sold <span class="tab-count" id="tab-count-sold">0</span>
+        </button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="comps-table sortable">
+          <thead>
+            <tr id="comp-thead-row">
+              <th data-key="address" onclick="sortComps('address')">Address <span class="sort-arrow"></span></th>
+              <th data-key="community" class="hide-mobile" onclick="sortComps('community')">Community <span class="sort-arrow"></span></th>
+              <th data-key="bedbath" class="hide-mobile" onclick="sortComps('bedbath')">Bed / Bath <span class="sort-arrow"></span></th>
+              <th data-key="sqft" class="num hide-mobile" onclick="sortComps('sqft')">Sq Ft <span class="sort-arrow"></span></th>
+              <th data-key="psf" class="num hide-mobile" onclick="sortComps('psf')">$ / SF <span class="sort-arrow"></span></th>
+              <th data-key="delta" class="num hide-mobile sold-only" onclick="sortComps('delta')">Sold vs Ask <span class="sort-arrow"></span></th>
+              <th data-key="price" class="num" onclick="sortComps('price')">Price <span class="sort-arrow"></span></th>
+            </tr>
+          </thead>
+          <tbody id="comps-tbody"></tbody>
+        </table>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px;">
+        <div style="padding: 12px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
+          <div style="font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em;">Locust Lake Village, past 12 mo</div>
+          <div style="font-size: 13px; color: var(--text-primary); margin-top: 6px;">61 sold, $310K median list, $290K median sold</div>
+        </div>
+        <div style="padding: 12px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
+          <div style="font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em;">Arrowhead Lakes, current</div>
+          <div style="font-size: 13px; color: var(--text-primary); margin-top: 6px;">60 active, 146 day avg DOM, $225 per SF avg</div>
+        </div>
+      </div>
+      <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
+        Subject row always pinned at top. Default sort is community then square footage then price. Click any column header to sort. Click again to reverse direction. Sold vs Ask shows the percentage above or below the most recent list price the home actually traded at. Green is at or above list, pink is below list. All comps shown are within the last 12 months. Click any address to open the Zillow listing. Click a community name to open its property owners association website.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== Cash to Table ========== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Cash to the Table</h2>
+      <span class="hint">Wire ready, Monroe County PA buyer side</span>
+    </div>
+    <div class="card">
+      <div id="waterfall" style="margin-bottom: 20px;"></div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 10px;">Cash to Wire</div>
+          <div class="lineitems" id="cash-needed"></div>
+        </div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 10px;">Estimated Closing Costs</div>
+          <div class="lineitems" id="closing-lines"></div>
+        </div>
+      </div>
+      <p style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hairline); font-size: 12px; color: var(--text-tertiary); line-height: 1.55;">
+        Of the total at closing, the down payment of <span id="cash-equity-note" style="color: var(--accent-green); font-weight: 600;">$0</span> becomes equity in the property the day we close. The rest covers loan origination, title work, transfer taxes, prepaid escrows, and HOA fees.
+      </p>
+    </div>
+  </section>
+
 
   <!-- ========== Monthly payment breakdown ========== -->
   <section class="section">
@@ -917,23 +1213,6 @@
     <div class="card">
       <div class="stack" id="stack-monthly"></div>
       <div class="lineitems" id="monthly-true"></div>
-      <div class="compare">
-        <div class="compare-cell safe">
-          <div class="ck">Bank Required</div>
-          <div class="cv" id="cmp-bank">$0</div>
-          <div class="cn">PITI plus HOA only.</div>
-        </div>
-        <div class="compare-cell">
-          <div class="ck">Realistic Monthly</div>
-          <div class="cv" id="cmp-real">$0</div>
-          <div class="cn">Add utilities and recurring costs.</div>
-        </div>
-        <div class="compare-cell peak">
-          <div class="ck">True Long Run</div>
-          <div class="cv" id="cmp-true">$0</div>
-          <div class="cn">Add maintenance and CapEx reserves.</div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -988,39 +1267,6 @@
     </div>
   </section>
 
-  <!-- ========== Cash Needed Before Moving In ========== -->
-  <section class="section">
-    <div class="section-head">
-      <h2>Cash Needed Before Moving In</h2>
-      <span class="hint">Wire ready</span>
-    </div>
-    <div class="card">
-      <div class="lineitems" id="cash-needed"></div>
-    </div>
-  </section>
-
-  <!-- ========== Closing Costs ========== -->
-  <section class="section">
-    <div class="section-head">
-      <h2>Estimated Closing Costs</h2>
-      <span class="hint">PA Monroe County, buyer side</span>
-    </div>
-    <div class="card">
-      <div class="lineitems" id="closing-lines"></div>
-    </div>
-  </section>
-
-  <!-- ========== Costs People Forget ========== -->
-  <section class="section">
-    <div class="section-head">
-      <h2>Costs People Forget</h2>
-      <span class="hint">Build these into your budget</span>
-    </div>
-    <div class="card">
-      <div class="chip-grid" id="forget-grid"></div>
-    </div>
-  </section>
-
   <!-- ========== Property Context ========== -->
   <section class="section">
     <div class="section-head">
@@ -1030,13 +1276,13 @@
 
     <div class="card" style="padding: 14px; margin-bottom: 14px;">
       <iframe id="property-map"
-        src="https://www.google.com/maps?q=157+Cardinal+Ln+Pocono+Lake+PA+18347&t=k&z=16&output=embed"
+        src="https://www.google.com/maps?q=157+Cardinal+Ln+Pocono+Lake+PA+18347&z=16&output=embed"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         allowfullscreen
         title="157 Cardinal Ln map"></iframe>
       <p style="margin: 10px 4px 0; font-size: 11px; color: var(--text-tertiary);">
-        Hybrid satellite plus roads. Click the map to open in Google Maps for directions, Street View, and area exploration.
+        Click the map to open in Google Maps for satellite view, Street View, directions, and area exploration.
       </p>
     </div>
 
@@ -1058,7 +1304,11 @@
       <div class="card nbhd-card">
         <h3>Property Profile</h3>
         <ul class="nbhd-list">
-          <li><span>Bedrooms / Baths</span><span class="v">3 / 2</span></li>
+          <li><span>Bedrooms / Baths</span><span class="v">3 / 3</span></li>
+          <li><span>Square Footage</span><span class="v">1,432 SF</span></li>
+          <li><span>Lot Size</span><span class="v">23,087 SF, 0.53 acres</span></li>
+          <li><span>Year Built</span><span class="v">1995</span></li>
+          <li><span>MLS Number</span><span class="v">PM-141523</span></li>
           <li><span>Roof</span><span class="v">New, April 2026</span></li>
           <li><span>Heating</span><span class="v">Electric baseboard plus heat pump</span></li>
           <li><span>Central AC</span><span class="v">None</span></li>
@@ -1072,94 +1322,7 @@
       </div>
     </div>
 
-    <div class="card" style="margin-bottom: 14px;">
-      <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin: 0 0 14px; font-weight: 500;">Recent Comps, Locust Lake Village and Arrowhead Lakes</h3>
-      <div style="overflow-x: auto;">
-        <table class="comps-table">
-          <thead>
-            <tr>
-              <th>Address</th>
-              <th class="hide-mobile">Community</th>
-              <th class="hide-mobile">Bed / Bath</th>
-              <th class="num hide-mobile">Sq Ft</th>
-              <th class="num hide-mobile">$ / SF</th>
-              <th class="num">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="subject-row">
-              <td><div class="addr">157 Cardinal Ln, subject</div><div class="sub">Under contract, settlement July 6 2026</div></td>
-              <td class="hide-mobile">Locust Lake</td>
-              <td class="hide-mobile">3 / 2</td>
-              <td class="num hide-mobile">TBD</td>
-              <td class="num hide-mobile">TBD</td>
-              <td class="num price">$329,999</td>
-            </tr>
-            <tr>
-              <td><div class="addr">164 Cardinal Ln</div><div class="sub">Direct neighbor. Zestimate, last sold $162K Feb 2019</div></td>
-              <td class="hide-mobile">Locust Lake</td>
-              <td class="hide-mobile">3 / 2</td>
-              <td class="num hide-mobile">1,610</td>
-              <td class="num hide-mobile">$207</td>
-              <td class="num price">$332,600</td>
-            </tr>
-            <tr>
-              <td><div class="addr">1684 Stag Run</div><div class="sub">Active listing. Built 1990, 3 days on market</div></td>
-              <td class="hide-mobile">Locust Lake</td>
-              <td class="hide-mobile">3 / 2</td>
-              <td class="num hide-mobile">3,217</td>
-              <td class="num hide-mobile">$130</td>
-              <td class="num price">$419,000</td>
-            </tr>
-            <tr>
-              <td><div class="addr">127 Ridge Rd</div><div class="sub">Active listing. Built 1962, smallest comp</div></td>
-              <td class="hide-mobile">Locust Lake</td>
-              <td class="hide-mobile">2 / 1</td>
-              <td class="num hide-mobile">768</td>
-              <td class="num hide-mobile">$260</td>
-              <td class="num price">$199,999</td>
-            </tr>
-            <tr>
-              <td><div class="addr">1113 Wiconisco Dr</div><div class="sub">Active listing. Built 1992, 3 days on market</div></td>
-              <td class="hide-mobile">Arrowhead</td>
-              <td class="hide-mobile">3 / 2</td>
-              <td class="num hide-mobile">1,080</td>
-              <td class="num hide-mobile">$324</td>
-              <td class="num price">$350,000</td>
-            </tr>
-            <tr>
-              <td><div class="addr">154 Ski Trl</div><div class="sub">Active listing. Built 1968, 3 days on market</div></td>
-              <td class="hide-mobile">Arrowhead</td>
-              <td class="hide-mobile">3 / 2</td>
-              <td class="num hide-mobile">1,115</td>
-              <td class="num hide-mobile">$233</td>
-              <td class="num price">$259,900</td>
-            </tr>
-            <tr>
-              <td><div class="addr">102 Chitimacha Dr</div><div class="sub">Active listing. Newly renovated chalet, built 2008</div></td>
-              <td class="hide-mobile">Arrowhead</td>
-              <td class="hide-mobile">3 / 2</td>
-              <td class="num hide-mobile">N/A</td>
-              <td class="num hide-mobile">N/A</td>
-              <td class="num price">Active</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px;">
-        <div style="padding: 12px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
-          <div style="font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em;">Locust Lake Village</div>
-          <div style="font-size: 13px; color: var(--text-primary); margin-top: 6px;">30 active, 156 day avg DOM, $208 per SF average</div>
-        </div>
-        <div style="padding: 12px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
-          <div style="font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em;">Arrowhead Lakes</div>
-          <div style="font-size: 13px; color: var(--text-primary); margin-top: 6px;">60 active, 146 day avg DOM, $225 per SF average</div>
-        </div>
-      </div>
-      <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
-        Subject price of $329,999 lines up tightly with the 164 Cardinal Ln Zestimate of $332,600 right next door. At an estimated 1,600 SF that is around $206 per SF, sitting right at the Locust Lake Village community average. Confirm subject square footage before final per square foot calculation.
-      </p>
-    </div>
+
 
     <div class="card">
       <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin: 0 0 14px; font-weight: 500;">Drive Times from Property</h3>
@@ -1512,6 +1675,33 @@
       </div>`;
   }
 
+  function buildWaterfall(down, closingTotal, total) {
+    const wrap = document.getElementById('waterfall');
+    if (!wrap) return;
+    const maxVal = Math.max(down, closingTotal, total);
+    const downPct = (down / maxVal) * 100;
+    const closingPct = (closingTotal / maxVal) * 100;
+    const totalPct = (total / maxVal) * 100;
+    wrap.innerHTML = `
+      <div class="waterfall-bar">
+        <div class="wf-label">Down Payment</div>
+        <div class="wf-fill"><div class="wf-fill-inner equity" style="width: ${downPct}%"></div></div>
+        <div class="wf-amt">${fmt(down)}</div>
+      </div>
+      <div class="waterfall-bar">
+        <div class="wf-label">Closing Costs</div>
+        <div class="wf-fill"><div class="wf-fill-inner fees" style="width: ${closingPct}%"></div></div>
+        <div class="wf-amt">${fmt(closingTotal)}</div>
+      </div>
+      <div class="waterfall-total">
+        <div class="wt-label">Total at Closing</div>
+        <div class="wt-amt">${fmt(total)}</div>
+      </div>
+    `;
+    const eqNote = document.getElementById('cash-equity-note');
+    if (eqNote) eqNote.textContent = fmt(down);
+  }
+
   function buildClosing(items, total) {
     const wrap = document.getElementById('closing-lines');
     wrap.innerHTML = items.map(i => `
@@ -1533,6 +1723,7 @@
 
   function buildForget(items) {
     const wrap = document.getElementById('forget-grid');
+    if (!wrap) return; // Costs People Forget section was removed
     wrap.innerHTML = items.map(i => `
       <div class="chip">
         <div class="chip-title">${i.name}</div>
@@ -1540,6 +1731,161 @@
         <div class="chip-note">${i.note}</div>
       </div>
     `).join('');
+  }
+
+  // ============== Comps tabbed sortable table ==============
+  const COMP_DATA = {
+    active: [
+      // Subject pinned first via isSubject flag
+      { isSubject: true, address: '157 Cardinal Ln', sub: 'Subject. MLS PM-141523. Under contract.', community: 'Locust Lake', bedbath: '3 / 3', sqft: 1432, psf: 230, price: 329999, zurl: 'https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/' },
+      { address: '57 Minisink Dr', sub: 'Active listing. Lowest in set, likely needs work.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 2040, psf: 95, price: 194500, zurl: 'https://www.zillow.com/homes/57-Minisink-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '127 Ridge Rd', sub: 'Active listing. Built 1962.', community: 'Locust Lake', bedbath: '2 / 1', sqft: 768, psf: 260, price: 199999, zurl: 'https://www.zillow.com/homes/127-Ridge-Rd-Pocono-Lake-PA-18347_rb/' },
+      { address: '154 Ski Trl', sub: 'Active listing. Built 1968.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1115, psf: 233, price: 259900, zurl: 'https://www.zillow.com/homes/154-Ski-Trl-Pocono-Lake-PA-18347_rb/' },
+      { address: '177 Minisink Dr', sub: 'Active listing.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1422, psf: 193, price: 274900, zurl: 'https://www.zillow.com/homes/177-Minisink-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '1113 Wiconisco Dr', sub: 'Active listing. Built 1992.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1080, psf: 324, price: 350000, zurl: 'https://www.zillow.com/homes/1113-Wiconisco-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '7751 Lake Shore Dr', sub: 'Active listing. Lake view.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1224, psf: 326, price: 399000, zurl: 'https://www.zillow.com/homes/7751-Lake-Shore-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '1101 Arrowhead Dr', sub: 'Active. Recent price cut.', community: 'Arrowhead', bedbath: '3 / 1', sqft: 1150, psf: 387, price: 445000, zurl: 'https://www.zillow.com/homes/1101-Arrowhead-Dr-Pocono-Lake-PA-18347_rb/' }
+    ],
+    sold: [
+      // Subject pinned first
+      { isSubject: true, address: '157 Cardinal Ln', sub: 'Subject. MLS PM-141523. Under contract.', community: 'Locust Lake', bedbath: '3 / 3', sqft: 1432, psf: 230, price: 329999, delta: null, zurl: 'https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/' },
+      { address: '1684 Stag Run', sub: 'Sold May 15, 2026. Sold at asking.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 3217, psf: 130, price: 419000, delta: 0.0, zurl: 'https://www.zillow.com/homes/1684-Stag-Run-Pocono-Lake-PA-18347_rb/' },
+      { address: '102 Chitimacha Dr', sub: 'Sold Apr 1, 2026. 55 DOM. Built 2008.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1456, psf: 206, price: 300000, delta: -8.0, zurl: 'https://www.zillow.com/homes/102-Chitimacha-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '137 Sundance Dr', sub: 'Sold Mar 11, 2026. Above asking.', community: 'Arrowhead', bedbath: '2 / 1', sqft: 960, psf: 268, price: 257000, delta: 4.0, zurl: 'https://www.zillow.com/homedetails/137-Sundance-Dr-Pocono-Lake-PA-18347/9839701_zpid/' },
+      { address: '2134 Sheshequin Dr', sub: 'Sold Mar 4, 2026.', community: 'Arrowhead', bedbath: '3 / 3', sqft: 1834, psf: 183, price: 335000, delta: -4.3, zurl: 'https://www.zillow.com/homedetails/2134-Sheshequin-Dr-Pocono-Lake-PA-18347/61431105_zpid/' },
+      { address: '1540 Lake Ln', sub: 'Sold Feb 27, 2026. Built 2025.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1224, psf: 278, price: 340000, delta: 1.5, zurl: 'https://www.zillow.com/homedetails/1540-Lake-Ln-Pocono-Lake-PA-18347/456339563_zpid/' },
+      { address: '122 Paxinos Dr', sub: 'Sold Feb 27, 2026.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1120, psf: 219, price: 245000, delta: -5.7, zurl: 'https://www.zillow.com/homedetails/122-Paxinos-Dr-Pocono-Lake-PA-18347/9794600_zpid/' },
+      { address: '216 Muskwink Dr', sub: 'Sold Feb 27, 2026.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1573, psf: 175, price: 275000, delta: -1.4, zurl: 'https://www.zillow.com/homedetails/216-Muskwink-Dr-Pocono-Lake-PA-18347/9794650_zpid/' },
+      { address: '218 Barberry Ln', sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 1176, psf: 340, price: 400000, delta: -7.0, zurl: 'https://www.zillow.com/homedetails/218-Barberry-Ln-Pocono-Lake-PA-18347/9795143_zpid/' },
+      { address: '104 White Pine Dr', sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', bedbath: '3 / 2', sqft: 960, psf: 302, price: 290000, delta: -1.7, zurl: 'https://www.zillow.com/homedetails/104-White-Pine-Dr-Pocono-Lake-PA-18347/9839046_zpid/' },
+      { address: '233 Pontiac Path', sub: 'Sold Feb 26, 2026. At asking.', community: 'Arrowhead', bedbath: '3 / 2', sqft: 1410, psf: 206, price: 289900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/233-Pontiac-Path-Pocono-Lake-PA-18347/9796017_zpid/' },
+      { address: '164 Fawn Rd', sub: 'Sold Feb 25, 2026.', community: 'Locust Lake', bedbath: '5 / 3', sqft: 1688, psf: 184, price: 310000, delta: -1.6, zurl: 'https://www.zillow.com/homedetails/164-Fawn-Rd-Pocono-Lake-PA-18347/197130754_zpid/' },
+      { address: '1428 Lake Ln', sub: 'Sold Feb 19, 2026.', community: 'Locust Lake', bedbath: '4 / 3', sqft: 1978, psf: 207, price: 410000, delta: -6.6, zurl: 'https://www.zillow.com/homedetails/1428-Lake-Ln-Pocono-Lake-PA-18347/67937643_zpid/' }
+    ]
+  };
+
+  const COMMUNITY_URLS = {
+    'Locust Lake': 'https://locustlakevillage.org',
+    'Arrowhead': 'https://arrowheadlakepa.net'
+  };
+
+  let CURRENT_COMP_TAB = 'active';
+  let CURRENT_SORT_KEY = null;
+  let CURRENT_SORT_DIR = 'asc';
+
+  function fmtPrice(n) { return '$' + Number(n).toLocaleString('en-US'); }
+  function fmtSqft(n) { return n == null ? 'N/A' : Number(n).toLocaleString('en-US'); }
+  function fmtPsf(n) { return n == null ? 'N/A' : '$' + n; }
+  function fmtDelta(d) {
+    if (d == null) return '<span class="delta-na">N/A</span>';
+    const cls = d > 0 ? 'delta-pos' : (d < 0 ? 'delta-neg' : 'delta-na');
+    const sign = d > 0 ? '+' : '';
+    return '<span class="' + cls + '">' + sign + d.toFixed(1) + '%</span>';
+  }
+
+  function defaultSort(items) {
+    // Subject pinned first, then community asc, then sqft asc, then price asc
+    return items.slice().sort((a, b) => {
+      if (a.isSubject) return -1;
+      if (b.isSubject) return 1;
+      if (a.community !== b.community) return a.community < b.community ? -1 : 1;
+      const aSqft = a.sqft == null ? 99999 : a.sqft;
+      const bSqft = b.sqft == null ? 99999 : b.sqft;
+      if (aSqft !== bSqft) return aSqft - bSqft;
+      return a.price - b.price;
+    });
+  }
+
+  function sortByKey(items, key, dir) {
+    const sign = dir === 'asc' ? 1 : -1;
+    return items.slice().sort((a, b) => {
+      if (a.isSubject) return -1;
+      if (b.isSubject) return 1;
+      let av = a[key];
+      let bv = b[key];
+      // numeric fields handle nulls last
+      if (typeof av === 'number' || typeof bv === 'number' || av === null || bv === null) {
+        av = av == null ? (dir === 'asc' ? Infinity : -Infinity) : av;
+        bv = bv == null ? (dir === 'asc' ? Infinity : -Infinity) : bv;
+        return (av - bv) * sign;
+      }
+      // strings
+      av = String(av || '');
+      bv = String(bv || '');
+      return av.localeCompare(bv) * sign;
+    });
+  }
+
+  function renderCompsTable() {
+    const items = COMP_DATA[CURRENT_COMP_TAB];
+    if (!items) return;
+    let sorted;
+    if (CURRENT_SORT_KEY) sorted = sortByKey(items, CURRENT_SORT_KEY, CURRENT_SORT_DIR);
+    else sorted = defaultSort(items);
+    const tbody = document.getElementById('comps-tbody');
+    if (!tbody) return;
+    const isSold = CURRENT_COMP_TAB === 'sold';
+    tbody.innerHTML = sorted.map(it => {
+      const cls = it.isSubject ? 'subject-row' : '';
+      const deltaCell = isSold ? '<td class="num hide-mobile sold-only">' + fmtDelta(it.delta) + '</td>' : '';
+      const addrLabel = it.address + (it.isSubject ? ', subject' : '');
+      const addrHtml = it.zurl ? '<a class="comp-link" href="' + it.zurl + '" target="_blank" rel="noopener noreferrer">' + addrLabel + '</a>' : addrLabel;
+      const commUrl = COMMUNITY_URLS[it.community];
+      const commHtml = commUrl ? '<a class="comp-link comp-link-quiet" href="' + commUrl + '" target="_blank" rel="noopener noreferrer">' + it.community + '</a>' : it.community;
+      return '<tr class="' + cls + '">' +
+        '<td><div class="addr">' + addrHtml + '</div><div class="sub">' + (it.sub || '') + '</div></td>' +
+        '<td class="hide-mobile">' + commHtml + '</td>' +
+        '<td class="hide-mobile">' + it.bedbath + '</td>' +
+        '<td class="num hide-mobile">' + fmtSqft(it.sqft) + '</td>' +
+        '<td class="num hide-mobile">' + fmtPsf(it.psf) + '</td>' +
+        deltaCell +
+        '<td class="num price">' + fmtPrice(it.price) + '</td>' +
+        '</tr>';
+    }).join('');
+    // Update sort arrow indicators
+    document.querySelectorAll('#comp-thead-row th').forEach(th => {
+      th.removeAttribute('data-active-sort');
+      const arrow = th.querySelector('.sort-arrow');
+      if (arrow) arrow.textContent = '';
+    });
+    if (CURRENT_SORT_KEY) {
+      const th = document.querySelector('#comp-thead-row th[data-key="' + CURRENT_SORT_KEY + '"]');
+      if (th) {
+        th.setAttribute('data-active-sort', '1');
+        const arrow = th.querySelector('.sort-arrow');
+        if (arrow) arrow.textContent = CURRENT_SORT_DIR === 'asc' ? '▲' : '▼';
+      }
+    }
+    // Toggle sold-only column visibility via table attr
+    const tbl = tbody.closest('table');
+    if (tbl) tbl.setAttribute('data-tab', CURRENT_COMP_TAB);
+  }
+
+  function switchCompTab(tab) {
+    CURRENT_COMP_TAB = tab;
+    CURRENT_SORT_KEY = null;
+    CURRENT_SORT_DIR = 'asc';
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+    });
+    renderCompsTable();
+  }
+
+  function sortComps(key) {
+    if (CURRENT_SORT_KEY === key) {
+      CURRENT_SORT_DIR = CURRENT_SORT_DIR === 'asc' ? 'desc' : 'asc';
+    } else {
+      CURRENT_SORT_KEY = key;
+      CURRENT_SORT_DIR = 'asc';
+    }
+    renderCompsTable();
+  }
+
+  function updateCompCounts() {
+    const a = document.getElementById('tab-count-active');
+    const s = document.getElementById('tab-count-sold');
+    if (a) a.textContent = (COMP_DATA.active.length - 1); // exclude subject
+    if (s) s.textContent = (COMP_DATA.sold.length - 1);
   }
 
   // ============== Main recalc ==============
@@ -1651,14 +1997,10 @@
     const trueMonthlyFinal = realMonthly + maintMo + capexMo + septicMo + wellTestMo;
     buildMonthlyLines(monthlyLines, 'True Monthly Cost', trueMonthlyFinal);
 
-    // ===== Comparison strip =====
-    $('cmp-bank').textContent = fmt(housingMonthly);
-    $('cmp-real').textContent = fmt(realMonthly);
-    $('cmp-true').textContent = fmt(trueMonthlyFinal);
-
     // ===== Cash and closing =====
     buildClosing(closingItems, closingTotal);
     buildCash(cashItems, cashTotal);
+    buildWaterfall(down, closingTotal, cashTotal);
 
     // ===== Summary =====
     $('s-price').textContent = fmt(v.price);
@@ -1756,7 +2098,53 @@
     recalc();
   }
 
-  document.addEventListener('DOMContentLoaded', init);
+  // Settlement countdown
+  function updateCountdown() {
+    const el = document.getElementById('settlement-countdown');
+    if (!el) return;
+    const settlement = new Date('2026-07-06T12:00:00');
+    const now = new Date();
+    const ms = settlement - now;
+    const days = Math.ceil(ms / (1000 * 60 * 60 * 24));
+    if (days > 1) el.textContent = days + ' days to close';
+    else if (days === 1) el.textContent = 'Closes tomorrow';
+    else if (days === 0) el.textContent = 'Closing day';
+    else el.textContent = 'Closed';
+  }
+
+  // Listing freshness badge. Listing first appeared on Movoto ~May 21, 2026.
+  function updateListingFreshness() {
+    const el = document.getElementById('listing-fresh');
+    if (!el) return;
+    const listed = new Date('2026-05-21T18:00:00');
+    const now = new Date();
+    const ms = now - listed;
+    const hours = Math.floor(ms / (1000 * 60 * 60));
+    const days = Math.floor(hours / 24);
+    let txt;
+    if (hours < 48) txt = 'Listed ' + hours + ' hrs ago';
+    else if (days < 14) txt = 'Listed ' + days + ' days ago';
+    else txt = 'Listed ' + Math.floor(days / 7) + ' wks ago';
+    el.textContent = txt;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    updateCountdown();
+    updateListingFreshness();
+    setInterval(updateCountdown, 1000 * 60 * 60); // hourly
+    setInterval(updateListingFreshness, 1000 * 60 * 60); // hourly
+    try {
+      init();
+    } catch (e) {
+      console.error('init failed:', e);
+    }
+    try {
+      updateCompCounts();
+      renderCompsTable();
+    } catch (e) {
+      console.error('comp render failed:', e);
+    }
+  });
 </script>
 </body>
 </html>
