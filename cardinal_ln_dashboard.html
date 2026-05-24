@@ -736,13 +736,84 @@
   .records-link-arrow { display: inline-flex; opacity: 0.7; margin-left: 2px; }
   #property-map {
     width: 100%;
-    height: 380px;
+    height: 460px;
     border-radius: var(--radius-md);
     overflow: hidden;
     border: 0;
     display: block;
+    background: #0a0a0a;
+    position: relative;
   }
-  @media (max-width: 720px) { #property-map { height: 280px; } }
+  @media (max-width: 720px) { #property-map { height: 340px; } }
+
+  /* Price pill markers, Zillow style */
+  .price-pill {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.92);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 0 0 1.5px rgba(255,255,255,0.18);
+    white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    pointer-events: auto;
+  }
+  .price-pill:hover {
+    transform: scale(1.14);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.75), 0 0 0 1.5px rgba(255,255,255,0.4);
+    z-index: 9999 !important;
+  }
+  .price-pill.active .pp-amt { color: #30d158; }
+  .price-pill.sold .pp-amt { color: #ffffff; }
+  .price-pill.subject {
+    background: linear-gradient(135deg, var(--gold-2), var(--gold-1));
+    color: #1a1a1a;
+    font-size: 13px;
+    padding: 5px 12px;
+    box-shadow: 0 4px 14px rgba(212,175,55,0.55), 0 0 0 2px rgba(0,0,0,0.45);
+  }
+  .price-pill.subject .pp-amt { color: #1a1a1a; }
+  .price-pill .pp-amt { font-variant-numeric: tabular-nums; }
+
+  /* Map legend below the map */
+  .map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin: 12px 4px 0;
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+  .map-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+  }
+  .map-legend-pill {
+    display: inline-block;
+    width: 22px;
+    height: 12px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+  }
+  .map-legend-pill.subject { background: linear-gradient(135deg, var(--gold-2), var(--gold-1)); box-shadow: 0 0 0 1px rgba(212,175,55,0.55); }
+  .map-legend-pill.active { background: #000; position: relative; }
+  .map-legend-pill.active::after { content: ''; position: absolute; left: 6px; top: 4px; width: 10px; height: 4px; background: #30d158; border-radius: 2px; }
+  .map-legend-pill.sold { background: #000; }
+  .map-legend-hint { color: var(--text-tertiary); margin-left: auto; font-size: 11px; }
+  @media (max-width: 720px) {
+    .map-legend { gap: 10px; font-size: 10px; }
+    .map-legend-hint { margin-left: 0; flex-basis: 100%; }
+  }
   .comps-table {
     width: 100%;
     border-collapse: collapse;
@@ -3728,15 +3799,13 @@
     </div>
 
     <div class="card" style="padding: 14px; margin-bottom: 14px;">
-      <iframe id="property-map"
-        src="https://www.google.com/maps?q=157+Cardinal+Ln+Pocono+Lake+PA+18347&z=16&output=embed"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-        title="157 Cardinal Ln map"></iframe>
-      <p style="margin: 10px 4px 0; font-size: 11px; color: var(--text-tertiary);">
-        Click the map to open in Google Maps for satellite view, Street View, directions, and area exploration.
-      </p>
+      <div id="property-map" aria-label="Comp price map" role="region"></div>
+      <div class="map-legend">
+        <span class="map-legend-item"><span class="map-legend-pill subject"></span>Subject</span>
+        <span class="map-legend-item"><span class="map-legend-pill active"></span>Active listings</span>
+        <span class="map-legend-item"><span class="map-legend-pill sold"></span>Recent sales</span>
+        <span class="map-legend-hint">Click any price to open the Zillow listing. Drag to pan, scroll to zoom.</span>
+      </div>
     </div>
 
     <div class="nbhd-grid" style="margin-bottom: 14px;">
@@ -4549,59 +4618,59 @@
   const COMP_DATA = {
     active: [
       // Subject pinned first via isSubject flag
-      { isSubject: true, address: '157 Cardinal Ln', sub: 'Subject. MLS PM-141523. Under contract.', community: 'Locust Lake', year: 1995, bedbath: '3 / 3', sqft: 1432, psf: 230, price: 329999, zurl: 'https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/' },
-      { address: '57 Minisink Dr', sub: 'Active listing. Lowest in set, likely needs work.', community: 'Arrowhead', year: 2004, bedbath: '3 / 2', sqft: 2040, psf: 95, price: 194500, zurl: 'https://www.zillow.com/homes/57-Minisink-Dr-Pocono-Lake-PA-18347_rb/' },
-      { address: '127 Ridge Rd', sub: 'Active listing.', community: 'Locust Lake', year: 1962, bedbath: '2 / 1', sqft: 768, psf: 260, price: 199999, zurl: 'https://www.zillow.com/homes/127-Ridge-Rd-Pocono-Lake-PA-18347_rb/' },
-      { address: '154 Ski Trl', sub: 'Active listing.', community: 'Arrowhead', year: 1968, bedbath: '3 / 2', sqft: 1115, psf: 233, price: 259900, zurl: 'https://www.zillow.com/homes/154-Ski-Trl-Pocono-Lake-PA-18347_rb/' },
-      { address: '1030 Wyoming Dr', sub: 'Active listing.', community: 'Arrowhead', year: 1974, bedbath: '3 / 2', sqft: 1248, psf: 220, price: 274900, zurl: 'https://www.zillow.com/homedetails/1030-Wyoming-Dr-Pocono-Lake-PA-18347/9794463_zpid/' },
-      { address: '1505 Lake Ln', sub: 'Active listing. 3 BR / 3 BA, similar to subject.', community: 'Locust Lake', year: 2003, bedbath: '3 / 3', sqft: 1385, psf: 209, price: 288900, zurl: 'https://www.zillow.com/homedetails/1505-Lake-Ln-Pocono-Lake-PA-18347/9839087_zpid/' },
-      { address: '1113 Wiconisco Dr', sub: 'Active listing.', community: 'Arrowhead', year: 1992, bedbath: '3 / 2', sqft: 1080, psf: 324, price: 350000, zurl: 'https://www.zillow.com/homes/1113-Wiconisco-Dr-Pocono-Lake-PA-18347_rb/' },
-      { address: '1731 Lake Ln', sub: 'Active listing. Smaller home, premium psf.', community: 'Locust Lake', year: 1967, bedbath: '3 / 2', sqft: 1000, psf: 350, price: 349999, zurl: 'https://www.zillow.com/homedetails/1731-Lake-Ln-Pocono-Lake-PA-18347/9838615_zpid/' },
-      { address: '2158 Tuscarora Dr', sub: 'Active listing. Partially finished basement.', community: 'Arrowhead', year: 1972, bedbath: '3 / 2', sqft: 1707, psf: 217, price: 369900, zurl: 'https://www.zillow.com/homedetails/2158-Tuscarora-Dr-Pocono-Lake-PA-18347/9795339_zpid/' },
-      { address: '1769 Stag Run', sub: 'Active listing. Large 6 BR. Listed 3 days.', community: 'Locust Lake', year: 1972, bedbath: '6 / 3', sqft: 2056, psf: 181, price: 372500, zurl: 'https://www.zillow.com/homedetails/1769-Stag-Run-Pocono-Lake-PA-18347/9838965_zpid/' },
-      { address: '130 Beech Ln', sub: 'Active listing. Price cut $25K Feb 26.', community: 'Locust Lake', year: 1985, bedbath: '4 / 2', sqft: 1964, psf: 191, price: 374900, zurl: 'https://www.zillow.com/homedetails/130-Beech-Ln-Pocono-Lake-PA-18347/9839131_zpid/' },
-      { address: '7751 Lake Shore Dr', sub: 'Active listing. Lake view.', community: 'Arrowhead', year: 1982, bedbath: '3 / 2', sqft: 1224, psf: 326, price: 399000, zurl: 'https://www.zillow.com/homes/7751-Lake-Shore-Dr-Pocono-Lake-PA-18347_rb/' },
-      { address: '243 White Pine Dr', sub: 'Active listing. 3 BR / 3 BA, large.', community: 'Locust Lake', year: 1980, bedbath: '3 / 3', sqft: 2496, psf: 160, price: 400000, zurl: 'https://www.zillow.com/homedetails/243-White-Pine-Dr-Pocono-Lake-PA-18347/9838920_zpid/' },
-      { address: '204 Yuma Trl', sub: 'Active listing.', community: 'Arrowhead', year: 1975, bedbath: '3 / 2', sqft: 1778, psf: 236, price: 419900, zurl: 'https://www.zillow.com/homedetails/204-Yuma-Trl-Pocono-Lake-PA-18347/9795044_zpid/' },
-      { address: '1101 Arrowhead Dr', sub: 'Active. Recent price cut.', community: 'Arrowhead', year: 1976, bedbath: '3 / 1', sqft: 1150, psf: 387, price: 445000, zurl: 'https://www.zillow.com/homes/1101-Arrowhead-Dr-Pocono-Lake-PA-18347_rb/' },
-      { address: '1611 Locust Ln', sub: 'Active listing. By owner.', community: 'Locust Lake', year: 1986, bedbath: '3 / 2', sqft: 1424, psf: 239, price: 340000, zurl: 'https://www.zillow.com/homedetails/1611-Locust-Ln-Pocono-Lake-PA-18347/9839899_zpid/' },
-      { address: '222 Croasdale Ct', sub: 'Active listing.', community: 'Locust Lake', year: 1977, bedbath: '3 / 2', sqft: 1316, psf: 265, price: 349000, zurl: 'https://www.zillow.com/homedetails/222-Croasdale-Ct-Pocono-Lake-PA-18347/9794833_zpid/' },
-      { address: '108 Moccasin Trl', sub: 'Active listing. Larger 2000 SF.', community: 'Locust Lake', year: 1993, bedbath: '3 / 2', sqft: 2000, psf: 165, price: 330000, zurl: 'https://www.zillow.com/homedetails/108-Moccasin-Trl-Pocono-Lake-PA-18347/9796098_zpid/' },
-      { address: '630 Maxatawny Dr', sub: 'Active listing. 3 BR / 3 BA.', community: 'Locust Lake', year: 1991, bedbath: '3 / 3', sqft: 1680, psf: 193, price: 325000, zurl: 'https://www.zillow.com/homedetails/630-Maxatawny-Dr-Pocono-Lake-PA-18347/9796088_zpid/' },
-      { address: '204 Pontiac Path', sub: 'Active listing.', community: 'Arrowhead', year: 1974, bedbath: '3 / 2', sqft: 1696, psf: 184, price: 312000, zurl: 'https://www.zillow.com/homedetails/204-Pontiac-Path-Pocono-Lake-PA-18347/9795997_zpid/' },
-      { address: '202 Tepee Dr', sub: 'Active listing.', community: 'Locust Lake', year: 1987, bedbath: '3 / 2', sqft: 1176, psf: 255, price: 299900, zurl: 'https://www.zillow.com/homedetails/202-Tepee-Dr-Pocono-Lake-PA-18347/9795418_zpid/' },
-      { address: '135 Sitka Dr', sub: 'Active listing.', community: 'Locust Lake', year: 1989, bedbath: '3 / 2', sqft: 1200, psf: 258, price: 309000, zurl: 'https://www.zillow.com/homedetails/135-Sitka-Dr-Pocono-Lake-PA-18347/9795145_zpid/' },
-      { address: '163 Owassa Dr', sub: 'Active listing. Smaller home.', community: 'Locust Lake', year: 1969, bedbath: '3 / 2', sqft: 1080, psf: 292, price: 314900, zurl: 'https://www.zillow.com/homedetails/163-Owassa-Dr-Pocono-Lake-PA-18347/9839883_zpid/' },
-      { address: '134 Wyalusing Dr', sub: 'Active listing. 5 BR larger home.', community: 'Locust Lake', year: 1979, bedbath: '5 / 3', sqft: 1332, psf: 247, price: 329000, zurl: 'https://www.zillow.com/homedetails/134-Wyalusing-Dr-Pocono-Lake-PA-18347/9794962_zpid/' }
+      { isSubject: true, address: '157 Cardinal Ln', lat: 41.157324, lng: -75.551245, sub: 'Subject. MLS PM-141523. Under contract.', community: 'Locust Lake', year: 1995, bedbath: '3 / 3', sqft: 1432, psf: 230, price: 329999, zurl: 'https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/' },
+      { address: '57 Minisink Dr', lat: 41.166879, lng: -75.578740, sub: 'Active listing. Lowest in set, likely needs work.', community: 'Arrowhead', year: 2004, bedbath: '3 / 2', sqft: 2040, psf: 95, price: 194500, zurl: 'https://www.zillow.com/homes/57-Minisink-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '127 Ridge Rd', lat: 41.140503, lng: -75.549406, sub: 'Active listing.', community: 'Locust Lake', year: 1962, bedbath: '2 / 1', sqft: 768, psf: 260, price: 199999, zurl: 'https://www.zillow.com/homes/127-Ridge-Rd-Pocono-Lake-PA-18347_rb/' },
+      { address: '154 Ski Trl', lat: 41.143384, lng: -75.563400, sub: 'Active listing.', community: 'Arrowhead', year: 1968, bedbath: '3 / 2', sqft: 1115, psf: 233, price: 259900, zurl: 'https://www.zillow.com/homes/154-Ski-Trl-Pocono-Lake-PA-18347_rb/' },
+      { address: '1030 Wyoming Dr', lat: 41.159909, lng: -75.571520, sub: 'Active listing.', community: 'Arrowhead', year: 1974, bedbath: '3 / 2', sqft: 1248, psf: 220, price: 274900, zurl: 'https://www.zillow.com/homedetails/1030-Wyoming-Dr-Pocono-Lake-PA-18347/9794463_zpid/' },
+      { address: '1505 Lake Ln', lat: 41.138979, lng: -75.551896, sub: 'Active listing. 3 BR / 3 BA, similar to subject.', community: 'Locust Lake', year: 2003, bedbath: '3 / 3', sqft: 1385, psf: 209, price: 288900, zurl: 'https://www.zillow.com/homedetails/1505-Lake-Ln-Pocono-Lake-PA-18347/9839087_zpid/' },
+      { address: '1113 Wiconisco Dr', lat: 41.164438, lng: -75.579085, sub: 'Active listing.', community: 'Arrowhead', year: 1992, bedbath: '3 / 2', sqft: 1080, psf: 324, price: 350000, zurl: 'https://www.zillow.com/homes/1113-Wiconisco-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '1731 Lake Ln', lat: 41.125324, lng: -75.539964, sub: 'Active listing. Smaller home, premium psf.', community: 'Locust Lake', year: 1967, bedbath: '3 / 2', sqft: 1000, psf: 350, price: 349999, zurl: 'https://www.zillow.com/homedetails/1731-Lake-Ln-Pocono-Lake-PA-18347/9838615_zpid/' },
+      { address: '2158 Tuscarora Dr', lat: 41.160823, lng: -75.558772, sub: 'Active listing. Partially finished basement.', community: 'Arrowhead', year: 1972, bedbath: '3 / 2', sqft: 1707, psf: 217, price: 369900, zurl: 'https://www.zillow.com/homedetails/2158-Tuscarora-Dr-Pocono-Lake-PA-18347/9795339_zpid/' },
+      { address: '1769 Stag Run', lat: 41.147593, lng: -75.540892, sub: 'Active listing. Large 6 BR. Listed 3 days.', community: 'Locust Lake', year: 1972, bedbath: '6 / 3', sqft: 2056, psf: 181, price: 372500, zurl: 'https://www.zillow.com/homedetails/1769-Stag-Run-Pocono-Lake-PA-18347/9838965_zpid/' },
+      { address: '130 Beech Ln', lat: 41.140765, lng: -75.550020, sub: 'Active listing. Price cut $25K Feb 26.', community: 'Locust Lake', year: 1985, bedbath: '4 / 2', sqft: 1964, psf: 191, price: 374900, zurl: 'https://www.zillow.com/homedetails/130-Beech-Ln-Pocono-Lake-PA-18347/9839131_zpid/' },
+      { address: '7751 Lake Shore Dr', lat: 41.155160, lng: -75.565879, sub: 'Active listing. Lake view.', community: 'Arrowhead', year: 1982, bedbath: '3 / 2', sqft: 1224, psf: 326, price: 399000, zurl: 'https://www.zillow.com/homes/7751-Lake-Shore-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '243 White Pine Dr', lat: 41.150321, lng: -75.548519, sub: 'Active listing. 3 BR / 3 BA, large.', community: 'Locust Lake', year: 1980, bedbath: '3 / 3', sqft: 2496, psf: 160, price: 400000, zurl: 'https://www.zillow.com/homedetails/243-White-Pine-Dr-Pocono-Lake-PA-18347/9838920_zpid/' },
+      { address: '204 Yuma Trl', lat: 41.162711, lng: -75.571880, sub: 'Active listing.', community: 'Arrowhead', year: 1975, bedbath: '3 / 2', sqft: 1778, psf: 236, price: 419900, zurl: 'https://www.zillow.com/homedetails/204-Yuma-Trl-Pocono-Lake-PA-18347/9795044_zpid/' },
+      { address: '1101 Arrowhead Dr', lat: 41.147455, lng: -75.570869, sub: 'Active. Recent price cut.', community: 'Arrowhead', year: 1976, bedbath: '3 / 1', sqft: 1150, psf: 387, price: 445000, zurl: 'https://www.zillow.com/homes/1101-Arrowhead-Dr-Pocono-Lake-PA-18347_rb/' },
+      { address: '1611 Locust Ln', lat: 41.143832, lng: -75.557659, sub: 'Active listing. By owner.', community: 'Locust Lake', year: 1986, bedbath: '3 / 2', sqft: 1424, psf: 239, price: 340000, zurl: 'https://www.zillow.com/homedetails/1611-Locust-Ln-Pocono-Lake-PA-18347/9839899_zpid/' },
+      { address: '222 Croasdale Ct', lat: 41.173570, lng: -75.572168, sub: 'Active listing.', community: 'Locust Lake', year: 1977, bedbath: '3 / 2', sqft: 1316, psf: 265, price: 349000, zurl: 'https://www.zillow.com/homedetails/222-Croasdale-Ct-Pocono-Lake-PA-18347/9794833_zpid/' },
+      { address: '108 Moccasin Trl', lat: 41.161435, lng: -75.555376, sub: 'Active listing. Larger 2000 SF.', community: 'Locust Lake', year: 1993, bedbath: '3 / 2', sqft: 2000, psf: 165, price: 330000, zurl: 'https://www.zillow.com/homedetails/108-Moccasin-Trl-Pocono-Lake-PA-18347/9796098_zpid/' },
+      { address: '630 Maxatawny Dr', lat: 41.168143, lng: -75.559199, sub: 'Active listing. 3 BR / 3 BA.', community: 'Locust Lake', year: 1991, bedbath: '3 / 3', sqft: 1680, psf: 193, price: 325000, zurl: 'https://www.zillow.com/homedetails/630-Maxatawny-Dr-Pocono-Lake-PA-18347/9796088_zpid/' },
+      { address: '204 Pontiac Path', lat: 41.167791, lng: -75.561557, sub: 'Active listing.', community: 'Arrowhead', year: 1974, bedbath: '3 / 2', sqft: 1696, psf: 184, price: 312000, zurl: 'https://www.zillow.com/homedetails/204-Pontiac-Path-Pocono-Lake-PA-18347/9795997_zpid/' },
+      { address: '202 Tepee Dr', lat: 41.161204, lng: -75.553145, sub: 'Active listing.', community: 'Locust Lake', year: 1987, bedbath: '3 / 2', sqft: 1176, psf: 255, price: 299900, zurl: 'https://www.zillow.com/homedetails/202-Tepee-Dr-Pocono-Lake-PA-18347/9795418_zpid/' },
+      { address: '135 Sitka Dr', lat: 41.154268, lng: -75.550238, sub: 'Active listing.', community: 'Locust Lake', year: 1989, bedbath: '3 / 2', sqft: 1200, psf: 258, price: 309000, zurl: 'https://www.zillow.com/homedetails/135-Sitka-Dr-Pocono-Lake-PA-18347/9795145_zpid/' },
+      { address: '163 Owassa Dr', lat: 41.146504, lng: -75.560989, sub: 'Active listing. Smaller home.', community: 'Locust Lake', year: 1969, bedbath: '3 / 2', sqft: 1080, psf: 292, price: 314900, zurl: 'https://www.zillow.com/homedetails/163-Owassa-Dr-Pocono-Lake-PA-18347/9839883_zpid/' },
+      { address: '134 Wyalusing Dr', lat: 41.163177, lng: -75.575340, sub: 'Active listing. 5 BR larger home.', community: 'Locust Lake', year: 1979, bedbath: '5 / 3', sqft: 1332, psf: 247, price: 329000, zurl: 'https://www.zillow.com/homedetails/134-Wyalusing-Dr-Pocono-Lake-PA-18347/9794962_zpid/' }
     ],
     sold: [
       // Subject pinned first
-      { isSubject: true, address: '157 Cardinal Ln', sub: 'Subject. MLS PM-141523. Under contract.', community: 'Locust Lake', year: 1995, bedbath: '3 / 3', sqft: 1432, psf: 230, price: 329999, delta: null, zurl: 'https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/' },
-      { address: '1684 Stag Run', sub: 'Sold May 15, 2026. Above asking.', community: 'Locust Lake', year: 1990, bedbath: '3 / 2', sqft: 3217, psf: 132, price: 425561, delta: 1.6, zurl: 'https://www.zillow.com/homedetails/1684-Stag-Run-Pocono-Lake-PA-18347/9840114_zpid/' },
-      { address: '7814 Lake Shore Dr', sub: 'Sold May 6, 2026. Listed $899.9K.', community: 'Locust Lake', year: 2020, bedbath: '5 / 4', sqft: 3120, psf: 264, price: 825000, delta: -8.3, zurl: 'https://www.zillow.com/homedetails/7814-Lake-Shore-Dr-Pocono-Lake-PA-18347/338930253_zpid/' },
-      { address: '105 Wagner Way', sub: 'Sold May 1, 2026. Bi-level.', community: 'Arrowhead', year: 1984, bedbath: '4 / 2', sqft: 2148, psf: 138, price: 296000, delta: -1.3, zurl: 'https://www.zillow.com/homedetails/105-Wagner-Way-Pocono-Lake-PA-18347/9838662_zpid/' },
-      { address: '118 Owassa Dr', sub: 'Sold May 1, 2026.', community: 'Arrowhead', year: 1981, bedbath: '3 / 1', sqft: 1728, psf: 148, price: 255000, delta: -8.9, zurl: 'https://www.zillow.com/homedetails/118-Owassa-Dr-Pocono-Lake-PA-18347/9839825_zpid/' },
-      { address: '5151 Cresco Dr', sub: 'Sold Apr 17, 2026. New roof.', community: 'Arrowhead', year: 1989, bedbath: '3 / 2', sqft: 1584, psf: 183, price: 290000, delta: -10.7, zurl: 'https://www.zillow.com/homedetails/5151-Cresco-Dr-Pocono-Lake-PA-18347/9796076_zpid/' },
-      { address: '1819 Stag Run', sub: 'Sold Apr 17, 2026.', community: 'Locust Lake', year: 2022, bedbath: '3 / 2', sqft: 1392, psf: 255, price: 355000, delta: -6.3, zurl: 'https://www.zillow.com/homedetails/1819-Stag-Run-Pocono-Lake-PA-18347/401760067_zpid/' },
-      { address: '102 Chitimacha Dr', sub: 'Sold Apr 1, 2026.', community: 'Arrowhead', year: 2008, bedbath: '3 / 2', sqft: 1456, psf: 206, price: 300000, delta: -8.0, zurl: 'https://www.zillow.com/homedetails/102-Chitimacha-Dr-Pocono-Lake-PA-18347/87896681_zpid/' },
-      { address: '137 Sundance Dr', sub: 'Sold Mar 12, 2026. Above asking.', community: 'Arrowhead', year: 1969, bedbath: '2 / 1', sqft: 960, psf: 268, price: 257000, delta: 4.0, zurl: 'https://www.zillow.com/homedetails/137-Sundance-Dr-Pocono-Lake-PA-18347/9839701_zpid/' },
-      { address: '2134 Sheshequin Dr', sub: 'Sold Mar 4, 2026.', community: 'Arrowhead', year: 1988, bedbath: '3 / 3', sqft: 1834, psf: 183, price: 335000, delta: -4.3, zurl: 'https://www.zillow.com/homedetails/2134-Sheshequin-Dr-Pocono-Lake-PA-18347/61431105_zpid/' },
-      { address: '1540 Lake Ln', sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', year: 2025, bedbath: '3 / 2', sqft: 1224, psf: 278, price: 340000, delta: 1.5, zurl: 'https://www.zillow.com/homedetails/1540-Lake-Ln-Pocono-Lake-PA-18347/456339563_zpid/' },
-      { address: '216 Muskwink Dr', sub: 'Sold Mar 2, 2026.', community: 'Arrowhead', year: 1991, bedbath: '3 / 2', sqft: 1573, psf: 175, price: 275000, delta: -1.4, zurl: 'https://www.zillow.com/homedetails/216-Muskwink-Dr-Pocono-Lake-PA-18347/9794650_zpid/' },
-      { address: '218 Barberry Ln', sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', year: 1994, bedbath: '3 / 2', sqft: 1176, psf: 340, price: 400000, delta: -7.0, zurl: 'https://www.zillow.com/homedetails/218-Barberry-Ln-Pocono-Lake-PA-18347/9795143_zpid/' },
-      { address: '233 Pontiac Path', sub: 'Sold Feb 26, 2026. At asking.', community: 'Arrowhead', year: 1991, bedbath: '3 / 2', sqft: 1410, psf: 206, price: 289900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/233-Pontiac-Path-Pocono-Lake-PA-18347/9796017_zpid/' },
-      { address: '164 Fawn Rd', sub: 'Sold Feb 25, 2026.', community: 'Locust Lake', year: 1987, bedbath: '5 / 3', sqft: 1688, psf: 184, price: 310000, delta: -1.6, zurl: 'https://www.zillow.com/homedetails/164-Fawn-Rd-Pocono-Lake-PA-18347/197130754_zpid/' },
-      { address: '1428 Lake Ln', sub: 'Sold Feb 19, 2026.', community: 'Locust Lake', year: 2000, bedbath: '4 / 3', sqft: 1978, psf: 207, price: 410000, delta: -6.6, zurl: 'https://www.zillow.com/homedetails/1428-Lake-Ln-Pocono-Lake-PA-18347/67937643_zpid/' },
-      { address: '115 Fawn Rd', sub: 'Sold May 2026. At asking.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 2716, psf: 166, price: 449900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/115-Fawn-Rd-Pocono-Lake-PA-18347/9795176_zpid/' },
-      { address: '197 Wyomissing Dr', sub: 'Sold 2026. Listed $299,999. Over asking 5%.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 1517, psf: 208, price: 316000, delta: 5.3, zurl: 'https://www.zillow.com/homedetails/197-Wyomissing-Dr-Pocono-Lake-PA-18347/9795625_zpid/' },
-      { address: '174 Marthas Ln', sub: 'Sold 2026. Listed $375K.', community: 'Locust Lake', year: 2000, bedbath: '4 / 2', sqft: 1613, psf: 226, price: 365000, delta: -2.7, zurl: 'https://www.zillow.com/homedetails/174-Marthas-Ln-Pocono-Lake-PA-18347/9838573_zpid/' },
-      { address: '303 Cheyenne Trl', sub: 'Sold May 2026. Listed $325K. Steep cut.', community: 'Locust Lake', year: 1993, bedbath: '3 / 2', sqft: 1308, psf: 176, price: 230800, delta: -29.0, zurl: 'https://www.zillow.com/homedetails/303-Cheyenne-Trl-Pocono-Lake-PA-18347/9795347_zpid/' },
-      { address: '113 Sitka Dr', sub: 'Sold Mar 30, 2026. Listed $349K.', community: 'Locust Lake', year: 1990, bedbath: '3 / 2', sqft: 1302, psf: 247, price: 321500, delta: -7.9, zurl: 'https://www.zillow.com/homedetails/113-Sitka-Dr-Pocono-Lake-PA-18347/9795133_zpid/' },
-      { address: '278 Trout Creek Dr', sub: 'Sold 2026. Listed $329,900. Compact 744 SF.', community: 'Locust Lake', year: 1974, bedbath: '2 / 1', sqft: 744, psf: 417, price: 310000, delta: -6.0, zurl: 'https://www.zillow.com/homedetails/278-Trout-Creek-Dr-Pocono-Lake-PA-18347/9795394_zpid/' },
-      { address: '1706 Indiana Ct', sub: 'Sold 2026. Listed $425K. Larger 2515 SF.', community: 'Locust Lake', year: 1968, bedbath: '3 / 2', sqft: 2515, psf: 168, price: 422000, delta: -0.7, zurl: 'https://www.zillow.com/homedetails/1706-Indiana-Ct-Pocono-Lake-PA-18347/9839916_zpid/' },
-      { address: '135 Tomhickon Trl', sub: 'Sold 2026. Listed $325K. Newer 2007 build.', community: 'Locust Lake', year: 2007, bedbath: '4 / 2', sqft: 1700, psf: 171, price: 290000, delta: -10.8, zurl: 'https://www.zillow.com/homedetails/135-Tomhickon-Trl-Pocono-Lake-PA-18347/87896738_zpid/' },
-      { address: '2449 Forest Dr E', sub: 'Sold 2026. Listed $465K. Over asking 2%.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 2049, psf: 232, price: 476100, delta: 2.4, zurl: 'https://www.zillow.com/homedetails/2449-Forest-Dr-E-Pocono-Lake-PA-18347/9840073_zpid/' },
-      { address: '241 Wyalusing Dr', sub: 'Sold 2026. Listed $439K. 4 BR larger home.', community: 'Locust Lake', year: 1993, bedbath: '4 / 2', sqft: 2252, psf: 184, price: 415000, delta: -5.5, zurl: 'https://www.zillow.com/homedetails/241-Wyalusing-Dr-Pocono-Lake-PA-18347/9795595_zpid/' }
+      { isSubject: true, address: '157 Cardinal Ln', lat: 41.157324, lng: -75.551245, sub: 'Subject. MLS PM-141523. Under contract.', community: 'Locust Lake', year: 1995, bedbath: '3 / 3', sqft: 1432, psf: 230, price: 329999, delta: null, zurl: 'https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/' },
+      { address: '1684 Stag Run', lat: 41.144236, lng: -75.534503, sub: 'Sold May 15, 2026. Above asking.', community: 'Locust Lake', year: 1990, bedbath: '3 / 2', sqft: 3217, psf: 132, price: 425561, delta: 1.6, zurl: 'https://www.zillow.com/homedetails/1684-Stag-Run-Pocono-Lake-PA-18347/9840114_zpid/' },
+      { address: '7814 Lake Shore Dr', lat: 41.157253, lng: -75.563850, sub: 'Sold May 6, 2026. Listed $899.9K.', community: 'Locust Lake', year: 2020, bedbath: '5 / 4', sqft: 3120, psf: 264, price: 825000, delta: -8.3, zurl: 'https://www.zillow.com/homedetails/7814-Lake-Shore-Dr-Pocono-Lake-PA-18347/338930253_zpid/' },
+      { address: '105 Wagner Way', lat: 41.123794, lng: -75.539023, sub: 'Sold May 1, 2026. Bi-level.', community: 'Arrowhead', year: 1984, bedbath: '4 / 2', sqft: 2148, psf: 138, price: 296000, delta: -1.3, zurl: 'https://www.zillow.com/homedetails/105-Wagner-Way-Pocono-Lake-PA-18347/9838662_zpid/' },
+      { address: '118 Owassa Dr', lat: 41.145404, lng: -75.564825, sub: 'Sold May 1, 2026.', community: 'Arrowhead', year: 1981, bedbath: '3 / 1', sqft: 1728, psf: 148, price: 255000, delta: -8.9, zurl: 'https://www.zillow.com/homedetails/118-Owassa-Dr-Pocono-Lake-PA-18347/9839825_zpid/' },
+      { address: '5151 Cresco Dr', lat: 41.165891, lng: -75.557993, sub: 'Sold Apr 17, 2026. New roof.', community: 'Arrowhead', year: 1989, bedbath: '3 / 2', sqft: 1584, psf: 183, price: 290000, delta: -10.7, zurl: 'https://www.zillow.com/homedetails/5151-Cresco-Dr-Pocono-Lake-PA-18347/9796076_zpid/' },
+      { address: '1819 Stag Run', lat: 41.149124, lng: -75.544871, sub: 'Sold Apr 17, 2026.', community: 'Locust Lake', year: 2022, bedbath: '3 / 2', sqft: 1392, psf: 255, price: 355000, delta: -6.3, zurl: 'https://www.zillow.com/homedetails/1819-Stag-Run-Pocono-Lake-PA-18347/401760067_zpid/' },
+      { address: '102 Chitimacha Dr', lat: 41.170584, lng: -75.575687, sub: 'Sold Apr 1, 2026.', community: 'Arrowhead', year: 2008, bedbath: '3 / 2', sqft: 1456, psf: 206, price: 300000, delta: -8.0, zurl: 'https://www.zillow.com/homedetails/102-Chitimacha-Dr-Pocono-Lake-PA-18347/87896681_zpid/' },
+      { address: '137 Sundance Dr', lat: 41.148489, lng: -75.558332, sub: 'Sold Mar 12, 2026. Above asking.', community: 'Arrowhead', year: 1969, bedbath: '2 / 1', sqft: 960, psf: 268, price: 257000, delta: 4.0, zurl: 'https://www.zillow.com/homedetails/137-Sundance-Dr-Pocono-Lake-PA-18347/9839701_zpid/' },
+      { address: '2134 Sheshequin Dr', lat: 41.163836, lng: -75.577118, sub: 'Sold Mar 4, 2026.', community: 'Arrowhead', year: 1988, bedbath: '3 / 3', sqft: 1834, psf: 183, price: 335000, delta: -4.3, zurl: 'https://www.zillow.com/homedetails/2134-Sheshequin-Dr-Pocono-Lake-PA-18347/61431105_zpid/' },
+      { address: '1540 Lake Ln', lat: 41.137347, lng: -75.547755, sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', year: 2025, bedbath: '3 / 2', sqft: 1224, psf: 278, price: 340000, delta: 1.5, zurl: 'https://www.zillow.com/homedetails/1540-Lake-Ln-Pocono-Lake-PA-18347/456339563_zpid/' },
+      { address: '216 Muskwink Dr', lat: 41.170761, lng: -75.580146, sub: 'Sold Mar 2, 2026.', community: 'Arrowhead', year: 1991, bedbath: '3 / 2', sqft: 1573, psf: 175, price: 275000, delta: -1.4, zurl: 'https://www.zillow.com/homedetails/216-Muskwink-Dr-Pocono-Lake-PA-18347/9794650_zpid/' },
+      { address: '218 Barberry Ln', lat: 41.155623, lng: -75.550446, sub: 'Sold Feb 27, 2026.', community: 'Locust Lake', year: 1994, bedbath: '3 / 2', sqft: 1176, psf: 340, price: 400000, delta: -7.0, zurl: 'https://www.zillow.com/homedetails/218-Barberry-Ln-Pocono-Lake-PA-18347/9795143_zpid/' },
+      { address: '233 Pontiac Path', lat: 41.166394, lng: -75.560183, sub: 'Sold Feb 26, 2026. At asking.', community: 'Arrowhead', year: 1991, bedbath: '3 / 2', sqft: 1410, psf: 206, price: 289900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/233-Pontiac-Path-Pocono-Lake-PA-18347/9796017_zpid/' },
+      { address: '164 Fawn Rd', lat: 41.151610, lng: -75.551396, sub: 'Sold Feb 25, 2026.', community: 'Locust Lake', year: 1987, bedbath: '5 / 3', sqft: 1688, psf: 184, price: 310000, delta: -1.6, zurl: 'https://www.zillow.com/homedetails/164-Fawn-Rd-Pocono-Lake-PA-18347/197130754_zpid/' },
+      { address: '1428 Lake Ln', lat: 41.139867, lng: -75.557549, sub: 'Sold Feb 19, 2026.', community: 'Locust Lake', year: 2000, bedbath: '4 / 3', sqft: 1978, psf: 207, price: 410000, delta: -6.6, zurl: 'https://www.zillow.com/homedetails/1428-Lake-Ln-Pocono-Lake-PA-18347/67937643_zpid/' },
+      { address: '115 Fawn Rd', lat: 41.153578, lng: -75.547739, sub: 'Sold May 2026. At asking.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 2716, psf: 166, price: 449900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/115-Fawn-Rd-Pocono-Lake-PA-18347/9795176_zpid/' },
+      { address: '197 Wyomissing Dr', lat: 41.171087, lng: -75.568250, sub: 'Sold 2026. Listed $299,999. Over asking 5%.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 1517, psf: 208, price: 316000, delta: 5.3, zurl: 'https://www.zillow.com/homedetails/197-Wyomissing-Dr-Pocono-Lake-PA-18347/9795625_zpid/' },
+      { address: '174 Marthas Ln', lat: 41.129886, lng: -75.545488, sub: 'Sold 2026. Listed $375K.', community: 'Locust Lake', year: 2000, bedbath: '4 / 2', sqft: 1613, psf: 226, price: 365000, delta: -2.7, zurl: 'https://www.zillow.com/homedetails/174-Marthas-Ln-Pocono-Lake-PA-18347/9838573_zpid/' },
+      { address: '303 Cheyenne Trl', lat: 41.159406, lng: -75.557419, sub: 'Sold May 2026. Listed $325K. Steep cut.', community: 'Locust Lake', year: 1993, bedbath: '3 / 2', sqft: 1308, psf: 176, price: 230800, delta: -29.0, zurl: 'https://www.zillow.com/homedetails/303-Cheyenne-Trl-Pocono-Lake-PA-18347/9795347_zpid/' },
+      { address: '113 Sitka Dr', lat: 41.153296, lng: -75.551439, sub: 'Sold Mar 30, 2026. Listed $349K.', community: 'Locust Lake', year: 1990, bedbath: '3 / 2', sqft: 1302, psf: 247, price: 321500, delta: -7.9, zurl: 'https://www.zillow.com/homedetails/113-Sitka-Dr-Pocono-Lake-PA-18347/9795133_zpid/' },
+      { address: '278 Trout Creek Dr', lat: 41.157192, lng: -75.553694, sub: 'Sold 2026. Listed $329,900. Compact 744 SF.', community: 'Locust Lake', year: 1974, bedbath: '2 / 1', sqft: 744, psf: 417, price: 310000, delta: -6.0, zurl: 'https://www.zillow.com/homedetails/278-Trout-Creek-Dr-Pocono-Lake-PA-18347/9795394_zpid/' },
+      { address: '1706 Indiana Ct', lat: 41.141290, lng: -75.548049, sub: 'Sold 2026. Listed $425K. Larger 2515 SF.', community: 'Locust Lake', year: 1968, bedbath: '3 / 2', sqft: 2515, psf: 168, price: 422000, delta: -0.7, zurl: 'https://www.zillow.com/homedetails/1706-Indiana-Ct-Pocono-Lake-PA-18347/9839916_zpid/' },
+      { address: '135 Tomhickon Trl', lat: 41.166305, lng: -75.559624, sub: 'Sold 2026. Listed $325K. Newer 2007 build.', community: 'Locust Lake', year: 2007, bedbath: '4 / 2', sqft: 1700, psf: 171, price: 290000, delta: -10.8, zurl: 'https://www.zillow.com/homedetails/135-Tomhickon-Trl-Pocono-Lake-PA-18347/87896738_zpid/' },
+      { address: '2449 Forest Dr E', lat: 41.117107, lng: -75.532037, sub: 'Sold 2026. Listed $465K. Over asking 2%.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 2049, psf: 232, price: 476100, delta: 2.4, zurl: 'https://www.zillow.com/homedetails/2449-Forest-Dr-E-Pocono-Lake-PA-18347/9840073_zpid/' },
+      { address: '241 Wyalusing Dr', lat: 41.168778, lng: -75.569335, sub: 'Sold 2026. Listed $439K. 4 BR larger home.', community: 'Locust Lake', year: 1993, bedbath: '4 / 2', sqft: 2252, psf: 184, price: 415000, delta: -5.5, zurl: 'https://www.zillow.com/homedetails/241-Wyalusing-Dr-Pocono-Lake-PA-18347/9795595_zpid/' }
     ]
   };
 
@@ -5852,6 +5921,142 @@
     } catch (e) {}
   }
 
+  // ============== Property Map with price overlays ==============
+  const GMAPS_KEY = 'AIzaSyBELqpHemgbL6nm8RU7bkt5XZ6Uz7D9FG0';
+  const SUBJECT_LATLNG = { lat: 41.157324, lng: -75.551245 };
+  let propertyMap = null;
+  const mapOverlays = [];
+
+  // Build a flat list of unique comp entries with coords, tagged subject/active/sold
+  function collectMapComps() {
+    const out = [];
+    const seen = new Set();
+    COMP_DATA.active.forEach(it => {
+      if (it.lat == null || it.lng == null) return;
+      const tab = it.isSubject ? 'subject' : 'active';
+      const key = it.address + '|' + tab;
+      if (seen.has(key)) return;
+      seen.add(key);
+      out.push(Object.assign({}, it, { tab }));
+    });
+    COMP_DATA.sold.forEach(it => {
+      if (it.isSubject) return; // subject already added from active
+      if (it.lat == null || it.lng == null) return;
+      const key = it.address + '|sold';
+      if (seen.has(key)) return;
+      seen.add(key);
+      out.push(Object.assign({}, it, { tab: 'sold' }));
+    });
+    return out;
+  }
+
+  function pricePillLabel(price) {
+    if (price >= 1000000) return '$' + (price / 1000000).toFixed(1) + 'M';
+    return '$' + Math.round(price / 1000) + 'K';
+  }
+
+  function defineOverlayClass() {
+    class PricePillOverlay extends google.maps.OverlayView {
+      constructor(latLng, comp) {
+        super();
+        this.latLng = latLng;
+        this.comp = comp;
+        this.div = null;
+      }
+      onAdd() {
+        const div = document.createElement('div');
+        const tabCls = this.comp.tab === 'subject' ? 'subject' : (this.comp.tab === 'sold' ? 'sold' : 'active');
+        div.className = 'price-pill ' + tabCls;
+        div.innerHTML = '<span class="pp-amt">' + pricePillLabel(this.comp.price) + '</span>';
+        const tip = this.comp.address + (this.comp.bedbath ? ' · ' + this.comp.bedbath : '') + (this.comp.sqft ? ' · ' + this.comp.sqft.toLocaleString('en-US') + ' SF' : '');
+        div.title = tip;
+        const that = this;
+        div.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (that.comp.zurl) window.open(that.comp.zurl, '_blank', 'noopener,noreferrer');
+        });
+        if (this.comp.tab === 'subject') div.style.zIndex = '10';
+        else if (this.comp.tab === 'active') div.style.zIndex = '5';
+        else div.style.zIndex = '3';
+        this.div = div;
+        this.getPanes().floatPane.appendChild(div);
+      }
+      draw() {
+        const proj = this.getProjection();
+        if (!proj || !this.div) return;
+        const px = proj.fromLatLngToDivPixel(this.latLng);
+        if (!px) return;
+        const w = this.div.offsetWidth;
+        const h = this.div.offsetHeight;
+        this.div.style.left = Math.round(px.x - w / 2) + 'px';
+        this.div.style.top = Math.round(px.y - h / 2) + 'px';
+      }
+      onRemove() {
+        if (this.div && this.div.parentNode) this.div.parentNode.removeChild(this.div);
+        this.div = null;
+      }
+    }
+    window.__PricePillOverlay = PricePillOverlay;
+  }
+
+  function buildPropertyMap() {
+    const el = document.getElementById('property-map');
+    if (!el || !window.google || !google.maps) return;
+    defineOverlayClass();
+
+    propertyMap = new google.maps.Map(el, {
+      center: SUBJECT_LATLNG,
+      zoom: 14,
+      mapTypeId: google.maps.MapTypeId.HYBRID,
+      streetViewControl: false,
+      fullscreenControl: true,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_LEFT,
+        mapTypeIds: ['hybrid', 'roadmap', 'satellite', 'terrain']
+      },
+      zoomControl: true,
+      zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
+      gestureHandling: 'greedy',
+      tilt: 0
+    });
+
+    const comps = collectMapComps();
+    const bounds = new google.maps.LatLngBounds();
+    comps.forEach(c => bounds.extend({ lat: c.lat, lng: c.lng }));
+
+    comps.forEach(c => {
+      const overlay = new window.__PricePillOverlay(new google.maps.LatLng(c.lat, c.lng), c);
+      overlay.setMap(propertyMap);
+      mapOverlays.push(overlay);
+    });
+
+    if (!bounds.isEmpty()) {
+      propertyMap.fitBounds(bounds, 60);
+      // Cap maximum zoom so we never zoom in past street level on a single cluster
+      const listener = google.maps.event.addListenerOnce(propertyMap, 'idle', function () {
+        if (propertyMap.getZoom() > 15) propertyMap.setZoom(15);
+      });
+    }
+  }
+
+  function loadGoogleMaps() {
+    if (window.google && window.google.maps) { buildPropertyMap(); return; }
+    if (document.getElementById('gmaps-script')) return;
+    window.__onGoogleMapsReady = function () {
+      try { buildPropertyMap(); }
+      catch (e) { console.error('property map build failed:', e); }
+    };
+    const s = document.createElement('script');
+    s.id = 'gmaps-script';
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GMAPS_KEY + '&v=weekly&callback=__onGoogleMapsReady&loading=async';
+    s.async = true;
+    s.defer = true;
+    s.onerror = function () { console.error('Google Maps script failed to load'); };
+    document.head.appendChild(s);
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     updateCountdown();
     updateListingFreshness();
@@ -5872,6 +6077,8 @@
       console.error('comp render failed:', e);
     }
     initMaxOfferCalculator();
+    try { loadGoogleMaps(); }
+    catch (e) { console.error('Google Maps load failed:', e); }
   });
 </script>
 </body>
