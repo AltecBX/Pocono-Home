@@ -317,6 +317,25 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
+  .section-head .head-left {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
+  }
+  .section-head .head-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  @media (max-width: 720px) {
+    .section-head .head-left {
+      flex-wrap: wrap;
+      gap: 4px 12px;
+    }
+  }
 
   /* ========== Card ========== */
   .card {
@@ -2336,6 +2355,39 @@
     .heatmap-hint { width: 100%; margin-left: 0; }
   }
 
+  /* ========== Community Filter Toggle for Comps ========== */
+  .comp-filter-toggle {
+    display: inline-flex;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .cft-btn {
+    padding: 6px 14px;
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-size: 11.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .cft-btn:hover {
+    color: var(--text-primary);
+  }
+  .cft-btn.active {
+    background: rgba(212, 175, 55, 0.18);
+    color: var(--gold-2);
+  }
+  @media (max-width: 720px) {
+    .cft-btn { padding: 5px 11px; font-size: 11px; }
+  }
+
   /* ========== Maximum Offer Calculator ========== */
   .mo-rec {
     margin-bottom: 24px;
@@ -2726,7 +2778,167 @@
     .mo-issues-grid { grid-template-columns: 1fr; }
   }
 
+  /* ========== Neighborhood Map (Leaflet) ========== */
+  .map-controls {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .map-tab {
+    padding: 8px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .map-tab:hover {
+    background: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.25);
+  }
+  .map-tab.active {
+    background: rgba(212, 175, 55, 0.18);
+    color: var(--gold-2);
+    border-color: rgba(212, 175, 55, 0.4);
+  }
+  .map-status {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    align-self: center;
+    font-variant-numeric: tabular-nums;
+  }
+  #neighborhood-map {
+    height: 520px;
+    width: 100%;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--hairline);
+    background: #0b0d11;
+    overflow: hidden;
+  }
+  .leaflet-container {
+    background: #0b0d11 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  }
+  .leaflet-popup-content-wrapper {
+    background: #1c1c1f;
+    color: var(--text-primary);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .leaflet-popup-tip { background: #1c1c1f; }
+  .leaflet-popup-content {
+    margin: 12px 14px;
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+  .leaflet-popup-content a {
+    color: var(--gold-2);
+    text-decoration: none;
+  }
+  .leaflet-popup-content a:hover { text-decoration: underline; }
+  .leaflet-popup-close-button { color: var(--text-tertiary) !important; }
+  .leaflet-control-zoom a {
+    background: #1c1c1f !important;
+    color: var(--text-primary) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+  }
+  .leaflet-control-zoom a:hover { background: #2a2a2e !important; }
+  .leaflet-control-attribution {
+    background: rgba(0,0,0,0.7) !important;
+    color: var(--text-tertiary) !important;
+    font-size: 10px !important;
+  }
+  .leaflet-control-attribution a { color: var(--gold-2) !important; }
+
+  .subject-marker-wrap {
+    background: transparent !important;
+    border: none !important;
+  }
+  .sm-inner {
+    background: var(--gold-2);
+    color: #000;
+    padding: 7px 12px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 0 3px rgba(212,175,55,0.3);
+    border: 2px solid #fff;
+    white-space: nowrap;
+    position: relative;
+  }
+  .sm-inner::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--gold-2);
+  }
+  .sm-price {
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .sm-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 1px;
+    opacity: 0.7;
+  }
+
+  .comp-marker-wrap {
+    background: transparent !important;
+    border: none !important;
+  }
+  .cm-pill {
+    background: rgba(0,0,0,0.88);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.18);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .cm-pill:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    z-index: 1000;
+  }
+  .comp-marker-active .cm-pill {
+    background: rgba(48, 209, 88, 0.92);
+    color: #000;
+    border-color: rgba(255,255,255,0.3);
+  }
+  .comp-marker-sold .cm-pill {
+    background: rgba(20, 20, 23, 0.92);
+    color: #fff;
+  }
+  @media (max-width: 720px) {
+    #neighborhood-map { height: 380px; }
+    .cm-pill { font-size: 10px; padding: 3px 8px; }
+    .sm-price { font-size: 11.5px; }
+  }
+
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 </head>
 <body>
 <div class="hero-photo" aria-hidden="true"></div>
@@ -2831,8 +3043,16 @@
   <!-- ========== Comps ========== -->
   <section class="section">
     <div class="section-head">
-      <h2>Recent Comps</h2>
-      <span class="hint">Locust Lake Village and Arrowhead Lakes only</span>
+      <div class="head-left">
+        <h2>Recent Comps</h2>
+        <span class="hint" id="comp-filter-hint">Locust Lake Village only</span>
+      </div>
+      <div class="head-right">
+        <div class="comp-filter-toggle" role="tablist" aria-label="Community filter">
+          <button class="cft-btn active" data-comm="locust" onclick="setCompCommunityFilter('locust')">Locust Lake</button>
+          <button class="cft-btn" data-comm="all" onclick="setCompCommunityFilter('all')">All</button>
+        </div>
+      </div>
     </div>
     <div class="card" style="margin-bottom: 14px;">
       <div class="tabs-wrap">
@@ -3662,19 +3882,20 @@
   <!-- ========== Property Context ========== -->
   <section class="section">
     <div class="section-head">
-      <h2>Property Context</h2>
-      <span class="hint">Locust Lake Village, Coolbaugh Township, Monroe County</span>
+      <h2>Neighborhood Map</h2>
+      <span class="hint">Locust Lake Village, satellite + lot context</span>
     </div>
 
     <div class="card" style="padding: 14px; margin-bottom: 14px;">
-      <iframe id="property-map"
-        src="https://www.google.com/maps?q=157+Cardinal+Ln+Pocono+Lake+PA+18347&z=16&output=embed"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-        title="157 Cardinal Ln map"></iframe>
-      <p style="margin: 10px 4px 0; font-size: 11px; color: var(--text-tertiary);">
-        Click the map to open in Google Maps for satellite view, Street View, directions, and area exploration.
+      <div class="map-controls">
+        <button class="map-tab active" data-view="satellite" onclick="setMapView('satellite')">Satellite</button>
+        <button class="map-tab" data-view="topo" onclick="setMapView('topo')">Topo</button>
+        <button class="map-tab" data-view="road" onclick="setMapView('road')">Road</button>
+        <span class="map-status" id="map-status">Loading comp pins</span>
+      </div>
+      <div id="neighborhood-map"></div>
+      <p style="margin: 10px 4px 0; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
+        Subject in gold. Active listings in green. Sold comps in black. Click any pin to see year built, size, and Zillow link. Comp positions geocoded from address; rural address geocoding is approximate. Use Satellite for lot context, Topo for terrain, Road for street layout.
       </p>
     </div>
 
@@ -4507,7 +4728,11 @@
       { address: '222 Croasdale Ct', sub: 'Active listing.', community: 'Locust Lake', year: 1977, bedbath: '3 / 2', sqft: 1316, psf: 265, price: 349000, zurl: 'https://www.zillow.com/homedetails/222-Croasdale-Ct-Pocono-Lake-PA-18347/9794833_zpid/' },
       { address: '108 Moccasin Trl', sub: 'Active listing. Larger 2000 SF.', community: 'Locust Lake', year: 1993, bedbath: '3 / 2', sqft: 2000, psf: 165, price: 330000, zurl: 'https://www.zillow.com/homedetails/108-Moccasin-Trl-Pocono-Lake-PA-18347/9796098_zpid/' },
       { address: '630 Maxatawny Dr', sub: 'Active listing. 3 BR / 3 BA.', community: 'Locust Lake', year: 1991, bedbath: '3 / 3', sqft: 1680, psf: 193, price: 325000, zurl: 'https://www.zillow.com/homedetails/630-Maxatawny-Dr-Pocono-Lake-PA-18347/9796088_zpid/' },
-      { address: '204 Pontiac Path', sub: 'Active listing.', community: 'Arrowhead', year: 1974, bedbath: '3 / 2', sqft: 1696, psf: 184, price: 312000, zurl: 'https://www.zillow.com/homedetails/204-Pontiac-Path-Pocono-Lake-PA-18347/9795997_zpid/' }
+      { address: '204 Pontiac Path', sub: 'Active listing.', community: 'Arrowhead', year: 1974, bedbath: '3 / 2', sqft: 1696, psf: 184, price: 312000, zurl: 'https://www.zillow.com/homedetails/204-Pontiac-Path-Pocono-Lake-PA-18347/9795997_zpid/' },
+      { address: '202 Tepee Dr', sub: 'Active listing.', community: 'Locust Lake', year: 1987, bedbath: '3 / 2', sqft: 1176, psf: 255, price: 299900, zurl: 'https://www.zillow.com/homedetails/202-Tepee-Dr-Pocono-Lake-PA-18347/9795418_zpid/' },
+      { address: '135 Sitka Dr', sub: 'Active listing.', community: 'Locust Lake', year: 1989, bedbath: '3 / 2', sqft: 1200, psf: 258, price: 309000, zurl: 'https://www.zillow.com/homedetails/135-Sitka-Dr-Pocono-Lake-PA-18347/9795145_zpid/' },
+      { address: '163 Owassa Dr', sub: 'Active listing. Smaller home.', community: 'Locust Lake', year: 1969, bedbath: '3 / 2', sqft: 1080, psf: 292, price: 314900, zurl: 'https://www.zillow.com/homedetails/163-Owassa-Dr-Pocono-Lake-PA-18347/9839883_zpid/' },
+      { address: '134 Wyalusing Dr', sub: 'Active listing. 5 BR larger home.', community: 'Locust Lake', year: 1979, bedbath: '5 / 3', sqft: 1332, psf: 247, price: 329000, zurl: 'https://www.zillow.com/homedetails/134-Wyalusing-Dr-Pocono-Lake-PA-18347/9794962_zpid/' }
     ],
     sold: [
       // Subject pinned first
@@ -4527,10 +4752,16 @@
       { address: '233 Pontiac Path', sub: 'Sold Feb 26, 2026. At asking.', community: 'Arrowhead', year: 1991, bedbath: '3 / 2', sqft: 1410, psf: 206, price: 289900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/233-Pontiac-Path-Pocono-Lake-PA-18347/9796017_zpid/' },
       { address: '164 Fawn Rd', sub: 'Sold Feb 25, 2026.', community: 'Locust Lake', year: 1987, bedbath: '5 / 3', sqft: 1688, psf: 184, price: 310000, delta: -1.6, zurl: 'https://www.zillow.com/homedetails/164-Fawn-Rd-Pocono-Lake-PA-18347/197130754_zpid/' },
       { address: '1428 Lake Ln', sub: 'Sold Feb 19, 2026.', community: 'Locust Lake', year: 2000, bedbath: '4 / 3', sqft: 1978, psf: 207, price: 410000, delta: -6.6, zurl: 'https://www.zillow.com/homedetails/1428-Lake-Ln-Pocono-Lake-PA-18347/67937643_zpid/' },
-      { address: '115 Fawn Rd', sub: 'Sold May 2026. Sold at asking.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 2716, psf: 166, price: 449900, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/115-Fawn-Rd-Pocono-Lake-PA-18347/9795176_zpid/' },
-      { address: '197 Wyomissing Dr', sub: 'Recently sold 2026.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 1517, psf: 208, price: 316000, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/197-Wyomissing-Dr-Pocono-Lake-PA-18347/9795625_zpid/' },
-      { address: '174 Marthas Ln', sub: 'Recently sold 2026.', community: 'Locust Lake', year: 2000, bedbath: '4 / 2', sqft: 1613, psf: 226, price: 365000, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/174-Marthas-Ln-Pocono-Lake-PA-18347/9838573_zpid/' },
-      { address: '303 Cheyenne Trl', sub: 'Sold May 2026.', community: 'Locust Lake', year: 1993, bedbath: '3 / 2', sqft: 1308, psf: 176, price: 230800, delta: 0.0, zurl: 'https://www.zillow.com/homedetails/303-Cheyenne-Trl-Pocono-Lake-PA-18347/9795347_zpid/' }
+      { address: '115 Fawn Rd', sub: 'Recently sold 2026.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 2716, psf: 166, price: 449900, delta: null, zurl: 'https://www.zillow.com/homedetails/115-Fawn-Rd-Pocono-Lake-PA-18347/9795176_zpid/' },
+      { address: '197 Wyomissing Dr', sub: 'Recently sold 2026.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 1517, psf: 208, price: 316000, delta: null, zurl: 'https://www.zillow.com/homedetails/197-Wyomissing-Dr-Pocono-Lake-PA-18347/9795625_zpid/' },
+      { address: '174 Marthas Ln', sub: 'Recently sold 2026.', community: 'Locust Lake', year: 2000, bedbath: '4 / 2', sqft: 1613, psf: 226, price: 365000, delta: null, zurl: 'https://www.zillow.com/homedetails/174-Marthas-Ln-Pocono-Lake-PA-18347/9838573_zpid/' },
+      { address: '303 Cheyenne Trl', sub: 'Sold May 2026.', community: 'Locust Lake', year: 1993, bedbath: '3 / 2', sqft: 1308, psf: 176, price: 230800, delta: null, zurl: 'https://www.zillow.com/homedetails/303-Cheyenne-Trl-Pocono-Lake-PA-18347/9795347_zpid/' },
+      { address: '113 Sitka Dr', sub: 'Sold Mar 30, 2026.', community: 'Locust Lake', year: 1990, bedbath: '3 / 2', sqft: 1302, psf: 247, price: 321500, delta: null, zurl: 'https://www.zillow.com/homedetails/113-Sitka-Dr-Pocono-Lake-PA-18347/9795133_zpid/' },
+      { address: '278 Trout Creek Dr', sub: 'Sold 2026. Compact 744 SF.', community: 'Locust Lake', year: 1974, bedbath: '2 / 1', sqft: 744, psf: 417, price: 310000, delta: null, zurl: 'https://www.zillow.com/homedetails/278-Trout-Creek-Dr-Pocono-Lake-PA-18347/9795394_zpid/' },
+      { address: '1706 Indiana Ct', sub: 'Sold 2026. Larger 2515 SF.', community: 'Locust Lake', year: 1968, bedbath: '3 / 2', sqft: 2515, psf: 168, price: 422000, delta: null, zurl: 'https://www.zillow.com/homedetails/1706-Indiana-Ct-Pocono-Lake-PA-18347/9839916_zpid/' },
+      { address: '135 Tomhickon Trl', sub: 'Sold 2026. Newer 2007 build.', community: 'Locust Lake', year: 2007, bedbath: '4 / 2', sqft: 1700, psf: 171, price: 290000, delta: null, zurl: 'https://www.zillow.com/homedetails/135-Tomhickon-Trl-Pocono-Lake-PA-18347/87896738_zpid/' },
+      { address: '2449 Forest Dr E', sub: 'Sold 2026. Premium 2049 SF.', community: 'Locust Lake', year: 1988, bedbath: '3 / 2', sqft: 2049, psf: 232, price: 476100, delta: null, zurl: 'https://www.zillow.com/homedetails/2449-Forest-Dr-E-Pocono-Lake-PA-18347/9840073_zpid/' },
+      { address: '241 Wyalusing Dr', sub: 'Sold 2026. 4 BR larger home.', community: 'Locust Lake', year: 1993, bedbath: '4 / 2', sqft: 2252, psf: 184, price: 415000, delta: null, zurl: 'https://www.zillow.com/homedetails/241-Wyalusing-Dr-Pocono-Lake-PA-18347/9795595_zpid/' }
     ]
   };
 
@@ -4586,9 +4817,35 @@
     });
   }
 
+  // Community filter for Recent Comps. 'locust' = Locust Lake only (default since subject is LLV). 'all' = both.
+  let CURRENT_COMP_COMMUNITY = 'locust';
+
+  function filterByCommunity(items) {
+    if (CURRENT_COMP_COMMUNITY === 'all') return items;
+    // Always keep subject row. Otherwise filter to Locust Lake.
+    return items.filter(it => it.isSubject || it.community === 'Locust Lake');
+  }
+
+  function setCompCommunityFilter(mode) {
+    if (mode !== 'locust' && mode !== 'all') return;
+    CURRENT_COMP_COMMUNITY = mode;
+    document.querySelectorAll('.cft-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-comm') === mode);
+    });
+    const hint = document.getElementById('comp-filter-hint');
+    if (hint) {
+      hint.textContent = mode === 'locust'
+        ? 'Locust Lake Village only'
+        : 'Locust Lake Village and Arrowhead Lakes';
+    }
+    updateCompCounts();
+    renderCompsTable();
+  }
+
   function renderCompsTable() {
-    const items = COMP_DATA[CURRENT_COMP_TAB];
-    if (!items) return;
+    const rawItems = COMP_DATA[CURRENT_COMP_TAB];
+    if (!rawItems) return;
+    const items = filterByCommunity(rawItems);
     let sorted;
     if (CURRENT_SORT_KEY) sorted = sortByKey(items, CURRENT_SORT_KEY, CURRENT_SORT_DIR);
     else sorted = defaultSort(items);
@@ -4656,8 +4913,10 @@
   function updateCompCounts() {
     const a = document.getElementById('tab-count-active');
     const s = document.getElementById('tab-count-sold');
-    if (a) a.textContent = (COMP_DATA.active.length - 1); // exclude subject
-    if (s) s.textContent = (COMP_DATA.sold.length - 1);
+    const activeFiltered = filterByCommunity(COMP_DATA.active);
+    const soldFiltered = filterByCommunity(COMP_DATA.sold);
+    if (a) a.textContent = (activeFiltered.length - 1); // exclude subject
+    if (s) s.textContent = (soldFiltered.length - 1);
   }
 
   // ============== Main recalc ==============
@@ -5390,7 +5649,7 @@
     };
     const checked = MO_ISSUES.filter(i => moState.issues[i.key]);
     const checkedLabels = checked.map(i => issueDescriptions[i.key]);
-    const sig = '\n\nBest,\nJerry\n\u260E\uFE0F 917-400-9292.';
+    const sig = '\n\nBest,\nJerry\n\u260E\uFE0F 917-400-9292';
     const conditionsList =
       '\u2022 Last 12 months of utility bills, electric and propane if applicable.\n' +
       '\u2022 HOA rules document, with explicit confirmation around short term rental eligibility.\n' +
@@ -5753,6 +6012,141 @@
     } catch (e) {}
   }
 
+  // ============== Neighborhood Map ==============
+  const SUBJECT_COORD = [41.157324, -75.551245];
+  let LEAFLET_MAP = null;
+  let MAP_LAYERS = { satellite: null, topo: null, road: null };
+  let COMP_MARKERS = [];
+  let SUBJECT_MARKER = null;
+
+  function initNeighborhoodMap() {
+    const el = document.getElementById('neighborhood-map');
+    if (!el || typeof L === 'undefined') return;
+    try {
+      LEAFLET_MAP = L.map(el, {
+        center: SUBJECT_COORD,
+        zoom: 15,
+        zoomControl: true,
+        scrollWheelZoom: false,
+        attributionControl: true
+      });
+
+      MAP_LAYERS.satellite = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        { attribution: 'Esri', maxZoom: 19 }
+      );
+      MAP_LAYERS.topo = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        { attribution: 'Esri', maxZoom: 19 }
+      );
+      MAP_LAYERS.road = L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        { attribution: '\u00A9 OpenStreetMap \u00A9 CARTO', maxZoom: 19 }
+      );
+      MAP_LAYERS.satellite.addTo(LEAFLET_MAP);
+
+      // Subject marker
+      const subjectIcon = L.divIcon({
+        className: 'subject-marker-wrap',
+        html: '<div class="sm-inner"><div class="sm-price">$329,999</div><div class="sm-label">Subject</div></div>',
+        iconSize: [110, 50],
+        iconAnchor: [55, 58]
+      });
+      SUBJECT_MARKER = L.marker(SUBJECT_COORD, { icon: subjectIcon, zIndexOffset: 1000 }).addTo(LEAFLET_MAP);
+      SUBJECT_MARKER.bindPopup(
+        '<strong>157 Cardinal Ln</strong><br>' +
+        '3 BR / 3 BA \u00B7 1,432 SF \u00B7 Built 1995<br>' +
+        'Asking: $329,999 \u00B7 $230 per SF<br>' +
+        '<a href="https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/" target="_blank" rel="noopener">View on Zillow</a>'
+      );
+
+      // Click handler to re-enable scroll zoom on first click (better UX)
+      LEAFLET_MAP.once('click', () => LEAFLET_MAP.scrollWheelZoom.enable());
+
+      geocodeAndPlaceComps();
+    } catch (e) {
+      console.error('Map init failed:', e);
+      const status = document.getElementById('map-status');
+      if (status) status.textContent = 'Map failed to load';
+    }
+  }
+
+  function setMapView(view) {
+    if (!LEAFLET_MAP || !MAP_LAYERS[view]) return;
+    ['satellite', 'topo', 'road'].forEach(v => {
+      if (LEAFLET_MAP.hasLayer(MAP_LAYERS[v])) LEAFLET_MAP.removeLayer(MAP_LAYERS[v]);
+    });
+    MAP_LAYERS[view].addTo(LEAFLET_MAP);
+    MAP_LAYERS[view].bringToBack();
+    document.querySelectorAll('.map-tab').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-view') === view);
+    });
+  }
+
+  async function geocodeAndPlaceComps() {
+    if (!LEAFLET_MAP) return;
+    const status = document.getElementById('map-status');
+    // Pull Locust Lake comps from BOTH active and sold (skip subject). Limit to ~18 for visual clarity.
+    const allLL = [];
+    COMP_DATA.active.forEach(c => { if (!c.isSubject && c.community === 'Locust Lake') allLL.push({ comp: c, type: 'active' }); });
+    COMP_DATA.sold.forEach(c => { if (!c.isSubject && c.community === 'Locust Lake') allLL.push({ comp: c, type: 'sold' }); });
+    const toGeocode = allLL.slice(0, 18);
+    let placed = 0;
+    for (let i = 0; i < toGeocode.length; i++) {
+      const { comp, type } = toGeocode[i];
+      if (status) status.textContent = 'Loading pins ' + (i + 1) + ' of ' + toGeocode.length;
+      const coord = await geocodeAddress(comp.address);
+      if (coord) {
+        addCompMarker(comp, coord, type);
+        placed++;
+      }
+      // Throttle to respect Nominatim usage policy (max ~1 req per second)
+      await new Promise(r => setTimeout(r, 1100));
+    }
+    if (status) {
+      status.textContent = placed === toGeocode.length
+        ? placed + ' comps loaded'
+        : placed + ' of ' + toGeocode.length + ' pinned';
+    }
+  }
+
+  async function geocodeAddress(address) {
+    const fullAddr = address + ', Pocono Lake, PA 18347';
+    const url = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(fullAddr) + '&format=json&limit=1&countrycodes=us';
+    try {
+      const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!r.ok) return null;
+      const data = await r.json();
+      if (data && data.length > 0) {
+        return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+      }
+    } catch (e) {
+      console.warn('Geocode failed for ' + address, e);
+    }
+    return null;
+  }
+
+  function addCompMarker(comp, coord, type) {
+    if (!LEAFLET_MAP) return;
+    const priceLabel = '$' + Math.round(comp.price / 1000) + 'K';
+    const icon = L.divIcon({
+      className: 'comp-marker-wrap',
+      html: '<div class="cm-pill comp-marker-' + type + '">' + priceLabel + '</div>',
+      iconSize: [60, 22],
+      iconAnchor: [30, 11]
+    });
+    const marker = L.marker(coord, { icon }).addTo(LEAFLET_MAP);
+    const yearText = comp.year ? 'Built ' + comp.year : 'Year unknown';
+    const status = type === 'active' ? 'Asking' : 'Sold';
+    marker.bindPopup(
+      '<strong>' + comp.address + '</strong><br>' +
+      comp.bedbath + ' \u00B7 ' + comp.sqft.toLocaleString('en-US') + ' SF \u00B7 ' + yearText + '<br>' +
+      status + ': $' + comp.price.toLocaleString('en-US') + ' \u00B7 $' + comp.psf + ' per SF<br>' +
+      '<a href="' + comp.zurl + '" target="_blank" rel="noopener">View on Zillow</a>'
+    );
+    COMP_MARKERS.push(marker);
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     updateCountdown();
     updateListingFreshness();
@@ -5773,6 +6167,8 @@
       console.error('comp render failed:', e);
     }
     initMaxOfferCalculator();
+    // Init map slightly delayed to let Leaflet finish loading
+    setTimeout(initNeighborhoodMap, 200);
   });
 </script>
 </body>
