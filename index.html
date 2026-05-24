@@ -118,6 +118,62 @@
     text-align: right;
   }
 
+  /* Landscape mode hint, portrait mobile only */
+  .landscape-hint {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 14px 0;
+    padding: 11px 14px 11px 13px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.12), rgba(212, 175, 55, 0.06));
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 12px;
+    color: var(--gold-2);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.005em;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: landscape-hint-pulse 2.4s ease-in-out 0.6s infinite;
+  }
+  .landscape-hint .rotate-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--gold-1);
+    animation: landscape-rotate-cue 2.4s ease-in-out 0.6s infinite;
+  }
+  .landscape-hint-text { flex: 1 1 auto; min-width: 0; }
+  .landscape-hint-dismiss {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: transparent; border: none;
+    color: var(--text-tertiary);
+    font-size: 20px; line-height: 1;
+    cursor: pointer; padding: 0;
+    border-radius: 50%;
+    transition: background 0.18s, color 0.18s;
+  }
+  .landscape-hint-dismiss:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+  @keyframes landscape-hint-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    50% { box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.08); }
+  }
+  @keyframes landscape-rotate-cue {
+    0%, 70%, 100% { transform: rotate(0deg); }
+    35% { transform: rotate(90deg); }
+  }
+  @media (max-width: 820px) and (orientation: portrait) {
+    .landscape-hint:not(.dismissed) { display: flex; }
+  }
+
   /* ========== Hero ========== */
   .hero {
     padding: 40px 0 28px;
@@ -1270,10 +1326,378 @@
     .hero-photo::before { background-position: center 42%; }
   }
 
+  /* ========== Landscape orientation hint, mobile portrait only ========== */
+  .landscape-hint {
+    display: none;
+  }
+  @media (max-width: 768px) and (orientation: portrait) {
+    .landscape-hint:not(.dismissed) {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.14), rgba(212, 175, 55, 0.08));
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold-2);
+      font-size: 12px;
+      line-height: 1.35;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  }
+  .landscape-hint .lh-icon { flex: 0 0 auto; opacity: 0.9; }
+  .landscape-hint .lh-text { flex: 1 1 auto; font-weight: 500; }
+  .landscape-hint .lh-dismiss {
+    flex: 0 0 auto;
+    background: transparent;
+    border: none;
+    color: var(--gold-2);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px 6px;
+    opacity: 0.6;
+  }
+  .landscape-hint .lh-dismiss:hover { opacity: 1; }
+
+  /* ========== Mortgage Rate Pulse ========== */
+  .rate-pulse {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+    padding: 4px 0;
+  }
+  .rate-tile {
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    position: relative;
+  }
+  .rate-tile.current { border-color: rgba(100, 210, 255, 0.35); background: rgba(100, 210, 255, 0.05); }
+  .rate-tile.target { border-color: rgba(212, 175, 55, 0.35); background: rgba(212, 175, 55, 0.05); }
+  .rate-tile.spread { border-color: rgba(48, 209, 88, 0.35); background: rgba(48, 209, 88, 0.05); }
+  .rate-tile.spread.negative { border-color: rgba(255, 55, 95, 0.35); background: rgba(255, 55, 95, 0.05); }
+  .rate-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .rate-value {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .rate-tile.current .rate-value { color: var(--accent-teal); }
+  .rate-tile.target .rate-value { color: var(--gold-2); }
+  .rate-tile.spread .rate-value { color: var(--accent-green); }
+  .rate-tile.spread.negative .rate-value { color: var(--accent-pink); }
+  .rate-note {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+  .rate-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10.5px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .rate-trend.up { color: var(--accent-pink); }
+  .rate-trend.down { color: var(--accent-green); }
+  .rate-footer {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) {
+    .rate-pulse { grid-template-columns: 1fr; gap: 10px; }
+    .rate-value { font-size: 26px; }
+  }
+
+  /* ========== Risk and Opportunity ========== */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .risk-card {
+    padding: 16px 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+  }
+  .risk-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-pink);
+  }
+  .risk-card.green::before { background: var(--accent-green); }
+  .risk-card.amber::before { background: #ffb340; }
+  .risk-card.red::before { background: var(--accent-pink); }
+  .risk-card.neutral::before { background: var(--text-tertiary); }
+  .risk-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .risk-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .risk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .risk-badge.green { background: rgba(48, 209, 88, 0.14); color: var(--accent-green); border: 1px solid rgba(48, 209, 88, 0.3); }
+  .risk-badge.amber { background: rgba(255, 179, 64, 0.14); color: #ffb340; border: 1px solid rgba(255, 179, 64, 0.3); }
+  .risk-badge.red { background: rgba(255, 55, 95, 0.14); color: var(--accent-pink); border: 1px solid rgba(255, 55, 95, 0.3); }
+  .risk-badge.neutral { background: rgba(255, 255, 255, 0.06); color: var(--text-secondary); border: 1px solid rgba(255, 255, 255, 0.12); }
+  .risk-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.005em;
+  }
+  .risk-note {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    margin-top: 6px;
+  }
+  .risk-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    margin-top: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .risk-bar-fill {
+    position: absolute;
+    top: 0; bottom: 0;
+    border-radius: 2px;
+    transition: width 0.6s ease-out;
+  }
+  .risk-bar-fill.green { background: var(--accent-green); }
+  .risk-bar-fill.amber { background: #ffb340; }
+  .risk-bar-fill.red { background: var(--accent-pink); }
+  .risk-bar-fill.neutral { background: var(--text-tertiary); }
+  @media (max-width: 720px) {
+    .risk-grid { grid-template-columns: 1fr; gap: 10px; }
+    .risk-value { font-size: 20px; }
+  }
+
+  /* ========== Rental Analysis ========== */
+  .rental-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .rental-card {
+    padding: 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+  }
+  .rental-card.moderate { border-color: rgba(212, 175, 55, 0.3); background: rgba(212, 175, 55, 0.04); }
+  .rental-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .rental-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .rental-card.moderate .rental-title { color: var(--gold-2); }
+  .rental-tag {
+    font-size: 9.5px;
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .rental-card.moderate .rental-tag { background: rgba(212, 175, 55, 0.16); color: var(--gold-2); }
+  .rental-key {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  .rental-key-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+  .rental-rows {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .rental-rows .rr {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+  }
+  .rental-rows .rr .rk { color: var(--text-tertiary); }
+  .rental-rows .rr .rv { color: var(--text-primary); font-variant-numeric: tabular-nums; font-weight: 500; }
+  .rental-rows .rr.divider { border-top: 1px solid var(--hairline); padding-top: 9px; margin-top: 4px; }
+  .rental-rows .rr.cashflow .rv { font-size: 13px; font-weight: 600; }
+  .rental-rows .rr.cashflow.positive .rv { color: var(--accent-green); }
+  .rental-rows .rr.cashflow.negative .rv { color: var(--accent-pink); }
+  @media (max-width: 920px) { .rental-grid { grid-template-columns: 1fr; gap: 12px; } }
+  .rental-assumptions {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .rental-assumptions strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ========== Property History Timeline ========== */
+  .timeline-wrap {
+    position: relative;
+    padding: 24px 8px 30px;
+    overflow-x: auto;
+  }
+  .timeline-track {
+    position: relative;
+    min-width: 720px;
+    height: 130px;
+  }
+  .timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, var(--gold-2) 70%, var(--accent-green) 100%);
+    transform: translateY(-50%);
+  }
+  .timeline-event {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 110px;
+  }
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+    border: 2px solid var(--bg);
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .timeline-event.subject .timeline-dot {
+    background: var(--gold-2);
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+  }
+  .timeline-event.future .timeline-dot { background: var(--accent-green); }
+  .timeline-event.permit .timeline-dot { background: var(--accent-teal); }
+  .timeline-date {
+    font-size: 10.5px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .timeline-event.subject .timeline-date { color: var(--gold-2); }
+  .timeline-event.future .timeline-date { color: var(--accent-green); }
+  .timeline-event.permit .timeline-date { color: var(--accent-teal); }
+  .timeline-label {
+    font-size: 11.5px;
+    color: var(--text-primary);
+    margin-top: 4px;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+  .timeline-event.above .timeline-label { position: relative; top: -60px; margin-top: 0; }
+  .timeline-event.above .timeline-date { position: relative; top: -60px; margin-top: 0; }
+  .timeline-amt {
+    font-size: 10.5px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .timeline-event.subject .timeline-amt { color: var(--gold-2); font-weight: 500; }
+  @media (max-width: 720px) {
+    .timeline-wrap { padding: 18px 4px 22px; }
+    .timeline-event { width: 90px; }
+    .timeline-label { font-size: 10.5px; }
+    .timeline-date { font-size: 9.5px; }
+    .timeline-amt { font-size: 9.5px; }
+  }
+
 </style>
 </head>
 <body>
 <div class="hero-photo" aria-hidden="true"></div>
+
+<div id="landscape-hint" class="landscape-hint" role="status" aria-label="Landscape mode suggestion">
+  <span class="lh-icon">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="display:block">
+      <rect x="4" y="2" width="9" height="14" rx="1.5"></rect>
+      <path d="M14 9 L21 9 L21 19 L11 19 L11 16"></path>
+      <path d="M17 12 L21 9 L17 6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </span>
+  <span class="lh-text">Rotate to landscape for the full view</span>
+  <button class="lh-dismiss" onclick="dismissLandscapeHint()" aria-label="Dismiss">×</button>
+</div>
+
 <div class="shell">
 
   <!-- ========== Top bar ========== -->
@@ -1291,6 +1715,19 @@
       <div><span id="settlement-countdown" style="color: var(--gold-1); font-weight: 600;">Loading</span> · Settlement July 6, 2026</div>
     </div>
   </header>
+
+  <!-- Landscape mode hint, shown only on portrait mobile -->
+  <div id="landscape-hint" class="landscape-hint" role="status" aria-live="polite">
+    <span class="rotate-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="display:block">
+        <path d="M7 4 L7 20 L17 20 L17 4 Z" transform="rotate(35 12 12)"/>
+        <path d="M3 12 a9 9 0 0 1 18 0"/>
+        <polyline points="19 8 21 12 23 8"/>
+      </svg>
+    </span>
+    <span class="landscape-hint-text">Rotate to landscape for the best view</span>
+    <button type="button" class="landscape-hint-dismiss" onclick="dismissLandscapeHint()" aria-label="Dismiss">×</button>
+  </div>
 
   <!-- ========== Hero, The Deal ========== -->
   <section class="hero">
@@ -1404,6 +1841,62 @@
     </div>
   </section>
 
+  <!-- ========== Risk and Opportunity ========== -->
+  <section class="section" id="risk-opp">
+    <div class="section-head">
+      <h2>Risk and Opportunity</h2>
+      <span class="hint">How this deal stacks up against the comp set</span>
+    </div>
+    <div class="card">
+      <div class="risk-grid">
+
+        <div class="risk-card amber">
+          <div class="risk-head">
+            <div class="risk-title">Asking PSF vs Locust Lake Median</div>
+            <span class="risk-badge amber">Above market</span>
+          </div>
+          <div class="risk-value">$230 vs $215</div>
+          <div class="risk-note">Subject lists at 7.0% over the Locust Lake Village median PSF. Some negotiation room, but justified by new roof and 3 BA layout.</div>
+          <div class="risk-bar"><div class="risk-bar-fill amber" style="width: 65%;"></div></div>
+        </div>
+
+        <div class="risk-card green">
+          <div class="risk-head">
+            <div class="risk-title">True PSF with Finished Basement</div>
+            <span class="risk-badge green">Opportunity</span>
+          </div>
+          <div class="risk-value">$158 effective</div>
+          <div class="risk-note">657 SF county confirmed finished basement brings effective living to 2,089 SF. That is 31% below the listed $230 PSF and 27% below community median.</div>
+          <div class="risk-bar"><div class="risk-bar-fill green" style="width: 78%;"></div></div>
+        </div>
+
+        <div class="risk-card red">
+          <div class="risk-head">
+            <div class="risk-title">Days on Market</div>
+            <span class="risk-badge red">Hot listing</span>
+          </div>
+          <div class="risk-value">2 days listed</div>
+          <div class="risk-note">Listed May 21, under contract within days. Locust Lake median DOM is closer to 30. Strong demand means limited negotiation leverage on minor items.</div>
+          <div class="risk-bar"><div class="risk-bar-fill red" style="width: 92%;"></div></div>
+        </div>
+
+        <div class="risk-card neutral">
+          <div class="risk-head">
+            <div class="risk-title">Sold vs Ask, Recent Comps</div>
+            <span class="risk-badge neutral">Moderate</span>
+          </div>
+          <div class="risk-value">-3.7% avg discount</div>
+          <div class="risk-note">Average sold price came in 3.7% below ask across the 15 recent comps. Range from +4% over to -10.7% under. Inspection findings could support modest concession.</div>
+          <div class="risk-bar"><div class="risk-bar-fill neutral" style="width: 50%;"></div></div>
+        </div>
+
+      </div>
+      <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
+        Color cues. Green is opportunity, amber is caution, red is risk requiring attention, neutral is balanced. Values reflect listing price and current Locust Lake Village plus Arrowhead Lakes comp data.
+      </p>
+    </div>
+  </section>
+
   <!-- ========== Cash to Table ========== -->
   <section class="section">
     <div class="section-head">
@@ -1457,6 +1950,78 @@
     <div class="card">
       <div class="stack" id="stack-monthly"></div>
       <div class="lineitems" id="monthly-true"></div>
+    </div>
+  </section>
+
+  <!-- ========== Rental Analysis ========== -->
+  <section class="section" id="rental">
+    <div class="section-head">
+      <h2>Rental Analysis</h2>
+      <span class="hint">If you ever rented it. Locust Lake Village permits short term rentals.</span>
+    </div>
+    <div class="card">
+      <div class="rental-grid">
+
+        <div class="rental-card">
+          <div class="rental-head">
+            <div class="rental-title">Conservative</div>
+            <span class="rental-tag">Off season weight</span>
+          </div>
+          <div class="rental-key">$21,900</div>
+          <div class="rental-key-label">Gross annual revenue</div>
+          <div class="rental-rows">
+            <div class="rr"><span class="rk">Nightly rate</span><span class="rv">$200</span></div>
+            <div class="rr"><span class="rk">Occupancy</span><span class="rv">30%</span></div>
+            <div class="rr"><span class="rk">Operating expenses</span><span class="rv">$8,860</span></div>
+            <div class="rr"><span class="rk">Net operating income</span><span class="rv">$13,040</span></div>
+            <div class="rr divider"><span class="rk">Annual PITI</span><span class="rv">$27,914</span></div>
+            <div class="rr cashflow negative"><span class="rk">Net annual cash flow</span><span class="rv">-$14,874</span></div>
+          </div>
+        </div>
+
+        <div class="rental-card moderate">
+          <div class="rental-head">
+            <div class="rental-title">Moderate</div>
+            <span class="rental-tag">Most likely</span>
+          </div>
+          <div class="rental-key">$40,150</div>
+          <div class="rental-key-label">Gross annual revenue</div>
+          <div class="rental-rows">
+            <div class="rr"><span class="rk">Nightly rate</span><span class="rv">$275</span></div>
+            <div class="rr"><span class="rk">Occupancy</span><span class="rv">40%</span></div>
+            <div class="rr"><span class="rk">Operating expenses</span><span class="rv">$10,675</span></div>
+            <div class="rr"><span class="rk">Net operating income</span><span class="rv">$29,475</span></div>
+            <div class="rr divider"><span class="rk">Annual PITI</span><span class="rv">$27,914</span></div>
+            <div class="rr cashflow positive"><span class="rk">Net annual cash flow</span><span class="rv">+$1,561</span></div>
+          </div>
+        </div>
+
+        <div class="rental-card">
+          <div class="rental-head">
+            <div class="rental-title">Optimistic</div>
+            <span class="rental-tag">Peak summer focus</span>
+          </div>
+          <div class="rental-key">$59,313</div>
+          <div class="rental-key-label">Gross annual revenue</div>
+          <div class="rental-rows">
+            <div class="rr"><span class="rk">Nightly rate</span><span class="rv">$325</span></div>
+            <div class="rr"><span class="rk">Occupancy</span><span class="rv">50%</span></div>
+            <div class="rr"><span class="rk">Operating expenses</span><span class="rv">$12,580</span></div>
+            <div class="rr"><span class="rk">Net operating income</span><span class="rv">$46,733</span></div>
+            <div class="rr divider"><span class="rk">Annual PITI</span><span class="rv">$27,914</span></div>
+            <div class="rr cashflow positive"><span class="rk">Net annual cash flow</span><span class="rv">+$18,819</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="rental-assumptions">
+        <strong>Operating expense buildup.</strong> HOA $1,800, Coolbaugh Township STR permit and inspection $400, additional STR insurance rider $500, propane and electric $4,400, internet $660, supplies and consumables $300, plus variable cleaning and turnover costs that scale with bookings. Mid case assumes self management. Property management at 10% to 20% reduces all three scenarios by $4,000 to $12,000 annually.
+        <br><br>
+        <strong>Break even occupancy at $275 ADR is roughly 39%.</strong> AirDNA reports Pocono Lake market median 39% occupancy at $330 ADR with $26.8K monthly top performer revenue. Pocono Pines averages 45% at $342 ADR. Properties with hot tub, sauna, or lake view command 30 to 60% higher rates.
+        <br><br>
+        <strong>Tax note.</strong> If used as second home only with under 14 rental days per year, rental income is tax free but expenses are not deductible. If 14 plus days, rental losses and depreciation are deductible against rental income, and Schedule E applies. Consult your CPA before transitioning use.
+      </div>
     </div>
   </section>
 
@@ -1665,9 +2230,9 @@
           <div class="bonus-note">Including finished basement, vs $230 listed.</div>
         </div>
         <div class="bonus-item">
-          <div class="bonus-label">Fireplaces</div>
-          <div class="bonus-value">2</div>
-          <div class="bonus-note">County record, seller disclosure said 1.</div>
+          <div class="bonus-label">Golf Cart</div>
+          <div class="bonus-value">Included</div>
+          <div class="bonus-note">Conveys with the home, verified.</div>
         </div>
       </div>
     </div>
@@ -1739,6 +2304,114 @@
         </table>
         <p class="records-note">Showing permit 1 of 3 on file. Other 2 permits are paginated and not yet captured. The 2008 deck permit matches the 140 SF wood deck in the building sketch.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ========== Property History Timeline ========== -->
+  <section class="section" id="history">
+    <div class="section-head">
+      <h2>Property History Timeline</h2>
+      <span class="hint">Forty years of ownership, condensed</span>
+    </div>
+    <div class="card">
+      <div class="timeline-wrap">
+        <div class="timeline-track">
+          <div class="timeline-line"></div>
+
+          <div class="timeline-event above" style="left: 3%;">
+            <div class="timeline-label">First recorded sale</div>
+            <div class="timeline-date">Oct 1985</div>
+            <div class="timeline-amt">$450, Book 1462</div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-event" style="left: 14%;">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Feb 1990</div>
+            <div class="timeline-label">Transfer</div>
+            <div class="timeline-amt">Book 1724</div>
+          </div>
+
+          <div class="timeline-event above" style="left: 22%;">
+            <div class="timeline-label">Sale</div>
+            <div class="timeline-date">May 1990</div>
+            <div class="timeline-amt">$7,500, Book 1737</div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-event" style="left: 36%;">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Jan 1996</div>
+            <div class="timeline-label">Maguire acquires</div>
+            <div class="timeline-amt">$139,000, Book 2021</div>
+          </div>
+
+          <div class="timeline-event above permit" style="left: 56%;">
+            <div class="timeline-label">Deck permit</div>
+            <div class="timeline-date">Oct 2008</div>
+            <div class="timeline-amt">$3,855, 140 SF</div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-event permit" style="left: 74%;">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Apr 2026</div>
+            <div class="timeline-label">New roof</div>
+            <div class="timeline-amt">Pre listing</div>
+          </div>
+
+          <div class="timeline-event above subject" style="left: 82%;">
+            <div class="timeline-label">Listed, under contract</div>
+            <div class="timeline-date">May 2026</div>
+            <div class="timeline-amt">$329,999</div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-event future" style="left: 92%;">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Jul 2026</div>
+            <div class="timeline-label">Pena and Gaglia</div>
+            <div class="timeline-amt">Settlement Jul 6</div>
+          </div>
+
+        </div>
+      </div>
+      <p class="records-note">From $450 in 1985 to $329,999 in 2026, the land plus improvements have compounded at roughly 4.3% per year over forty years. The Maguire holding period from 1996 to 2026 alone compounded at 2.9% annually. Sources: Monroe County Recorder of Deeds, county permits, MLS PM-141523.</p>
+    </div>
+  </section>
+
+  <!-- ========== Mortgage Rate Pulse ========== -->
+  <section class="section" id="rate-alert">
+    <div class="section-head">
+      <h2>Mortgage Rate Pulse</h2>
+      <span class="hint">No lock yet. Tracking market vs your 7.00% target.</span>
+    </div>
+    <div class="card">
+      <div class="rate-pulse">
+
+        <div class="rate-tile current">
+          <div class="rate-label">Current 30 yr fixed</div>
+          <div class="rate-value">6.51%</div>
+          <div class="rate-trend up">▲ +15 bps from last week</div>
+          <div class="rate-note">Freddie Mac PMMS, May 21, 2026. Down 35 bps from a year ago.</div>
+        </div>
+
+        <div class="rate-tile target">
+          <div class="rate-label">Your target rate</div>
+          <div class="rate-value">7.00%</div>
+          <div class="rate-trend">Movement Mortgage, 30 yr fixed</div>
+          <div class="rate-note">Built into the Monthly Payment Breakdown above. Adjustable below.</div>
+        </div>
+
+        <div class="rate-tile spread">
+          <div class="rate-label">Spread</div>
+          <div class="rate-value">+49 bps</div>
+          <div class="rate-trend down">Market is below your target</div>
+          <div class="rate-note">Your modeled payment has cushion. A lock at 6.75 to 7.00% would beat the assumption.</div>
+        </div>
+
+      </div>
+      <p class="rate-footer">Freddie Mac PMMS releases every Thursday at noon EST. Daily lender quotes can move faster, see Mortgage News Daily for intraday. Recent path. May 7 at 6.30%, May 14 at 6.36%, May 21 at 6.51%. Trend is slightly up this month. Ten year Treasury and Fed messaging are the primary drivers.</p>
     </div>
   </section>
 
@@ -2532,9 +3205,24 @@
     el.textContent = txt;
   }
 
+  function dismissLandscapeHint() {
+    var el = document.getElementById('landscape-hint');
+    if (el) el.classList.add('dismissed');
+    try { sessionStorage.setItem('cardinal-ln-landscape-hint-dismissed', '1'); } catch (e) {}
+  }
+  function initLandscapeHint() {
+    try {
+      if (sessionStorage.getItem('cardinal-ln-landscape-hint-dismissed') === '1') {
+        var el = document.getElementById('landscape-hint');
+        if (el) el.classList.add('dismissed');
+      }
+    } catch (e) {}
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     updateCountdown();
     updateListingFreshness();
+    initLandscapeHint();
     setInterval(updateCountdown, 1000 * 60 * 60); // hourly
     setInterval(updateListingFreshness, 1000 * 60 * 60); // hourly
     try {
