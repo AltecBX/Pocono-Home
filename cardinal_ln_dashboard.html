@@ -6006,15 +6006,15 @@
 
     propertyMap = new google.maps.Map(el, {
       center: SUBJECT_LATLNG,
-      zoom: 14,
-      mapTypeId: google.maps.MapTypeId.HYBRID,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
       streetViewControl: false,
       fullscreenControl: true,
       mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: google.maps.ControlPosition.TOP_LEFT,
-        mapTypeIds: ['hybrid', 'roadmap', 'satellite', 'terrain']
+        mapTypeIds: ['roadmap', 'terrain', 'satellite', 'hybrid']
       },
       zoomControl: true,
       zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
@@ -6023,22 +6023,11 @@
     });
 
     const comps = collectMapComps();
-    const bounds = new google.maps.LatLngBounds();
-    comps.forEach(c => bounds.extend({ lat: c.lat, lng: c.lng }));
-
     comps.forEach(c => {
       const overlay = new window.__PricePillOverlay(new google.maps.LatLng(c.lat, c.lng), c);
       overlay.setMap(propertyMap);
       mapOverlays.push(overlay);
     });
-
-    if (!bounds.isEmpty()) {
-      propertyMap.fitBounds(bounds, 60);
-      // Cap maximum zoom so we never zoom in past street level on a single cluster
-      const listener = google.maps.event.addListenerOnce(propertyMap, 'idle', function () {
-        if (propertyMap.getZoom() > 15) propertyMap.setZoom(15);
-      });
-    }
   }
 
   function loadGoogleMaps() {
