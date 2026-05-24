@@ -759,6 +759,7 @@
     border-bottom: 1px solid var(--hairline-strong);
   }
   .comps-table th.num, .comps-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .comps-table th.center, .comps-table td.center { text-align: center; font-variant-numeric: tabular-nums; }
   .comps-table td {
     padding: 12px 8px;
     color: var(--text-secondary);
@@ -2910,7 +2911,7 @@
             <tr id="comp-thead-row">
               <th data-key="address" onclick="sortComps('address')">Address <span class="sort-arrow"></span></th>
               <th data-key="community" class="hide-mobile" onclick="sortComps('community')">Community <span class="sort-arrow"></span></th>
-              <th data-key="year" class="num hide-mobile" onclick="sortComps('year')">Year Built <span class="sort-arrow"></span></th>
+              <th data-key="year" class="center hide-mobile" onclick="sortComps('year')">Year Built <span class="sort-arrow"></span></th>
               <th data-key="bedbath" class="hide-mobile" onclick="sortComps('bedbath')">Bed / Bath <span class="sort-arrow"></span></th>
               <th data-key="sqft" class="num hide-mobile" onclick="sortComps('sqft')">Sq Ft <span class="sort-arrow"></span></th>
               <th data-key="psf" class="num hide-mobile" onclick="sortComps('psf')">$ / SF <span class="sort-arrow"></span></th>
@@ -4702,7 +4703,7 @@
       return '<tr class="' + cls + '">' +
         '<td><div class="addr">' + addrHtml + '</div><div class="sub">' + (it.sub || '') + '</div></td>' +
         '<td class="hide-mobile">' + commHtml + '</td>' +
-        '<td class="num hide-mobile">' + yearHtml + '</td>' +
+        '<td class="center hide-mobile">' + yearHtml + '</td>' +
         '<td class="hide-mobile">' + it.bedbath + '</td>' +
         '<td class="num hide-mobile">' + fmtSqft(it.sqft) + '</td>' +
         '<td class="num hide-mobile">' + fmtPsf(it.psf) + '</td>' +
