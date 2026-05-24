@@ -1681,6 +1681,311 @@
     .timeline-amt { font-size: 9.5px; }
   }
 
+  /* ========== Sparkline (within Mortgage Rate Pulse) ========== */
+  .rate-sparkline-wrap {
+    margin-top: 22px;
+    padding: 16px 18px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+  }
+  .rate-sparkline-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .rate-sparkline-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .rate-sparkline-range {
+    font-size: 10.5px;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+  .rate-sparkline {
+    width: 100%;
+    height: 110px;
+    display: block;
+  }
+  .rate-sparkline-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 9.5px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ========== Currency input wrapper ========== */
+  .currency-wrap {
+    position: relative;
+  }
+  .currency-wrap input.currency-input {
+    padding-left: 26px;
+    font-variant-numeric: tabular-nums;
+  }
+  .currency-wrap::before {
+    content: "$";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    font-size: 13px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ========== Collapsible section ========== */
+  .section.collapsible .section-head {
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    transition: background 0.18s;
+  }
+  .section.collapsible .section-head:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .section.collapsible .section-head .collapse-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    color: var(--gold-2);
+    margin-left: 12px;
+    transition: transform 0.25s ease, background 0.18s;
+    flex-shrink: 0;
+  }
+  .section.collapsible.collapsed .section-head .collapse-icon {
+    transform: rotate(-90deg);
+  }
+  .section.collapsible .section-head:hover .collapse-icon {
+    background: rgba(212, 175, 55, 0.16);
+  }
+  .section.collapsible .section-head .head-left {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
+  }
+  .section.collapsible .section-head .head-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .section.collapsible .collapse-content {
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s;
+    max-height: 8000px;
+    opacity: 1;
+  }
+  .section.collapsible.collapsed .collapse-content {
+    max-height: 0;
+    opacity: 0;
+  }
+  @media (max-width: 720px) {
+    .section.collapsible .section-head .head-left {
+      flex-wrap: wrap;
+      gap: 4px 12px;
+    }
+  }
+
+  /* ========== Tornado / Sensitivity Diagram ========== */
+  .tornado-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .tornado-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 80px;
+    gap: 16px;
+    align-items: center;
+  }
+  .tornado-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .tornado-label small {
+    display: block;
+    font-size: 10.5px;
+    color: var(--text-tertiary);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .tornado-bar-track {
+    position: relative;
+    height: 26px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .tornado-bar-center {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.18);
+    z-index: 2;
+  }
+  .tornado-bar-fill {
+    position: absolute;
+    top: 4px; bottom: 4px;
+    border-radius: 2px;
+  }
+  .tornado-bar-fill.neg {
+    right: 50%;
+    background: linear-gradient(90deg, rgba(48, 209, 88, 0.55), rgba(48, 209, 88, 0.8));
+  }
+  .tornado-bar-fill.pos {
+    left: 50%;
+    background: linear-gradient(90deg, rgba(255, 55, 95, 0.8), rgba(255, 55, 95, 0.55));
+  }
+  .tornado-impact {
+    font-size: 12.5px;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .tornado-impact .imp-amt { display: block; }
+  .tornado-impact .imp-unit { font-size: 9.5px; color: var(--text-tertiary); font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; }
+  .tornado-axis {
+    display: grid;
+    grid-template-columns: 180px 1fr 80px;
+    gap: 16px;
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .tornado-axis .axis-mid {
+    display: flex;
+    justify-content: space-between;
+  }
+  @media (max-width: 720px) {
+    .tornado-row {
+      grid-template-columns: 120px 1fr 60px;
+      gap: 10px;
+    }
+    .tornado-axis {
+      grid-template-columns: 120px 1fr 60px;
+      gap: 10px;
+    }
+    .tornado-label { font-size: 11px; }
+    .tornado-label small { font-size: 9.5px; }
+    .tornado-impact { font-size: 11px; }
+  }
+
+  /* ========== Live STR Listings ========== */
+  .str-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .str-card {
+    padding: 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.18s, transform 0.18s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .str-card:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+  }
+  .str-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .str-card-tag {
+    font-size: 9px;
+    padding: 2px 7px;
+    background: rgba(48, 209, 88, 0.12);
+    color: var(--accent-green);
+    border: 1px solid rgba(48, 209, 88, 0.3);
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .str-card-rate {
+    font-size: 22px;
+    color: var(--text-primary);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  .str-card-rate small {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-left: 2px;
+  }
+  .str-card-name {
+    font-size: 12.5px;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .str-card-meta {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .str-card-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .str-feat {
+    font-size: 9.5px;
+    padding: 2px 7px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+  .str-card-link {
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 10.5px;
+    color: var(--gold-2);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
 </style>
 </head>
 <body>
@@ -1954,11 +2259,21 @@
   </section>
 
   <!-- ========== Rental Analysis ========== -->
-  <section class="section" id="rental">
-    <div class="section-head">
-      <h2>Rental Analysis</h2>
-      <span class="hint">If you ever rented it. Locust Lake Village permits short term rentals.</span>
+  <section class="section collapsible collapsed" id="rental">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>Rental Analysis</h2>
+        <span class="hint">If you ever rented it. Locust Lake Village permits short term rentals.</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
     </div>
+    <div class="collapse-content">
     <div class="card">
       <div class="rental-grid">
 
@@ -2022,15 +2337,136 @@
         <br><br>
         <strong>Tax note.</strong> If used as second home only with under 14 rental days per year, rental income is tax free but expenses are not deductible. If 14 plus days, rental losses and depreciation are deductible against rental income, and Schedule E applies. Consult your CPA before transitioning use.
       </div>
+
+      <!-- Live STR comparable listings -->
+      <div style="margin-top: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <div style="font-size: 13px; color: var(--text-primary); font-weight: 600;">Active Airbnb Listings in Locust Lake Village</div>
+          <div style="font-size: 10.5px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Real comp data, live</div>
+        </div>
+        <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0 0 4px; line-height: 1.5;">
+          Reverse engineer pricing from actual top performers near 157 Cardinal Ln. Click any card to open the listing.
+        </p>
+
+        <div class="str-grid">
+
+          <a class="str-card" href="https://www.airbnb.com/rooms/1189232262868338616" target="_blank" rel="noopener">
+            <div class="str-card-head">
+              <div class="str-card-rate">$285<small>/ night</small></div>
+              <span class="str-card-tag">3 BR / 2 BA</span>
+            </div>
+            <div class="str-card-name">Pine Bear Cabin, Game Room & Hot Tub</div>
+            <div class="str-card-meta">Locust Lake Village, lake and beach access</div>
+            <div class="str-card-features">
+              <span class="str-feat">Hot tub</span>
+              <span class="str-feat">Game room</span>
+              <span class="str-feat">Fishing</span>
+            </div>
+            <div class="str-card-link">View on Airbnb →</div>
+          </a>
+
+          <a class="str-card" href="https://www.airbnb.com/rooms/1084390431962800166" target="_blank" rel="noopener">
+            <div class="str-card-head">
+              <div class="str-card-rate">$425<small>/ night</small></div>
+              <span class="str-card-tag">3 BR / 2.5 BA</span>
+            </div>
+            <div class="str-card-name">Lakefront Chalet R&R, Pontoon & Golf Cart</div>
+            <div class="str-card-meta">Locust Lake Village, largest lake</div>
+            <div class="str-card-features">
+              <span class="str-feat">Lakefront</span>
+              <span class="str-feat">Pontoon</span>
+              <span class="str-feat">Golf cart</span>
+              <span class="str-feat">5 star</span>
+            </div>
+            <div class="str-card-link">View on Airbnb →</div>
+          </a>
+
+          <a class="str-card" href="https://www.airbnb.com/rooms/38326039" target="_blank" rel="noopener">
+            <div class="str-card-head">
+              <div class="str-card-rate">$245<small>/ night</small></div>
+              <span class="str-card-tag">3 BR / 2 BA</span>
+            </div>
+            <div class="str-card-name">Locust Lake Chalet with Game Room</div>
+            <div class="str-card-meta">Locust Lake Village, basement entertainment</div>
+            <div class="str-card-features">
+              <span class="str-feat">Game room</span>
+              <span class="str-feat">75" TV</span>
+              <span class="str-feat">Sleeps 8</span>
+            </div>
+            <div class="str-card-link">View on Airbnb →</div>
+          </a>
+
+          <a class="str-card" href="https://www.airbnb.com/rooms/711120454815015875" target="_blank" rel="noopener">
+            <div class="str-card-head">
+              <div class="str-card-rate">$215<small>/ night</small></div>
+              <span class="str-card-tag">3 BR / 1 BA</span>
+            </div>
+            <div class="str-card-name">Tranquil Chalet, Fish, Lake, Swim, Hot Tub</div>
+            <div class="str-card-meta">Locust Lake Village, central Poconos</div>
+            <div class="str-card-features">
+              <span class="str-feat">Hot tub</span>
+              <span class="str-feat">Loft</span>
+              <span class="str-feat">4.98 stars</span>
+            </div>
+            <div class="str-card-link">View on Airbnb →</div>
+          </a>
+
+          <a class="str-card" href="https://www.airbnb.com/rooms/51037091" target="_blank" rel="noopener">
+            <div class="str-card-head">
+              <div class="str-card-rate">$295<small>/ night</small></div>
+              <span class="str-card-tag">3 BR</span>
+            </div>
+            <div class="str-card-name">Sunroom, Fire Pit & Sauna Lake Locust Gem</div>
+            <div class="str-card-meta">Locust Lake Village, premium amenities</div>
+            <div class="str-card-features">
+              <span class="str-feat">Sauna</span>
+              <span class="str-feat">Sunroom</span>
+              <span class="str-feat">Fire pit</span>
+            </div>
+            <div class="str-card-link">View on Airbnb →</div>
+          </a>
+
+          <a class="str-card" href="https://www.airbnb.com/rooms/23607913" target="_blank" rel="noopener">
+            <div class="str-card-head">
+              <div class="str-card-rate">$165<small>/ night</small></div>
+              <span class="str-card-tag">3 BR / 2 BA</span>
+            </div>
+            <div class="str-card-name">Cozy Retreat in Locust Lake</div>
+            <div class="str-card-meta">Locust Lake Village, walking distance to lake</div>
+            <div class="str-card-features">
+              <span class="str-feat">Wooded lot</span>
+              <span class="str-feat">2 story</span>
+              <span class="str-feat">Entry tier</span>
+            </div>
+            <div class="str-card-link">View on Airbnb →</div>
+          </a>
+
+        </div>
+
+        <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
+          Premium features make the spread. Hot tub plus game room plus sauna combinations command 30 to 60% above entry tier. The Cardinal Ln property already has a private deck, golf cart, and detached garage. Adding a hot tub (one time $7K to $12K) and finishing the basement game room would put it in the $275 to $325 nightly range.
+        </p>
+      </div>
+    </div>
     </div>
   </section>
 
   <!-- ========== Commute from Yonkers ========== -->
-  <section class="section">
-    <div class="section-head">
-      <h2>Commute from Yonkers</h2>
-      <span class="hint">Second home, weekend basis</span>
+  <section class="section collapsible collapsed">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>Commute from Yonkers</h2>
+        <span class="hint">Second home, weekend basis</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
     </div>
+    <div class="collapse-content">
     <div class="card">
       <div class="compare">
         <div class="compare-cell">
@@ -2073,6 +2509,7 @@
       <p style="margin-top: 18px; font-size: 12px; color: var(--text-tertiary); line-height: 1.55;">
         Route. Henry Hudson Pkwy south to GWB west into NJ, then I 80 W across the Delaware Water Gap Toll Bridge into PA, then I 380 N toward Pocono Lake. Two tolls per round trip. DWG bridge collects westbound only ($2.00 outbound). GWB collects eastbound only ($14.79 return at EZ Pass off peak).
       </p>
+    </div>
     </div>
   </section>
 
@@ -2204,11 +2641,21 @@
   </section>
 
   <!-- ========== County Public Records ========== -->
-  <section class="section">
-    <div class="section-head">
-      <h2>County Public Records</h2>
-      <span class="hint">Monroe County PA Assessment, PARID 03.20C.1.14</span>
+  <section class="section collapsible collapsed">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>County Public Records</h2>
+        <span class="hint">Monroe County PA Assessment, PARID 03.20C.1.14</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
     </div>
+    <div class="collapse-content">
 
     <!-- Bonus findings callout -->
     <div class="card bonus-card">
@@ -2305,14 +2752,25 @@
         <p class="records-note">Showing permit 1 of 3 on file. Other 2 permits are paginated and not yet captured. The 2008 deck permit matches the 140 SF wood deck in the building sketch.</p>
       </div>
     </div>
+    </div>
   </section>
 
   <!-- ========== Property History Timeline ========== -->
-  <section class="section" id="history">
-    <div class="section-head">
-      <h2>Property History Timeline</h2>
-      <span class="hint">Forty years of ownership, condensed</span>
+  <section class="section collapsible collapsed" id="history">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>Property History Timeline</h2>
+        <span class="hint">Forty years of ownership, condensed</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
     </div>
+    <div class="collapse-content">
     <div class="card">
       <div class="timeline-wrap">
         <div class="timeline-track">
@@ -2378,13 +2836,48 @@
       </div>
       <p class="records-note">From $450 in 1985 to $329,999 in 2026, the land plus improvements have compounded at roughly 4.3% per year over forty years. The Maguire holding period from 1996 to 2026 alone compounded at 2.9% annually. Sources: Monroe County Recorder of Deeds, county permits, MLS PM-141523.</p>
     </div>
+    </div>
+  </section>
+
+  <!-- ========== Sensitivity / Tornado Diagram ========== -->
+  <section class="section collapsible collapsed" id="sensitivity">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>Sensitivity Analysis</h2>
+        <span class="hint">Which assumption moves the monthly cost most</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="collapse-content">
+    <div class="card">
+      <div class="tornado-grid" id="tornado-grid"></div>
+      <div class="tornado-axis">
+        <span></span>
+        <span class="axis-mid">
+          <span>Lower monthly</span>
+          <span style="text-align: center; flex: 1;">Baseline</span>
+          <span>Higher monthly</span>
+        </span>
+        <span></span>
+      </div>
+      <p style="margin-top: 18px; font-size: 11.5px; color: var(--text-tertiary); line-height: 1.55;">
+        Each bar shows how a realistic change in that one assumption shifts the monthly housing cost while everything else stays at baseline. Longest bars are your biggest exposures, where due diligence pays the most. Bars recalc live when you edit Adjustable Assumptions.
+      </p>
+    </div>
+    </div>
   </section>
 
   <!-- ========== Mortgage Rate Pulse ========== -->
   <section class="section" id="rate-alert">
     <div class="section-head">
       <h2>Mortgage Rate Pulse</h2>
-      <span class="hint">No lock yet. Tracking market vs your 7.00% target.</span>
+      <span class="hint">No lock yet. Tracking market vs your target.</span>
     </div>
     <div class="card">
       <div class="rate-pulse">
@@ -2396,22 +2889,56 @@
           <div class="rate-note">Freddie Mac PMMS, May 21, 2026. Down 35 bps from a year ago.</div>
         </div>
 
-        <div class="rate-tile target">
+        <div class="rate-tile target" id="rate-target-tile">
           <div class="rate-label">Your target rate</div>
-          <div class="rate-value">7.00%</div>
+          <div class="rate-value" id="rate-target-value">7.00%</div>
           <div class="rate-trend">Movement Mortgage, 30 yr fixed</div>
-          <div class="rate-note">Built into the Monthly Payment Breakdown above. Adjustable below.</div>
+          <div class="rate-note">Edit in Adjustable Assumptions to test scenarios.</div>
         </div>
 
-        <div class="rate-tile spread">
+        <div class="rate-tile spread" id="rate-spread-tile">
           <div class="rate-label">Spread</div>
-          <div class="rate-value">+49 bps</div>
-          <div class="rate-trend down">Market is below your target</div>
-          <div class="rate-note">Your modeled payment has cushion. A lock at 6.75 to 7.00% would beat the assumption.</div>
+          <div class="rate-value" id="rate-spread-value">+49 bps</div>
+          <div class="rate-trend" id="rate-spread-trend">Market is below your target</div>
+          <div class="rate-note" id="rate-spread-note">Your modeled payment has cushion. A lock at the current market would beat the assumption.</div>
         </div>
 
       </div>
-      <p class="rate-footer">Freddie Mac PMMS releases every Thursday at noon EST. Daily lender quotes can move faster, see Mortgage News Daily for intraday. Recent path. May 7 at 6.30%, May 14 at 6.36%, May 21 at 6.51%. Trend is slightly up this month. Ten year Treasury and Fed messaging are the primary drivers.</p>
+
+      <div class="rate-sparkline-wrap">
+        <div class="rate-sparkline-head">
+          <div class="rate-sparkline-title">12 Week Trend, 30 Yr Fixed</div>
+          <div class="rate-sparkline-range">Mar 5 to May 21, 2026</div>
+        </div>
+        <svg viewBox="0 0 700 110" preserveAspectRatio="none" class="rate-sparkline" aria-label="30 year fixed rate trend">
+          <defs>
+            <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#64d2ff" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#64d2ff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- Path data uses 12 weekly Freddie Mac PMMS values from Mar 5 to May 21, 2026 -->
+          <!-- Rates: 6.76, 6.65, 6.67, 6.62, 6.58, 6.50, 6.62, 6.76, 6.81, 6.30, 6.36, 6.51 -->
+          <!-- Normalized to viewBox 700w x 110h, y axis from 6.10 to 6.90 -->
+          <path d="M 25 27.5 L 86 41.25 L 147 38.75 L 208 45 L 269 50 L 330 60 L 391 45 L 452 27.5 L 513 21.25 L 574 85 L 635 77.5 L 696 58.75"
+                stroke="#64d2ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 25 27.5 L 86 41.25 L 147 38.75 L 208 45 L 269 50 L 330 60 L 391 45 L 452 27.5 L 513 21.25 L 574 85 L 635 77.5 L 696 58.75 L 696 110 L 25 110 Z"
+                fill="url(#sparkFill)"/>
+          <!-- Endpoints -->
+          <circle cx="25" cy="27.5" r="2.5" fill="#64d2ff" opacity="0.5"/>
+          <circle cx="696" cy="58.75" r="3.5" fill="#64d2ff"/>
+          <!-- Target line, current target 7.00% maps to y = -12.5 (clamped above viewBox visible). We render at a configurable y via JS for reactivity. -->
+          <line id="rate-target-line" x1="0" y1="-100" x2="700" y2="-100" stroke="#d4af37" stroke-width="1" stroke-dasharray="4 4" opacity="0.7"/>
+        </svg>
+        <div class="rate-sparkline-axis">
+          <span>Mar 5</span>
+          <span>Apr 2</span>
+          <span>Apr 30</span>
+          <span>May 21</span>
+        </div>
+      </div>
+
+      <p class="rate-footer">Freddie Mac PMMS releases every Thursday at noon EST. Trend is slightly up this month. Ten year Treasury and Fed messaging are the primary drivers. The gold dashed line on the chart marks your target rate from Adjustable Assumptions.</p>
     </div>
   </section>
 
@@ -2430,7 +2957,7 @@
       <div class="inputs-grid">
         <div class="input-row">
           <label>Purchase Price<span class="sub-label">From listing.</span></label>
-          <input id="in-price" type="number" step="1000" />
+          <div class="currency-wrap"><input id="in-price" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>Down Payment %<span class="sub-label">25% is your default.</span></label>
@@ -2446,31 +2973,31 @@
         </div>
         <div class="input-row">
           <label>Property Taxes per Year<span class="sub-label">Listing data.</span></label>
-          <input id="in-tax" type="number" step="50" />
+          <div class="currency-wrap"><input id="in-tax" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>Home Insurance per Year<span class="sub-label">Per your quote.</span></label>
-          <input id="in-ins" type="number" step="50" />
+          <div class="currency-wrap"><input id="in-ins" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>HOA per Month<span class="sub-label">Community fee.</span></label>
-          <input id="in-hoa" type="number" step="5" />
+          <div class="currency-wrap"><input id="in-hoa" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>Electric per Month<span class="sub-label">Your estimate.</span></label>
-          <input id="in-elec" type="number" step="5" />
+          <div class="currency-wrap"><input id="in-elec" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>Water per Month<span class="sub-label">On well, no water bill.</span></label>
-          <input id="in-water" type="number" step="5" />
+          <div class="currency-wrap"><input id="in-water" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>Internet per Month<span class="sub-label">Blue Ridge.</span></label>
-          <input id="in-cable" type="number" step="5" />
+          <div class="currency-wrap"><input id="in-cable" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>Propane per Month<span class="sub-label">Your estimate.</span></label>
-          <input id="in-propane" type="number" step="5" />
+          <div class="currency-wrap"><input id="in-propane" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
           <label>Maintenance % of Price per Year<span class="sub-label">Rule of thumb 1%.</span></label>
@@ -2494,15 +3021,15 @@
         </div>
         <div class="input-row">
           <label>Gas Price per Gallon<span class="sub-label">Verified for NY area, May 2026.</span></label>
-          <input id="in-gas" type="number" step="0.05" />
+          <div class="currency-wrap"><input id="in-gas" class="currency-input" type="text" inputmode="decimal" /></div>
         </div>
         <div class="input-row">
           <label>GWB Toll, Return<span class="sub-label">EZ Pass off peak, 2026.</span></label>
-          <input id="in-toll" type="number" step="0.25" />
+          <div class="currency-wrap"><input id="in-toll" class="currency-input" type="text" inputmode="decimal" /></div>
         </div>
         <div class="input-row">
           <label>Delaware Water Gap Toll, Outbound<span class="sub-label">I 80 bridge into PA, EZ Pass 2026.</span></label>
-          <input id="in-toll-dwg" type="number" step="0.25" />
+          <div class="currency-wrap"><input id="in-toll-dwg" class="currency-input" type="text" inputmode="decimal" /></div>
         </div>
         <div class="input-row">
           <label>Trips per Month<span class="sub-label">How often you go up.</span></label>
@@ -2567,27 +3094,45 @@
   }
   function fmtPct(n) { return n.toFixed(2) + '%'; }
 
+  // Parse a value that may be a currency-formatted string like "329,999" or "4.59"
+  function parseNum(v) {
+    if (v == null) return 0;
+    const cleaned = String(v).replace(/[^0-9.\-]/g, '');
+    const n = parseFloat(cleaned);
+    return isFinite(n) ? n : 0;
+  }
+
+  // Format a numeric value for display in a currency input.
+  // Integers use commas (e.g. 329,999). Decimals preserve the user's intent (e.g. 4.59).
+  function formatCurrencyValue(n, allowDecimal) {
+    if (!isFinite(n)) return '';
+    if (allowDecimal && n % 1 !== 0) {
+      return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    return Math.round(n).toLocaleString('en-US');
+  }
+
   function readInputs() {
     return {
-      price: parseFloat($(ids.price).value) || 0,
+      price: parseNum($(ids.price).value),
       downPct: parseFloat($(ids.down).value) || 0,
       ratePct: parseFloat($(ids.rate).value) || 0,
       termYrs: parseFloat($(ids.term).value) || 30,
-      taxYr: parseFloat($(ids.tax).value) || 0,
-      insYr: parseFloat($(ids.ins).value) || 0,
-      hoaMo: parseFloat($(ids.hoa).value) || 0,
-      elec: parseFloat($(ids.elec).value) || 0,
-      water: parseFloat($(ids.water).value) || 0,
-      cable: parseFloat($(ids.cable).value) || 0,
-      propane: parseFloat($(ids.propane).value) || 0,
+      taxYr: parseNum($(ids.tax).value),
+      insYr: parseNum($(ids.ins).value),
+      hoaMo: parseNum($(ids.hoa).value),
+      elec: parseNum($(ids.elec).value),
+      water: parseNum($(ids.water).value),
+      cable: parseNum($(ids.cable).value),
+      propane: parseNum($(ids.propane).value),
       maintPct: parseFloat($(ids.maint).value) || 0,
       capexPct: parseFloat($(ids.capex).value) || 0,
       origPct: parseFloat($(ids.orig).value) || 0,
       miles: parseFloat($(ids.miles).value) || 0,
       mpg: parseFloat($(ids.mpg).value) || 25,
-      gas: parseFloat($(ids.gas).value) || 0,
-      toll: parseFloat($(ids.toll).value) || 0,
-      tollDwg: parseFloat($(ids.tollDwg).value) || 0,
+      gas: parseNum($(ids.gas).value),
+      toll: parseNum($(ids.toll).value),
+      tollDwg: parseNum($(ids.tollDwg).value),
       trips: parseFloat($(ids.trips).value) || 0
     };
   }
@@ -3143,30 +3688,212 @@
         <div class="li-tag">${i.tag || ''}</div>
       </div>
     `).join('');
+
+    // ===== Mortgage Rate Pulse, reactive to interest rate =====
+    updateRatePulse(v.ratePct);
+
+    // ===== Sensitivity / Tornado =====
+    renderTornado(v, housingMonthly);
+  }
+
+  // ============== Mortgage Rate Pulse update ==============
+  const CURRENT_MARKET_RATE = 6.51; // Freddie Mac PMMS May 21, 2026
+  function updateRatePulse(targetRate) {
+    const tEl = $('rate-target-value');
+    if (!tEl) return;
+    tEl.textContent = targetRate.toFixed(2) + '%';
+
+    const spreadBps = Math.round((CURRENT_MARKET_RATE - targetRate) * 100);
+    const spreadVal = $('rate-spread-value');
+    const spreadTrend = $('rate-spread-trend');
+    const spreadNote = $('rate-spread-note');
+    const spreadTile = $('rate-spread-tile');
+
+    if (spreadBps === 0) {
+      spreadVal.textContent = '0 bps';
+      spreadTrend.textContent = 'Market matches your target';
+      spreadNote.textContent = 'Your modeled payment matches the current market exactly.';
+      spreadTile.classList.remove('negative');
+    } else if (spreadBps < 0) {
+      // Market is HIGHER than target, bad for you
+      spreadVal.textContent = '+' + Math.abs(spreadBps) + ' bps';
+      spreadTrend.textContent = 'Market is above your target';
+      spreadNote.textContent = 'Current market rate exceeds your assumption. A lock today would increase your monthly payment.';
+      spreadTile.classList.add('negative');
+    } else {
+      // Market is LOWER than target, good for you
+      spreadVal.textContent = '-' + spreadBps + ' bps';
+      spreadTrend.textContent = 'Market is below your target';
+      spreadNote.textContent = 'Your modeled payment has cushion. A lock at the current market would beat the assumption.';
+      spreadTile.classList.remove('negative');
+    }
+
+    // Move the gold dashed target line in the sparkline.
+    // viewBox is 700 x 110. y axis maps rate 6.10 to 6.90 -> y 110 to 0.
+    // y = 110 - ((rate - 6.10) / 0.80) * 110
+    const targetLine = document.getElementById('rate-target-line');
+    if (targetLine) {
+      const y = 110 - ((targetRate - 6.10) / 0.80) * 110;
+      // Clamp into visible range so the line shows even at extreme targets
+      const yClamped = Math.max(2, Math.min(108, y));
+      targetLine.setAttribute('y1', yClamped);
+      targetLine.setAttribute('y2', yClamped);
+    }
+  }
+
+  // ============== Sensitivity / Tornado renderer ==============
+  function renderTornado(v, baselineMonthly) {
+    const grid = document.getElementById('tornado-grid');
+    if (!grid) return;
+
+    // Compute monthly housing cost (P&I + tax + ins + HOA) under a variation
+    function calcMonthly(over) {
+      const price = over.price != null ? over.price : v.price;
+      const downPct = over.downPct != null ? over.downPct : v.downPct;
+      const ratePct = over.ratePct != null ? over.ratePct : v.ratePct;
+      const termYrs = over.termYrs != null ? over.termYrs : v.termYrs;
+      const taxYr = over.taxYr != null ? over.taxYr : v.taxYr;
+      const insYr = over.insYr != null ? over.insYr : v.insYr;
+      const hoaMo = over.hoaMo != null ? over.hoaMo : v.hoaMo;
+      const loan = price * (1 - downPct / 100);
+      return pmt(loan, ratePct, termYrs) + (taxYr / 12) + (insYr / 12) + hoaMo;
+    }
+
+    // Each row defines a variable, the +/- delta to test, and a label for the swing range
+    const rows = [
+      {
+        label: 'Interest Rate',
+        range: '± 0.50%',
+        low: calcMonthly({ ratePct: v.ratePct - 0.5 }),
+        high: calcMonthly({ ratePct: v.ratePct + 0.5 })
+      },
+      {
+        label: 'Purchase Price',
+        range: '± $15,000',
+        low: calcMonthly({ price: v.price - 15000 }),
+        high: calcMonthly({ price: v.price + 15000 })
+      },
+      {
+        label: 'Down Payment %',
+        range: '20% to 30%',
+        low: calcMonthly({ downPct: 30 }),
+        high: calcMonthly({ downPct: 20 })
+      },
+      {
+        label: 'Property Taxes',
+        range: '± $1,000 / yr',
+        low: calcMonthly({ taxYr: v.taxYr - 1000 }),
+        high: calcMonthly({ taxYr: v.taxYr + 1000 })
+      },
+      {
+        label: 'Home Insurance',
+        range: '± $500 / yr',
+        low: calcMonthly({ insYr: v.insYr - 500 }),
+        high: calcMonthly({ insYr: v.insYr + 500 })
+      },
+      {
+        label: 'HOA Fee',
+        range: '± $50 / mo',
+        low: calcMonthly({ hoaMo: v.hoaMo - 50 }),
+        high: calcMonthly({ hoaMo: v.hoaMo + 50 })
+      }
+    ];
+
+    // For each row, compute deltas from baseline
+    rows.forEach(r => {
+      r.negDelta = r.low - baselineMonthly;   // negative number, cost goes down
+      r.posDelta = r.high - baselineMonthly;  // positive number, cost goes up
+      r.maxAbs = Math.max(Math.abs(r.negDelta), Math.abs(r.posDelta));
+    });
+
+    // Sort descending by max impact, so the largest exposure is first
+    rows.sort((a, b) => b.maxAbs - a.maxAbs);
+
+    const globalMax = Math.max(...rows.map(r => r.maxAbs));
+
+    grid.innerHTML = rows.map(r => {
+      const negPctRaw = globalMax > 0 ? Math.abs(r.negDelta) / globalMax : 0;
+      const posPctRaw = globalMax > 0 ? Math.abs(r.posDelta) / globalMax : 0;
+      // Each side of center can fill up to 50% of bar width. Multiply by 50.
+      const negWidth = (negPctRaw * 50).toFixed(2);
+      const posWidth = (posPctRaw * 50).toFixed(2);
+      const swing = Math.round(r.maxAbs);
+      return `
+        <div class="tornado-row">
+          <div class="tornado-label">${r.label}<small>${r.range}</small></div>
+          <div class="tornado-bar-track">
+            <div class="tornado-bar-fill neg" style="width: ${negWidth}%"></div>
+            <div class="tornado-bar-fill pos" style="width: ${posWidth}%"></div>
+            <div class="tornado-bar-center"></div>
+          </div>
+          <div class="tornado-impact">
+            <span class="imp-amt">± $${swing}</span>
+            <span class="imp-unit">per mo</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ============== Collapse toggle ==============
+  function toggleCollapse(headEl) {
+    const section = headEl.closest('.section.collapsible');
+    if (!section) return;
+    section.classList.toggle('collapsed');
+  }
+
+  // ============== Currency input wiring ==============
+  // Reformat the input's value on blur, leaving the raw number editable on focus.
+  function attachCurrencyHandlers(inputEl) {
+    // On focus, strip commas so the user can edit cleanly
+    inputEl.addEventListener('focus', function () {
+      const n = parseNum(inputEl.value);
+      if (n !== 0) {
+        // If the value has a decimal portion, preserve it; otherwise show integer
+        if (n % 1 !== 0) {
+          inputEl.value = n.toString();
+        } else {
+          inputEl.value = String(Math.round(n));
+        }
+      }
+      // Select all so typing replaces
+      setTimeout(() => inputEl.select(), 0);
+    });
+    // On blur, reformat with commas
+    inputEl.addEventListener('blur', function () {
+      const n = parseNum(inputEl.value);
+      inputEl.value = formatCurrencyValue(n, true);
+    });
+    // While typing, ensure recalc still fires via the input event already attached.
+    // No need to reformat during typing because that breaks the caret.
   }
 
   // ============== Init ==============
   function init() {
-    $(ids.price).value = DEFAULTS.price;
+    // Seed values. Currency inputs are now text type, so format with commas.
+    $(ids.price).value = formatCurrencyValue(DEFAULTS.price, false);
     $(ids.down).value = DEFAULTS.downPct;
     $(ids.rate).value = DEFAULTS.ratePct;
     $(ids.term).value = DEFAULTS.termYrs;
-    $(ids.tax).value = DEFAULTS.taxYr;
-    $(ids.ins).value = DEFAULTS.insYr;
-    $(ids.hoa).value = DEFAULTS.hoaMo;
-    $(ids.elec).value = DEFAULTS.elec;
-    $(ids.water).value = DEFAULTS.water;
-    $(ids.cable).value = DEFAULTS.cable;
-    $(ids.propane).value = DEFAULTS.propane;
+    $(ids.tax).value = formatCurrencyValue(DEFAULTS.taxYr, false);
+    $(ids.ins).value = formatCurrencyValue(DEFAULTS.insYr, false);
+    $(ids.hoa).value = formatCurrencyValue(DEFAULTS.hoaMo, false);
+    $(ids.elec).value = formatCurrencyValue(DEFAULTS.elec, false);
+    $(ids.water).value = formatCurrencyValue(DEFAULTS.water, false);
+    $(ids.cable).value = formatCurrencyValue(DEFAULTS.cable, false);
+    $(ids.propane).value = formatCurrencyValue(DEFAULTS.propane, false);
     $(ids.maint).value = DEFAULTS.maintPct;
     $(ids.capex).value = DEFAULTS.capexPct;
     $(ids.orig).value = DEFAULTS.origPct;
     $(ids.miles).value = DEFAULTS.miles;
     $(ids.mpg).value = DEFAULTS.mpg;
-    $(ids.gas).value = DEFAULTS.gas;
-    $(ids.toll).value = DEFAULTS.toll;
-    $(ids.tollDwg).value = DEFAULTS.tollDwg;
+    $(ids.gas).value = formatCurrencyValue(DEFAULTS.gas, true);
+    $(ids.toll).value = formatCurrencyValue(DEFAULTS.toll, true);
+    $(ids.tollDwg).value = formatCurrencyValue(DEFAULTS.tollDwg, true);
     $(ids.trips).value = DEFAULTS.trips;
+
+    // Attach currency handlers on all text-type currency inputs
+    document.querySelectorAll('.currency-input').forEach(attachCurrencyHandlers);
 
     Object.values(ids).forEach(id => {
       $(id).addEventListener('input', recalc);
