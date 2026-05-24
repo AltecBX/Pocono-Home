@@ -1986,6 +1986,356 @@
     font-weight: 500;
   }
 
+  /* ========== Market Intelligence Radar ========== */
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .market-tile {
+    padding: 16px 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+  }
+  .market-tile-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .market-tile-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 6px;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  .market-tile-spark {
+    width: 100%;
+    height: 28px;
+    margin-top: 8px;
+    display: block;
+  }
+  .market-tile-delta {
+    font-size: 11px;
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    justify-content: space-between;
+  }
+  .market-tile-delta .lbl { color: var(--text-tertiary); }
+  .market-tile-delta .up { color: var(--accent-pink); }
+  .market-tile-delta .down { color: var(--accent-green); }
+  .market-tile-delta .flat { color: var(--text-secondary); }
+  .market-verdict {
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.06), rgba(212, 175, 55, 0.02));
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: var(--radius-md);
+  }
+  .market-verdict-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold-2);
+    font-weight: 500;
+  }
+  .market-verdict-text {
+    font-size: 13.5px;
+    color: var(--text-primary);
+    margin-top: 6px;
+    line-height: 1.55;
+  }
+  @media (max-width: 720px) {
+    .market-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .market-tile-value { font-size: 18px; }
+  }
+  @media (max-width: 380px) {
+    .market-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ========== Live Underwriting / Safe Acquisition Price ========== */
+  .uw-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .uw-summary-tile {
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+  }
+  .uw-summary-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .uw-summary-value {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .uw-summary-value.positive { color: var(--accent-green); }
+  .uw-summary-value.negative { color: var(--accent-pink); }
+  .uw-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .uw-table thead th {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    text-align: left;
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .uw-table thead th.num { text-align: right; }
+  .uw-table tbody td {
+    font-size: 13px;
+    color: var(--text-primary);
+    padding: 14px;
+    border-bottom: 1px solid var(--hairline);
+    font-variant-numeric: tabular-nums;
+  }
+  .uw-table tbody td.num { text-align: right; }
+  .uw-table tbody tr.target-row td { background: rgba(212, 175, 55, 0.04); }
+  .uw-table .target-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .uw-table .target-tag.conservative { background: rgba(48, 209, 88, 0.14); color: var(--accent-green); border: 1px solid rgba(48, 209, 88, 0.3); }
+  .uw-table .target-tag.moderate { background: rgba(212, 175, 55, 0.14); color: var(--gold-2); border: 1px solid rgba(212, 175, 55, 0.3); }
+  .uw-table .target-tag.aggressive { background: rgba(255, 179, 64, 0.14); color: #ffb340; border: 1px solid rgba(255, 179, 64, 0.3); }
+  .uw-safe-price {
+    color: var(--accent-green);
+    font-weight: 600;
+  }
+  .uw-over-pay {
+    color: var(--accent-pink);
+    font-weight: 600;
+  }
+  .uw-delta {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    display: block;
+    margin-top: 2px;
+  }
+  .uw-action {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--gold-2);
+    border-radius: 6px;
+  }
+  .uw-action-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold-2);
+    font-weight: 600;
+  }
+  .uw-action-text {
+    font-size: 13px;
+    color: var(--text-primary);
+    margin-top: 6px;
+    line-height: 1.55;
+  }
+  @media (max-width: 720px) {
+    .uw-summary { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .uw-table thead th, .uw-table tbody td { padding: 10px 8px; font-size: 11.5px; }
+    .uw-table thead th { font-size: 9px; }
+    .uw-summary-value { font-size: 16px; }
+  }
+
+  /* ========== STR Seasonal Heatmap ========== */
+  .heatmap-wrap {
+    overflow-x: auto;
+  }
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: 50px repeat(52, 1fr);
+    gap: 2px;
+    min-width: 720px;
+  }
+  .heatmap-label {
+    font-size: 9.5px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    align-self: center;
+    padding-right: 8px;
+    text-align: right;
+  }
+  .heatmap-cell {
+    aspect-ratio: 1 / 2.4;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s, opacity 0.15s;
+  }
+  .heatmap-cell:hover {
+    transform: scale(1.4);
+    z-index: 5;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+  .heatmap-cell.blocked {
+    opacity: 0.18;
+  }
+  .heatmap-cell.blocked::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.3) 2px, rgba(255,255,255,0.3) 3px);
+    border-radius: 2px;
+  }
+  .heatmap-months {
+    display: grid;
+    grid-template-columns: 50px repeat(12, 1fr);
+    gap: 2px;
+    margin-top: 8px;
+    min-width: 720px;
+    font-size: 9.5px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .heatmap-months > span:first-child { color: transparent; }
+  .heatmap-months > span:not(:first-child) {
+    grid-column-end: span 4.33;
+    text-align: center;
+  }
+  .heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  .heatmap-legend-scale {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .heatmap-legend-scale .lbl {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .heatmap-legend-gradient {
+    width: 120px;
+    height: 10px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #1e3a2e 0%, #2d5a3d 20%, #d4af37 50%, #ff8c42 80%, #ff375f 100%);
+  }
+  .heatmap-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .heatmap-sum-tile {
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+  }
+  .heatmap-sum-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .heatmap-sum-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .heatmap-sum-value.lost { color: var(--accent-pink); }
+  .heatmap-tooltip {
+    position: fixed;
+    background: #1c1c1f;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11.5px;
+    color: var(--text-primary);
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.12s;
+    white-space: nowrap;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+  .heatmap-tooltip.visible { opacity: 1; }
+  .heatmap-tooltip .tt-week { color: var(--text-tertiary); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .heatmap-tooltip .tt-rev { color: var(--gold-2); font-weight: 600; font-size: 13px; }
+  .heatmap-tooltip .tt-meta { color: var(--text-secondary); font-size: 10.5px; margin-top: 2px; }
+  .heatmap-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .heatmap-btn {
+    padding: 7px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-size: 11.5px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .heatmap-btn:hover {
+    background: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.3);
+    color: var(--gold-2);
+  }
+  .heatmap-btn.active {
+    background: rgba(212, 175, 55, 0.14);
+    border-color: rgba(212, 175, 55, 0.4);
+    color: var(--gold-2);
+  }
+  .heatmap-hint {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-left: auto;
+  }
+  @media (max-width: 720px) {
+    .heatmap-summary { grid-template-columns: 1fr 1fr; }
+    .heatmap-hint { width: 100%; margin-left: 0; }
+  }
+
 </style>
 </head>
 <body>
@@ -2144,6 +2494,94 @@
       <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
         Subject row always pinned at top. Default sort is community then square footage then price. Click any column header to sort. Click again to reverse direction. Sold vs Ask shows the percentage above or below the most recent list price the home actually traded at. Green is at or above list, pink is below list. All comps shown are within the last 12 months. Click any address to open the Zillow listing. Click a community name to open its property owners association website.
       </p>
+    </div>
+  </section>
+
+  <!-- ========== Market Intelligence Radar ========== -->
+  <section class="section collapsible collapsed" id="market-intel">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>Market Intelligence</h2>
+        <span class="hint">Zip 18347 trend signals, broader context for the comps</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="collapse-content">
+    <div class="card">
+
+      <div class="market-grid">
+
+        <div class="market-tile">
+          <div class="market-tile-label">Median Sold Price</div>
+          <div class="market-tile-value">$293K</div>
+          <svg class="market-tile-spark" viewBox="0 0 120 28" preserveAspectRatio="none">
+            <path d="M 0 22 L 15 21 L 30 18 L 45 16 L 60 13 L 75 11 L 90 9 L 105 8 L 120 7" stroke="#30d158" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 0 22 L 15 21 L 30 18 L 45 16 L 60 13 L 75 11 L 90 9 L 105 8 L 120 7 L 120 28 L 0 28 Z" fill="rgba(48,209,88,0.12)"/>
+          </svg>
+          <div class="market-tile-delta">
+            <span class="lbl">YoY</span>
+            <span class="up">+17.1%</span>
+          </div>
+        </div>
+
+        <div class="market-tile">
+          <div class="market-tile-label">Days on Market</div>
+          <div class="market-tile-value">42 days</div>
+          <svg class="market-tile-spark" viewBox="0 0 120 28" preserveAspectRatio="none">
+            <path d="M 0 5 L 15 7 L 30 10 L 45 13 L 60 14 L 75 15 L 90 17 L 105 19 L 120 21" stroke="#30d158" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 0 5 L 15 7 L 30 10 L 45 13 L 60 14 L 75 15 L 90 17 L 105 19 L 120 21 L 120 28 L 0 28 Z" fill="rgba(48,209,88,0.12)"/>
+          </svg>
+          <div class="market-tile-delta">
+            <span class="lbl">vs last yr 63</span>
+            <span class="down">faster 33%</span>
+          </div>
+        </div>
+
+        <div class="market-tile">
+          <div class="market-tile-label">Active Inventory</div>
+          <div class="market-tile-value">223 homes</div>
+          <svg class="market-tile-spark" viewBox="0 0 120 28" preserveAspectRatio="none">
+            <path d="M 0 18 L 15 17 L 30 16 L 45 14 L 60 12 L 75 10 L 90 9 L 105 7 L 120 6" stroke="#ff8c42" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 0 18 L 15 17 L 30 16 L 45 14 L 60 12 L 75 10 L 90 9 L 105 7 L 120 6 L 120 28 L 0 28 Z" fill="rgba(255,140,66,0.12)"/>
+          </svg>
+          <div class="market-tile-delta">
+            <span class="lbl">90 day</span>
+            <span class="up">rising</span>
+          </div>
+        </div>
+
+        <div class="market-tile">
+          <div class="market-tile-label">Sale to List Ratio</div>
+          <div class="market-tile-value">96.3%</div>
+          <svg class="market-tile-spark" viewBox="0 0 120 28" preserveAspectRatio="none">
+            <path d="M 0 8 L 15 9 L 30 10 L 45 12 L 60 13 L 75 14 L 90 15 L 105 16 L 120 17" stroke="#ff375f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 0 8 L 15 9 L 30 10 L 45 12 L 60 13 L 75 14 L 90 15 L 105 16 L 120 17 L 120 28 L 0 28 Z" fill="rgba(255,55,95,0.12)"/>
+          </svg>
+          <div class="market-tile-delta">
+            <span class="lbl">avg discount</span>
+            <span class="down">3.7%</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="market-verdict">
+        <div class="market-verdict-label">Verdict</div>
+        <div class="market-verdict-text">
+          18347 is a <strong style="color: var(--gold-2);">seller market with rising inventory</strong>. Median price is up 17% year over year, DOM has compressed from 63 to 42 days, and homes are trading at 96.3% of list on average (3.7% buyer discount). 223 active listings is high for a small market, which means buyers have selection. The subject listed and went under contract in 2 days, materially faster than market median. Translation. Limited negotiation leverage on the deal itself, but solid macro tailwinds for appreciation once owned.
+        </div>
+      </div>
+
+      <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
+        Sources. Realtytrac and Redfin zip 18347 market trends, Movoto Pocono Lake market dashboard, Pennsylvania state median tracking. Sparklines show direction only, not absolute scale. Median price trend covers the last 12 months. DOM and inventory show 90 day windows. Sale to list ratio averages the past 6 months of closed transactions.
+      </p>
+    </div>
     </div>
   </section>
 
@@ -2470,6 +2908,144 @@
           Premium features make the spread. Hot tub plus game room plus sauna combinations command 30 to 60% above entry tier. The Cardinal Ln property already has a private deck, golf cart, and detached garage. Adding a hot tub (one time $7K to $12K) and finishing the basement game room would put it in the $275 to $325 nightly range.
         </p>
       </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ========== Live Underwriting / Safe Acquisition Price ========== -->
+  <section class="section collapsible collapsed" id="underwriting">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>Live Underwriting</h2>
+        <span class="hint">What you should pay to hit your investment target</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="collapse-content">
+    <div class="card">
+
+      <div class="uw-summary">
+        <div class="uw-summary-tile">
+          <div class="uw-summary-label">Current Listing</div>
+          <div class="uw-summary-value" id="uw-current-price">$329,999</div>
+        </div>
+        <div class="uw-summary-tile">
+          <div class="uw-summary-label">Projected NOI</div>
+          <div class="uw-summary-value" id="uw-noi">$29,475</div>
+        </div>
+        <div class="uw-summary-tile">
+          <div class="uw-summary-label">Current Cap Rate</div>
+          <div class="uw-summary-value" id="uw-cap-rate">8.93%</div>
+        </div>
+        <div class="uw-summary-tile">
+          <div class="uw-summary-label">Cash on Cash</div>
+          <div class="uw-summary-value" id="uw-coc">1.7%</div>
+        </div>
+      </div>
+
+      <table class="uw-table">
+        <thead>
+          <tr>
+            <th>Target</th>
+            <th class="num">Cap Rate</th>
+            <th class="num">Cash on Cash</th>
+            <th class="num">Safe Acquisition Price</th>
+            <th class="num">Vs Listing</th>
+          </tr>
+        </thead>
+        <tbody id="uw-tbody"></tbody>
+      </table>
+
+      <div class="uw-action">
+        <div class="uw-action-label">Offer Strategy</div>
+        <div class="uw-action-text" id="uw-action-text">
+          The listing of <strong>$329,999</strong> produces an <strong>8.93% cap rate</strong> at moderate STR assumptions. That clears the 7% conservative threshold with cushion. To hit a 9% target, you would need to acquire at $327,500 or below. This deal is fundamentally strong, but you have limited room to push the price up before returns degrade.
+        </div>
+      </div>
+
+      <p style="margin-top: 16px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
+        NOI uses the Moderate scenario from Rental Analysis ($40,150 gross at $275 ADR and 40% occupancy, $10,675 opex). Cap rate is NOI divided by acquisition price. Cash on Cash is annual cash flow (NOI minus PITI) divided by total cash invested (down payment plus closing costs). All metrics recalculate when you edit Adjustable Assumptions. Safe acquisition price = NOI divided by target cap rate. Pay above and your returns drop below target. Pay below and you have additional margin of safety.
+      </p>
+    </div>
+    </div>
+  </section>
+
+  <!-- ========== STR Seasonal Heatmap ========== -->
+  <section class="section collapsible collapsed" id="seasonal">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>STR Seasonal Heatmap</h2>
+        <span class="hint">Week by week revenue projection. Click to block personal use weeks.</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="collapse-content">
+    <div class="card">
+
+      <div class="heatmap-controls">
+        <button class="heatmap-btn active" data-scenario="moderate" onclick="setHeatmapScenario('moderate')">Moderate</button>
+        <button class="heatmap-btn" data-scenario="conservative" onclick="setHeatmapScenario('conservative')">Conservative</button>
+        <button class="heatmap-btn" data-scenario="optimistic" onclick="setHeatmapScenario('optimistic')">Optimistic</button>
+        <button class="heatmap-btn" onclick="resetHeatmap()">Clear blocks</button>
+        <span class="heatmap-hint">Click any week to block it for personal use.</span>
+      </div>
+
+      <div class="heatmap-wrap">
+        <div class="heatmap-grid">
+          <div class="heatmap-label">Week</div>
+          <div id="heatmap-cells" style="display: contents;"></div>
+        </div>
+        <div class="heatmap-months">
+          <span></span>
+          <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
+          <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+          <span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+        </div>
+      </div>
+
+      <div class="heatmap-legend">
+        <div class="heatmap-legend-scale">
+          <span class="lbl">Low</span>
+          <div class="heatmap-legend-gradient"></div>
+          <span class="lbl">Peak</span>
+        </div>
+        <span style="color: var(--text-tertiary); font-size: 11px;">Striped cells = blocked for personal use.</span>
+      </div>
+
+      <div class="heatmap-summary">
+        <div class="heatmap-sum-tile">
+          <div class="heatmap-sum-label">Available Annual Revenue</div>
+          <div class="heatmap-sum-value" id="heatmap-available">$40,150</div>
+        </div>
+        <div class="heatmap-sum-tile">
+          <div class="heatmap-sum-label">Personal Use Weeks</div>
+          <div class="heatmap-sum-value" id="heatmap-blocked-count">0</div>
+        </div>
+        <div class="heatmap-sum-tile">
+          <div class="heatmap-sum-label">Forgone Revenue</div>
+          <div class="heatmap-sum-value lost" id="heatmap-forgone">$0</div>
+        </div>
+        <div class="heatmap-sum-tile">
+          <div class="heatmap-sum-label">Net Projected Revenue</div>
+          <div class="heatmap-sum-value" id="heatmap-net">$40,150</div>
+        </div>
+      </div>
+
+      <p style="margin-top: 18px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
+        Seasonality model based on Pocono Lake AirDNA and Rabbu market data. July and August peak ($9,000 monthly top performer revenue), April lowest ($2,480), with secondary winter bumps in December (ski / holiday demand) and February (ski season). Spread between best and worst week is roughly 4.5x. Block out weeks you want for your own use to see the revenue cost of personal use. Strategy. Block low season weeks (mid October through mid May) at almost no cost. Peak summer weekends are where the money is.
+      </p>
     </div>
     </div>
   </section>
@@ -3719,6 +4295,289 @@
 
     // ===== Sensitivity / Tornado =====
     renderTornado(v, housingMonthly);
+
+    // ===== Live Underwriting / Safe Acquisition Price =====
+    renderUnderwriting(v, housingMonthly, cashTotal, closingTotal, down);
+
+    // ===== STR Seasonal Heatmap (reflects rental scenario, refreshes on input) =====
+    renderHeatmap();
+  }
+
+  // ============== Live Underwriting ==============
+  // STR rental assumptions, sourced from Rental Analysis Moderate scenario.
+  // These are baseline numbers. When the user edits Adjustable Assumptions,
+  // PITI changes and so do cash on cash returns. NOI changes only if HOA changes
+  // because everything else in opex is held constant in this model.
+  function getRentalNumbers(v) {
+    // Moderate STR projection
+    const grossAnnual = 40150;
+    // Opex buildup: HOA (annual), STR permit, insurance rider, utilities, internet, supplies
+    // HOA pulls from Adjustable Assumptions live, everything else is calibrated to Rental Analysis card
+    const hoaAnnual = v.hoaMo * 12;
+    const strPermit = 400;
+    const insuranceRider = 500;
+    const utilities = 4400;
+    const internet = 660;
+    const supplies = 300;
+    const cleaningTurnover = 2615;
+    const opex = hoaAnnual + strPermit + insuranceRider + utilities + internet + supplies + cleaningTurnover;
+    const noi = grossAnnual - opex;
+    return { grossAnnual, opex, noi };
+  }
+
+  function renderUnderwriting(v, housingMonthly, cashTotal, closingTotal, down) {
+    const tbody = document.getElementById('uw-tbody');
+    if (!tbody) return;
+
+    const rental = getRentalNumbers(v);
+    const noi = rental.noi;
+    const annualPITI = housingMonthly * 12;
+    const annualCashFlow = noi - annualPITI;
+    const totalCashInvested = down + closingTotal;
+
+    const currentCapRate = (noi / v.price) * 100;
+    const currentCoC = totalCashInvested > 0 ? (annualCashFlow / totalCashInvested) * 100 : 0;
+
+    // Update summary tiles
+    $('uw-current-price').textContent = fmt(v.price);
+    $('uw-noi').textContent = fmt(noi);
+    $('uw-cap-rate').textContent = currentCapRate.toFixed(2) + '%';
+    const cocEl = $('uw-coc');
+    cocEl.textContent = currentCoC.toFixed(1) + '%';
+    cocEl.classList.remove('positive', 'negative');
+    if (currentCoC > 0) cocEl.classList.add('positive');
+    else if (currentCoC < 0) cocEl.classList.add('negative');
+
+    // Targets. For each target cap rate, compute the price that would hit it.
+    // Safe price = NOI / target cap rate
+    const targets = [
+      { name: 'Conservative', tag: 'conservative', capRate: 5.0, cocTarget: '< 0%', note: 'Safe but not investor grade. Reasonable for primary use.' },
+      { name: 'Moderate', tag: 'moderate', capRate: 7.0, cocTarget: '~3%', note: 'Solid investment threshold. Most STR investors aim here.' },
+      { name: 'Aggressive', tag: 'aggressive', capRate: 9.0, cocTarget: '~6%', note: 'High return target. Limits acquisition price aggressively.' }
+    ];
+
+    tbody.innerHTML = targets.map(t => {
+      const safePrice = noi / (t.capRate / 100);
+      const delta = v.price - safePrice;
+      const deltaPct = (delta / safePrice) * 100;
+      // If subject price <= safe price, we're under target (good). If above, we're paying too much for that target.
+      const isUnder = delta <= 0;
+      const priceClass = isUnder ? 'uw-safe-price' : 'uw-over-pay';
+      const deltaText = isUnder
+        ? '$' + Math.round(Math.abs(delta)).toLocaleString('en-US') + ' below listing'
+        : '$' + Math.round(delta).toLocaleString('en-US') + ' above listing';
+      const deltaPctText = (isUnder ? '' : '+') + deltaPct.toFixed(1) + '%';
+      return `
+        <tr>
+          <td>${t.name}<span class="target-tag ${t.tag}">${t.capRate.toFixed(1)}%</span></td>
+          <td class="num">${t.capRate.toFixed(1)}%</td>
+          <td class="num">${t.cocTarget}</td>
+          <td class="num"><span class="${priceClass}">${fmt(safePrice)}</span></td>
+          <td class="num">${deltaText}<span class="uw-delta">${deltaPctText}</span></td>
+        </tr>
+      `;
+    }).join('');
+
+    // Action statement
+    const actionEl = document.getElementById('uw-action-text');
+    if (actionEl) {
+      let actionHtml = '';
+      const moderate = noi / 0.07;
+      const aggressive = noi / 0.09;
+      if (currentCapRate >= 9) {
+        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces a <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong> at moderate STR assumptions. That clears every target tier including the 9% aggressive threshold. Strong deal at current price.';
+      } else if (currentCapRate >= 7) {
+        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces an <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong> at moderate STR assumptions. That clears the 7% moderate threshold with cushion. To hit a 9% target, you would need to acquire at <strong>' + fmt(aggressive) + '</strong> or below. This deal is fundamentally strong, but you have limited room to push the price up before returns degrade.';
+      } else if (currentCapRate >= 5) {
+        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces a <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong>. That clears the 5% conservative threshold but falls below the 7% moderate target. To hit moderate, you would need to acquire at <strong>' + fmt(moderate) + '</strong>, which is <strong>' + fmt(v.price - moderate) + '</strong> below listing. Worth considering as a personal use property or a counter offer if seller is flexible.';
+      } else {
+        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces only a <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong>. Below the 5% conservative threshold. The numbers do not work as a pure investment at listing. Either negotiate down to <strong>' + fmt(moderate) + '</strong> for a 7% target, or treat as a personal use property with rental as a partial offset.';
+      }
+      actionEl.innerHTML = actionHtml;
+    }
+  }
+
+  // ============== STR Seasonal Heatmap ==============
+  // Weekly revenue model. Based on Pocono Lake AirDNA / Rabbu data:
+  // Peak: late June through August. Secondary peak: Dec holiday + Feb ski. Trough: April + Oct/Nov.
+  // Values are weekly gross revenue projections under each scenario at full availability.
+  // 52 weeks, indexed 0 to 51 (week 0 = first week of January).
+  const HEATMAP_KEY = 'cardinal-ln-heatmap-blocks-v1';
+  const HEATMAP_SCENARIO_KEY = 'cardinal-ln-heatmap-scenario-v1';
+
+  // Index pattern. Weekly revenue weight for each of 52 weeks (relative 0 to 1 scale).
+  // Reflects Pocono Lake seasonality: Jul-Aug peak, Dec holiday spike, Feb ski bump, Apr trough.
+  const WEEKLY_WEIGHTS = [
+    // Jan (4)
+    0.52, 0.48, 0.45, 0.46,
+    // Feb (4) - ski bump
+    0.62, 0.68, 0.70, 0.66,
+    // Mar (5) - tapering
+    0.55, 0.48, 0.42, 0.38, 0.32,
+    // Apr (4) - trough
+    0.28, 0.25, 0.28, 0.32,
+    // May (4) - warming
+    0.42, 0.50, 0.58, 0.65,
+    // Jun (4)
+    0.72, 0.82, 0.92, 0.98,
+    // Jul (5) - peak
+    1.00, 1.00, 1.00, 1.00, 0.98,
+    // Aug (4)
+    0.96, 0.92, 0.88, 0.82,
+    // Sep (5) - tapering
+    0.70, 0.58, 0.50, 0.45, 0.42,
+    // Oct (4) - fall foliage holds
+    0.50, 0.55, 0.48, 0.40,
+    // Nov (4) - low
+    0.35, 0.32, 0.40, 0.48,
+    // Dec (5) - holiday peak
+    0.55, 0.68, 0.85, 0.92, 0.78
+  ];
+
+  const SCENARIO_TOTALS = {
+    conservative: 21900,
+    moderate: 40150,
+    optimistic: 59313
+  };
+
+  let blockedWeeks = new Set();
+  let currentScenario = 'moderate';
+
+  function loadHeatmapState() {
+    try {
+      const raw = localStorage.getItem(HEATMAP_KEY);
+      if (raw) {
+        const arr = JSON.parse(raw);
+        if (Array.isArray(arr)) blockedWeeks = new Set(arr);
+      }
+      const sc = localStorage.getItem(HEATMAP_SCENARIO_KEY);
+      if (sc && SCENARIO_TOTALS.hasOwnProperty(sc)) currentScenario = sc;
+    } catch (e) {}
+  }
+  function saveHeatmapState() {
+    try {
+      localStorage.setItem(HEATMAP_KEY, JSON.stringify(Array.from(blockedWeeks)));
+      localStorage.setItem(HEATMAP_SCENARIO_KEY, currentScenario);
+    } catch (e) {}
+  }
+
+  // Color from low (deep green) to peak (red) following the legend gradient.
+  // weight is 0 to 1. Returns a CSS color.
+  function heatmapColor(weight) {
+    // 5 stops: dark green, green, gold, orange, red
+    const stops = [
+      { p: 0.0, c: [30, 58, 46] },
+      { p: 0.25, c: [45, 90, 61] },
+      { p: 0.5, c: [212, 175, 55] },
+      { p: 0.75, c: [255, 140, 66] },
+      { p: 1.0, c: [255, 55, 95] }
+    ];
+    for (let i = 0; i < stops.length - 1; i++) {
+      const a = stops[i], b = stops[i + 1];
+      if (weight >= a.p && weight <= b.p) {
+        const t = (weight - a.p) / (b.p - a.p);
+        const r = Math.round(a.c[0] + (b.c[0] - a.c[0]) * t);
+        const g = Math.round(a.c[1] + (b.c[1] - a.c[1]) * t);
+        const bl = Math.round(a.c[2] + (b.c[2] - a.c[2]) * t);
+        return `rgb(${r}, ${g}, ${bl})`;
+      }
+    }
+    return 'rgb(255, 55, 95)';
+  }
+
+  // Map week index (0-51) to a friendly label like "Jul 14"
+  function weekDateLabel(weekIdx) {
+    // Use 2026 as reference year, Monday starts. Jan 5, 2026 was a Monday.
+    const start = new Date(2026, 0, 5);
+    start.setDate(start.getDate() + weekIdx * 7);
+    return start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  function renderHeatmap() {
+    const container = document.getElementById('heatmap-cells');
+    if (!container) return;
+
+    const totalAnnual = SCENARIO_TOTALS[currentScenario];
+    const weightSum = WEEKLY_WEIGHTS.reduce((a, b) => a + b, 0);
+
+    // Build cells (52 weeks). Each cell shows tooltip with revenue on hover, click toggles block.
+    const cells = WEEKLY_WEIGHTS.map((w, i) => {
+      const isBlocked = blockedWeeks.has(i);
+      const weeklyRev = (w / weightSum) * totalAnnual;
+      const cls = 'heatmap-cell' + (isBlocked ? ' blocked' : '');
+      return `<div class="${cls}" data-week="${i}" data-rev="${weeklyRev.toFixed(0)}" style="background-color: ${heatmapColor(w)};" onclick="toggleHeatmapWeek(${i})" onmouseenter="showHeatmapTooltip(event, ${i}, ${weeklyRev.toFixed(0)}, ${w.toFixed(2)})" onmouseleave="hideHeatmapTooltip()"></div>`;
+    }).join('');
+    container.innerHTML = cells;
+
+    // Update summary tiles
+    let forgone = 0;
+    blockedWeeks.forEach(i => {
+      forgone += (WEEKLY_WEIGHTS[i] / weightSum) * totalAnnual;
+    });
+    const net = totalAnnual - forgone;
+
+    $('heatmap-available').textContent = fmt(totalAnnual);
+    $('heatmap-blocked-count').textContent = blockedWeeks.size;
+    $('heatmap-forgone').textContent = fmt(forgone);
+    $('heatmap-net').textContent = fmt(net);
+
+    // Update active scenario button
+    document.querySelectorAll('.heatmap-btn[data-scenario]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-scenario') === currentScenario);
+    });
+  }
+
+  function toggleHeatmapWeek(weekIdx) {
+    if (blockedWeeks.has(weekIdx)) blockedWeeks.delete(weekIdx);
+    else blockedWeeks.add(weekIdx);
+    saveHeatmapState();
+    renderHeatmap();
+  }
+  function resetHeatmap() {
+    blockedWeeks.clear();
+    saveHeatmapState();
+    renderHeatmap();
+  }
+  function setHeatmapScenario(name) {
+    if (!SCENARIO_TOTALS.hasOwnProperty(name)) return;
+    currentScenario = name;
+    saveHeatmapState();
+    renderHeatmap();
+  }
+
+  // Tooltip
+  let heatmapTooltip = null;
+  function ensureHeatmapTooltip() {
+    if (heatmapTooltip) return heatmapTooltip;
+    heatmapTooltip = document.createElement('div');
+    heatmapTooltip.className = 'heatmap-tooltip';
+    document.body.appendChild(heatmapTooltip);
+    return heatmapTooltip;
+  }
+  function showHeatmapTooltip(ev, weekIdx, rev, weight) {
+    const tip = ensureHeatmapTooltip();
+    const date = weekDateLabel(weekIdx);
+    const tier = weight >= 0.85 ? 'Peak' : weight >= 0.6 ? 'High' : weight >= 0.4 ? 'Mid' : weight >= 0.25 ? 'Low' : 'Trough';
+    const isBlocked = blockedWeeks.has(weekIdx);
+    tip.innerHTML = `
+      <div class="tt-week">Week of ${date}</div>
+      <div class="tt-rev">$${Math.round(rev).toLocaleString('en-US')}</div>
+      <div class="tt-meta">${tier} season${isBlocked ? ' · Blocked' : ''}</div>
+    `;
+    tip.classList.add('visible');
+    // Position
+    const rect = ev.target.getBoundingClientRect();
+    const tipRect = tip.getBoundingClientRect();
+    let x = rect.left + rect.width / 2 - tipRect.width / 2;
+    let y = rect.top - tipRect.height - 8;
+    if (y < 8) y = rect.bottom + 8;
+    if (x < 8) x = 8;
+    if (x + tipRect.width > window.innerWidth - 8) x = window.innerWidth - tipRect.width - 8;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  function hideHeatmapTooltip() {
+    if (heatmapTooltip) heatmapTooltip.classList.remove('visible');
   }
 
   // ============== Mortgage Rate Pulse update ==============
@@ -4012,6 +4871,7 @@
     updateListingFreshness();
     initLandscapeHint();
     restoreCollapseStates();
+    loadHeatmapState();
     setInterval(updateCountdown, 1000 * 60 * 60); // hourly
     setInterval(updateListingFreshness, 1000 * 60 * 60); // hourly
     try {
