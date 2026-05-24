@@ -2581,6 +2581,110 @@
   }
   .mo-asking-val.over { color: var(--accent-pink); }
   .mo-asking-val.under { color: var(--accent-green); }
+
+  /* Over Ask Lens, LLV calibration block */
+  .mo-overask {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 22px;
+  }
+  .mo-overask-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 720px) { .mo-overask-stats { grid-template-columns: repeat(2, 1fr); } }
+  .mo-overask-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+  }
+  .mo-overask-stat .lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .mo-overask-stat .val {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .mo-overask-stat.green { border-color: rgba(48,209,88,0.35); background: rgba(48,209,88,0.07); }
+  .mo-overask-stat.green .val { color: var(--accent-green); }
+  .mo-overask-stat.gold { border-color: rgba(212,175,55,0.4); background: rgba(212,175,55,0.07); }
+  .mo-overask-stat.gold .val { color: var(--gold-2); }
+  .mo-overask-top { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hairline); }
+  .mo-overask-top-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .mo-overask-list { list-style: none; margin: 0; padding: 0; }
+  .mo-overask-list li {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 14px;
+    align-items: baseline;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .mo-overask-list li:last-child { border-bottom: none; }
+  .mo-overask-list .addr { color: var(--text-primary); }
+  .mo-overask-list .sub { color: var(--text-tertiary); font-size: 11px; }
+  .mo-overask-list .amt {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .mo-overask-list .delta {
+    color: var(--accent-green);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    min-width: 54px;
+    text-align: right;
+  }
+  .mo-overask-list .proj {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    color: var(--gold-2);
+    font-weight: 600;
+    min-width: 80px;
+    text-align: right;
+  }
+  .mo-overask-verdict {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--accent-green);
+    border-radius: 8px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+  .mo-overask-verdict strong { color: var(--text-primary); }
+  .mo-overask-verdict .savings { color: var(--accent-green); font-weight: 700; }
+  @media (max-width: 720px) {
+    .mo-overask-list li { grid-template-columns: 1fr auto; gap: 6px 12px; }
+    .mo-overask-list .amt { grid-column: 2; }
+    .mo-overask-list .delta { grid-column: 1; text-align: left; font-size: 12px; }
+    .mo-overask-list .proj { grid-column: 2; font-size: 12px; }
+  }
   .mo-asking-arrow {
     font-size: 10px;
     color: var(--text-tertiary);
@@ -3229,6 +3333,12 @@
           <span class="mo-asking-val" id="mo-asking-gap">$1 under</span>
         </div>
       </div>
+
+      <h3 class="mo-subhead">Locust Lake Over Ask Lens</h3>
+      <p class="mo-input-hint">
+        How recent Locust Lake Village sales closed against their final list price. Subject is under contract at asking, $329,999. This tells you what the deal would have run at if it followed the same over ask pattern as comparable LLV sales.
+      </p>
+      <div class="mo-overask" id="mo-overask"></div>
 
       <h3 class="mo-subhead">Waterfall Breakdown</h3>
       <div class="mo-wf" id="mo-waterfall"></div>
@@ -5539,6 +5649,71 @@
     }
 
     renderMORealtorMessage(rec.kind, inspectionCredits, fairHigh, walkAway);
+    renderMOOverAsk();
+  }
+
+  // Over Ask Lens. Filters COMP_DATA.sold to Locust Lake closed sales with a delta
+  // we can read, ignores the subject row, and projects what the subject would have
+  // gone for if it followed each band of the LLV over ask distribution.
+  function median(nums) {
+    if (nums.length === 0) return 0;
+    const s = nums.slice().sort((a, b) => a - b);
+    const mid = Math.floor(s.length / 2);
+    return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+  }
+  function renderMOOverAsk() {
+    const wrap = document.getElementById('mo-overask');
+    if (!wrap) return;
+    const llvSold = COMP_DATA.sold.filter(it =>
+      !it.isSubject && it.community === 'Locust Lake' && typeof it.delta === 'number'
+    );
+    const over = llvSold.filter(it => it.delta > 0).sort((a, b) => b.delta - a.delta);
+    const atAsk = llvSold.filter(it => it.delta === 0);
+    const total = llvSold.length;
+    const overCount = over.length;
+    const atAskCount = atAsk.length;
+    const overOrAtAsk = overCount + atAskCount;
+
+    const asking = MO_ASKING;
+    let html = '<div class="mo-overask-stats">';
+    html += '<div class="mo-overask-stat"><span class="lbl">LLV Closed Sales</span><span class="val">' + total + '</span></div>';
+    html += '<div class="mo-overask-stat"><span class="lbl">Closed At or Over Ask</span><span class="val">' + overOrAtAsk + ' of ' + total + '</span></div>';
+    if (overCount > 0) {
+      const medOver = median(over.map(o => o.delta));
+      const maxOver = over[0].delta;
+      const projTop = Math.round(asking * (1 + maxOver / 100));
+      const savedTop = projTop - asking;
+      html += '<div class="mo-overask-stat"><span class="lbl">Median Over Ask Premium</span><span class="val">+' + medOver.toFixed(1) + '%</span></div>';
+      html += '<div class="mo-overask-stat gold"><span class="lbl">Subject Projected at Top Premium</span><span class="val">' + moFmtUSD(projTop) + '</span></div>';
+      html += '</div>';
+
+      html += '<div class="mo-overask-top">';
+      html += '<div class="mo-overask-top-label">Top LLV Sales Over Asking, with subject projection at the same premium</div>';
+      html += '<ul class="mo-overask-list">';
+      over.slice(0, 5).forEach(c => {
+        const proj = Math.round(asking * (1 + c.delta / 100));
+        html += '<li>' +
+          '<span class="addr">' + c.address + '</span>' +
+          '<span class="amt">' + moFmtUSD(c.price) + '</span>' +
+          '<span class="delta">+' + c.delta.toFixed(1) + '%</span>' +
+          '<span class="proj">' + moFmtUSD(proj) + '</span>' +
+          '</li>';
+      });
+      html += '</ul></div>';
+
+      html += '<div class="mo-overask-verdict">';
+      html += 'You are under contract at <strong>' + moFmtUSD(asking) + '</strong>, the listing price. ';
+      html += 'If this deal followed the top LLV over ask sale (+' + maxOver.toFixed(1) + '% at ' + over[0].address + '), you would have closed at <strong>' + moFmtUSD(projTop) + '</strong>. ';
+      html += 'Getting the contract at ask saved you up to <span class="savings">' + moFmtUSD(savedTop) + '</span> versus the top of the LLV over ask distribution. ';
+      if (atAskCount > 0) {
+        html += atAskCount + ' of the ' + total + ' recent LLV closings landed exactly at ask.';
+      }
+      html += '</div>';
+    } else {
+      html += '</div>';
+      html += '<div class="mo-overask-verdict">No LLV sales closed over ask in the current comp set. Subject under contract at ask is consistent with the market.</div>';
+    }
+    wrap.innerHTML = html;
   }
 
   function renderMORealtorMessage(kind, inspectionCredits, fairHigh, walkAway) {
