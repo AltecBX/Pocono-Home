@@ -2336,6 +2336,396 @@
     .heatmap-hint { width: 100%; margin-left: 0; }
   }
 
+  /* ========== Maximum Offer Calculator ========== */
+  .mo-rec {
+    margin-bottom: 24px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    background: var(--surface-2);
+  }
+  .mo-rec-inner {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-left: 4px solid var(--gold-2);
+  }
+  .mo-rec.action-green .mo-rec-inner { border-left-color: var(--accent-green); background: linear-gradient(90deg, rgba(48,209,88,0.08), transparent 60%); }
+  .mo-rec.action-gold .mo-rec-inner { border-left-color: var(--gold-2); background: linear-gradient(90deg, rgba(212,175,55,0.08), transparent 60%); }
+  .mo-rec.action-orange .mo-rec-inner { border-left-color: #ff8c42; background: linear-gradient(90deg, rgba(255,140,66,0.08), transparent 60%); }
+  .mo-rec.action-red .mo-rec-inner { border-left-color: var(--accent-pink); background: linear-gradient(90deg, rgba(255,55,95,0.08), transparent 60%); }
+  .mo-rec-meta { flex-shrink: 0; min-width: 220px; }
+  .mo-rec-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .mo-rec-action {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 4px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .mo-rec.action-green .mo-rec-action { color: var(--accent-green); }
+  .mo-rec.action-gold .mo-rec-action { color: var(--gold-2); }
+  .mo-rec.action-orange .mo-rec-action { color: #ff8c42; }
+  .mo-rec.action-red .mo-rec-action { color: var(--accent-pink); }
+  .mo-rec-text {
+    font-size: 13.5px;
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .mo-outputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .mo-out {
+    padding: 18px 20px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    position: relative;
+    overflow: hidden;
+  }
+  .mo-out::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .mo-out-best::before { background: var(--accent-green); }
+  .mo-out-fair::before { background: var(--gold-2); }
+  .mo-out-insp::before { background: #ff8c42; }
+  .mo-out-walk::before { background: var(--accent-pink); }
+  .mo-out-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    margin-top: 4px;
+  }
+  .mo-out-value {
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .mo-out-sub {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .mo-asking-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    margin-bottom: 24px;
+  }
+  .mo-asking-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mo-asking-lbl {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .mo-asking-val {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+  }
+  .mo-asking-val.over { color: var(--accent-pink); }
+  .mo-asking-val.under { color: var(--accent-green); }
+  .mo-asking-arrow {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .mo-subhead {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold-2);
+    font-weight: 600;
+    margin: 28px 0 12px;
+  }
+  .mo-input-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 14px;
+    line-height: 1.5;
+  }
+  .mo-wf {
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .mo-wf-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 130px;
+    align-items: center;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--hairline);
+    font-size: 13px;
+  }
+  .mo-wf-row:last-child { border-bottom: none; }
+  .mo-wf-start {
+    background: rgba(48, 209, 88, 0.05);
+    font-weight: 600;
+  }
+  .mo-wf-end {
+    background: rgba(212, 175, 55, 0.08);
+    font-weight: 700;
+    border-top: 2px solid rgba(212, 175, 55, 0.4);
+  }
+  .mo-wf-label { color: var(--text-primary); }
+  .mo-wf-amount {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .mo-wf-amount.negative { color: var(--accent-pink); }
+  .mo-wf-running {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .mo-wf-end .mo-wf-running { color: var(--gold-2); font-size: 16px; }
+  .mo-wf-end .mo-wf-label { color: var(--gold-2); }
+  .mo-input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .mo-input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+  }
+  .mo-input-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .mo-input-label {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+  }
+  .mo-input-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .mo-input-row input[type="range"] {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--hairline);
+    border-radius: 2px;
+    cursor: pointer;
+    margin: 4px 0 2px;
+  }
+  .mo-input-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--gold-2);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+  }
+  .mo-input-row input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--gold-2);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+  }
+  .mo-input-comp {
+    grid-column: 1 / -1;
+    background: linear-gradient(180deg, rgba(212,175,55,0.05), rgba(212,175,55,0.02));
+    border-color: rgba(212, 175, 55, 0.25);
+  }
+  .mo-input-comp .mo-input-label { color: var(--text-primary); font-weight: 500; }
+  .mo-input-comp .mo-input-value { font-size: 16px; }
+  .mo-issues-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .mo-issue {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+  .mo-issue:hover {
+    border-color: rgba(255, 140, 66, 0.3);
+    background: rgba(255, 140, 66, 0.04);
+  }
+  .mo-issue.checked {
+    background: rgba(255, 140, 66, 0.1);
+    border-color: rgba(255, 140, 66, 0.45);
+  }
+  .mo-issue-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .mo-check-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid var(--hairline);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+  .mo-issue.checked .mo-check-box {
+    background: #ff8c42;
+    border-color: #ff8c42;
+  }
+  .mo-check-mark {
+    display: none;
+    color: #000;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 700;
+  }
+  .mo-issue.checked .mo-check-mark { display: block; }
+  .mo-issue-name {
+    font-size: 12.5px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mo-issue-credit {
+    font-size: 11.5px;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+  .mo-issue.checked .mo-issue-credit {
+    color: #ff8c42;
+    font-weight: 600;
+  }
+  .mo-message-wrap { position: relative; }
+  .mo-message {
+    width: 100%;
+    min-height: 230px;
+    padding: 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    line-height: 1.6;
+    resize: vertical;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .mo-message:focus {
+    outline: none;
+    border-color: rgba(212, 175, 55, 0.4);
+  }
+  .mo-copy-btn {
+    margin-top: 10px;
+    padding: 8px 18px;
+    background: rgba(212, 175, 55, 0.14);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 999px;
+    color: var(--gold-2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .mo-copy-btn:hover { background: rgba(212, 175, 55, 0.22); }
+  .mo-copy-feedback {
+    margin-left: 12px;
+    font-size: 11.5px;
+    color: var(--accent-green);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .mo-copy-feedback.visible { opacity: 1; }
+  .mo-footer {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.6;
+  }
+  @media (max-width: 720px) {
+    .mo-rec-inner { flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px 18px; }
+    .mo-rec-meta { min-width: 0; }
+    .mo-rec-action { font-size: 22px; }
+    .mo-outputs { grid-template-columns: 1fr; gap: 10px; }
+    .mo-out-walk { order: 1; }
+    .mo-out-fair { order: 2; }
+    .mo-out-insp { order: 3; }
+    .mo-out-best { order: 4; }
+    .mo-asking-row { grid-template-columns: 1fr; gap: 8px; padding: 14px; }
+    .mo-asking-arrow { display: none; }
+    .mo-asking-cell { flex-direction: row; justify-content: space-between; width: 100%; padding: 4px 0; }
+    .mo-asking-val { font-size: 14px; margin-top: 0; }
+    .mo-wf-row { grid-template-columns: 1fr auto; padding: 10px 12px; font-size: 12px; }
+    .mo-wf-amount { display: none; }
+    .mo-input-grid { grid-template-columns: 1fr; }
+    .mo-issues-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .mo-message { min-height: 280px; font-size: 12.5px; }
+  }
+  @media (max-width: 380px) {
+    .mo-issues-grid { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
@@ -2633,6 +3023,110 @@
 
       <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
         Sources. Realtytrac and Redfin zip 18347 market trends, Movoto Pocono Lake market dashboard, Mashvisor cash on cash returns, AirDNA STR inventory, Pocono Vacation Home Sales report June 2025, Pocono Mountain School District GreatSchools and Niche ratings. Sparklines show direction only, not absolute scale. Median price trend covers the last 12 months. DOM, inventory, and sale to list ratio cover the past 90 days.
+      </p>
+    </div>
+    </div>
+  </section>
+
+  <!-- ========== Maximum Offer Calculator ========== -->
+  <section class="section collapsible" id="max-offer">
+    <div class="section-head" onclick="toggleCollapse(this)">
+      <div class="head-left">
+        <h2>Maximum Offer Calculator</h2>
+        <span class="hint">Decision engine. What you should pay, not just what you can borrow.</span>
+      </div>
+      <div class="head-right">
+        <span class="collapse-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" style="display:block">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="collapse-content">
+    <div class="card">
+
+      <div class="mo-rec" id="mo-rec">
+        <div class="mo-rec-inner">
+          <div class="mo-rec-meta">
+            <div class="mo-rec-label">Recommendation</div>
+            <div class="mo-rec-action" id="mo-rec-action">Proceed with conditions</div>
+          </div>
+          <div class="mo-rec-text" id="mo-rec-text">
+            The property is within the adjusted comp range, but the final offer should be capped until septic, well, HOA, insurance, and utility history are verified.
+          </div>
+        </div>
+      </div>
+
+      <div class="mo-outputs">
+        <div class="mo-out mo-out-best">
+          <div class="mo-out-label">Best Case Offer</div>
+          <div class="mo-out-value" id="mo-best-value">$345,000</div>
+          <div class="mo-out-sub">Clean inspection, full comp support.</div>
+        </div>
+        <div class="mo-out mo-out-fair">
+          <div class="mo-out-label">Fair Offer Range</div>
+          <div class="mo-out-value" id="mo-fair-value">$336K to $344K</div>
+          <div class="mo-out-sub">Normal negotiation window.</div>
+        </div>
+        <div class="mo-out mo-out-insp">
+          <div class="mo-out-label">Inspection Adjusted Offer</div>
+          <div class="mo-out-value" id="mo-insp-value">$345,000</div>
+          <div class="mo-out-sub" id="mo-insp-sub">No issues checked.</div>
+        </div>
+        <div class="mo-out mo-out-walk">
+          <div class="mo-out-label">Walk Away Price</div>
+          <div class="mo-out-value" id="mo-walk-value">$330,000</div>
+          <div class="mo-out-sub">Above this, deal is too risky.</div>
+        </div>
+      </div>
+
+      <div class="mo-asking-row">
+        <div class="mo-asking-cell">
+          <span class="mo-asking-lbl">Current Asking</span>
+          <span class="mo-asking-val">$329,999</span>
+        </div>
+        <div class="mo-asking-arrow">VS</div>
+        <div class="mo-asking-cell">
+          <span class="mo-asking-lbl">Walk Away</span>
+          <span class="mo-asking-val" id="mo-asking-walk">$330,000</span>
+        </div>
+        <div class="mo-asking-arrow">=</div>
+        <div class="mo-asking-cell">
+          <span class="mo-asking-lbl">Gap</span>
+          <span class="mo-asking-val" id="mo-asking-gap">$1 under</span>
+        </div>
+      </div>
+
+      <h3 class="mo-subhead">Waterfall Breakdown</h3>
+      <div class="mo-wf" id="mo-waterfall"></div>
+
+      <h3 class="mo-subhead">Adjust Reserves</h3>
+      <p class="mo-input-hint">
+        Adjusted Comp Value is calibrated to Locust Lake Village and Arrowhead Lake closed sales only. Reserves reflect conservative buffer for unknowns. Edit to match what you actually know.
+      </p>
+      <div class="mo-input-grid" id="mo-input-grid"></div>
+
+      <h3 class="mo-subhead">Inspection Issues</h3>
+      <p class="mo-input-hint">
+        Check what comes up in inspection. Each item adds a realistic credit estimate based on Monroe County contractor pricing. Drives the Inspection Adjusted Offer and the realtor message below.
+      </p>
+      <div class="mo-issues-grid" id="mo-issues-grid"></div>
+
+      <h3 class="mo-subhead">Realtor Message</h3>
+      <p class="mo-input-hint">
+        Auto generated based on the current recommendation. Tap copy to send.
+      </p>
+      <div class="mo-message-wrap">
+        <textarea class="mo-message" id="mo-message" readonly></textarea>
+        <div>
+          <button class="mo-copy-btn" onclick="copyMOMessage()">Copy to clipboard</button>
+          <span class="mo-copy-feedback" id="mo-copy-feedback"></span>
+        </div>
+      </div>
+
+      <p class="mo-footer">
+        How the math works. Walk Away Price equals Adjusted Comp Value minus all risk reserves. Fair Offer Range sits between Walk Away plus a soft buffer (low side) and Adjusted Comp Value minus the safety margin (high side). Best Case Offer equals Adjusted Comp Value and assumes everything checks out. Inspection Adjusted Offer subtracts only the checked inspection credits from Best Case. Recommendation logic compares the current asking against these bands. Adjusted Comp Value is calibrated to Locust Lake Village and Arrowhead Lake closed sales only, with weighting for size, year built, bath count, lake access, and rental appeal.
       </p>
     </div>
     </div>
@@ -4643,6 +5137,327 @@
     if (heatmapTooltip) heatmapTooltip.classList.remove('visible');
   }
 
+  // ============== Maximum Offer Calculator ==============
+  const MO_RESERVES = [
+    { key: 'inspection',   label: 'Inspection Reserve',       defaultVal: 2500, max: 15000 },
+    { key: 'appraisal',    label: 'Appraisal Risk Reserve',   defaultVal: 2500, max: 15000 },
+    { key: 'missingProof', label: 'Missing Proof Reserve',    defaultVal: 3000, max: 10000 },
+    { key: 'septicWell',   label: 'Septic and Well Reserve',  defaultVal: 2000, max: 15000 },
+    { key: 'hoa',          label: 'HOA Reserve',              defaultVal: 1500, max: 8000 },
+    { key: 'insurance',    label: 'Insurance Reserve',        defaultVal: 1000, max: 6000 },
+    { key: 'repair',       label: 'Immediate Repair Reserve', defaultVal: 1500, max: 15000 },
+    { key: 'safety',       label: 'Required Safety Margin',   defaultVal: 1000, max: 15000 }
+  ];
+  const MO_ASKING = 329999;
+  const MO_COMP_DEFAULT = 345000;
+  const MO_ISSUES = [
+    { key: 'roof',       label: 'Roof concern',                credit: 8000 },
+    { key: 'septic',     label: 'Septic concern',              credit: 7500 },
+    { key: 'well',       label: 'Well concern',                credit: 4000 },
+    { key: 'hvac',       label: 'HVAC concern',                credit: 5000 },
+    { key: 'deck',       label: 'Deck repair',                 credit: 3500 },
+    { key: 'water',      label: 'Water intrusion',             credit: 4500 },
+    { key: 'electrical', label: 'Electrical correction',       credit: 2500 },
+    { key: 'plumbing',   label: 'Plumbing issue',              credit: 2000 },
+    { key: 'termite',    label: 'Termite or pest issue',       credit: 3000 },
+    { key: 'window',     label: 'Window or door issue',        credit: 1500 },
+    { key: 'foundation', label: 'Foundation or grading',       credit: 6000 },
+    { key: 'fireplace',  label: 'Fireplace or chimney',        credit: 2500 }
+  ];
+
+  let moState = {
+    adjustedComp: MO_COMP_DEFAULT,
+    reserves: {},
+    issues: {}
+  };
+  MO_RESERVES.forEach(r => moState.reserves[r.key] = r.defaultVal);
+  MO_ISSUES.forEach(i => moState.issues[i.key] = false);
+
+  function moFmtUSD(n) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function moFmtK(n) {
+    if (Math.abs(n) >= 1000) {
+      const v = n / 1000;
+      const decimals = (Math.abs(v) >= 100 || v === Math.round(v)) ? 0 : 1;
+      return '$' + v.toFixed(decimals) + 'K';
+    }
+    return moFmtUSD(n);
+  }
+
+  function buildMOInputs() {
+    const grid = document.getElementById('mo-input-grid');
+    if (!grid) return;
+    let html = '<div class="mo-input-row mo-input-comp">' +
+      '<div class="mo-input-row-top">' +
+      '<span class="mo-input-label">Adjusted Comp Value</span>' +
+      '<span class="mo-input-value" id="mo-comp-val">' + moFmtUSD(moState.adjustedComp) + '</span>' +
+      '</div>' +
+      '<input type="range" min="250000" max="450000" step="1000" value="' + moState.adjustedComp + '" oninput="moUpdateComp(this.value)">' +
+      '</div>';
+    MO_RESERVES.forEach(r => {
+      html += '<div class="mo-input-row">' +
+        '<div class="mo-input-row-top">' +
+        '<span class="mo-input-label">' + r.label + '</span>' +
+        '<span class="mo-input-value" id="mo-res-val-' + r.key + '">' + moFmtUSD(moState.reserves[r.key]) + '</span>' +
+        '</div>' +
+        '<input type="range" min="0" max="' + r.max + '" step="500" value="' + moState.reserves[r.key] + '" oninput="moUpdateReserve(\'' + r.key + '\', this.value)">' +
+        '</div>';
+    });
+    grid.innerHTML = html;
+  }
+
+  function moUpdateComp(v) {
+    moState.adjustedComp = parseInt(v);
+    const el = document.getElementById('mo-comp-val');
+    if (el) el.textContent = moFmtUSD(moState.adjustedComp);
+    renderMO();
+  }
+  function moUpdateReserve(key, v) {
+    moState.reserves[key] = parseInt(v);
+    const el = document.getElementById('mo-res-val-' + key);
+    if (el) el.textContent = moFmtUSD(moState.reserves[key]);
+    renderMO();
+  }
+
+  function buildMOIssues() {
+    const grid = document.getElementById('mo-issues-grid');
+    if (!grid) return;
+    grid.innerHTML = MO_ISSUES.map(i => {
+      const checked = moState.issues[i.key];
+      return '<div class="mo-issue' + (checked ? ' checked' : '') + '" data-key="' + i.key + '" onclick="moToggleIssue(\'' + i.key + '\')">' +
+        '<div class="mo-issue-left">' +
+        '<div class="mo-check-box"><span class="mo-check-mark">✓</span></div>' +
+        '<span class="mo-issue-name">' + i.label + '</span>' +
+        '</div>' +
+        '<span class="mo-issue-credit">' + moFmtUSD(i.credit) + '</span>' +
+        '</div>';
+    }).join('');
+  }
+  function moToggleIssue(key) {
+    moState.issues[key] = !moState.issues[key];
+    const el = document.querySelector('.mo-issue[data-key="' + key + '"]');
+    if (el) el.classList.toggle('checked', moState.issues[key]);
+    renderMO();
+  }
+
+  function determineMOAction(asking, walkAway, fairLow, fairHigh, inspectionCredits, missingProof) {
+    if (asking > walkAway + 10000) {
+      return { action: 'Walk Away', cls: 'action-red', kind: 'walkaway' };
+    }
+    if (asking > walkAway) {
+      return { action: 'Pause', cls: 'action-red', kind: 'pause' };
+    }
+    if (inspectionCredits >= 5000) {
+      return { action: 'Renegotiate', cls: 'action-orange', kind: 'renegotiate-inspection' };
+    }
+    if (asking > fairHigh) {
+      return { action: 'Renegotiate', cls: 'action-orange', kind: 'renegotiate-comps' };
+    }
+    if (asking < fairLow && missingProof < 1000) {
+      return { action: 'Proceed', cls: 'action-green', kind: 'proceed' };
+    }
+    return { action: 'Proceed with conditions', cls: 'action-gold', kind: 'proceed-conditions' };
+  }
+
+  function moActionText(kind, asking, walkAway, fairLow, fairHigh, inspectionCredits) {
+    if (kind === 'walkaway') {
+      return 'Asking price exceeds your walk away threshold by a meaningful margin. The total risk reserves are not justified by the adjusted comp value at this price.';
+    }
+    if (kind === 'pause') {
+      return 'Asking price is at or above your walk away threshold. Pause until septic, well, HOA, insurance, and utility history are verified clean. Then either negotiate down or proceed.';
+    }
+    if (kind === 'renegotiate-inspection') {
+      return 'Inspection items total ' + moFmtUSD(inspectionCredits) + ' in credit requests. Counter for an equivalent credit at closing, or a matching price reduction. Use the realtor message below.';
+    }
+    if (kind === 'renegotiate-comps') {
+      return 'Asking is above the fair offer range (' + moFmtUSD(fairLow) + ' to ' + moFmtUSD(fairHigh) + '). Counter at the fair range high or request seller credits.';
+    }
+    if (kind === 'proceed') {
+      return 'Asking is below the fair offer range and risk reserves are minimal. Verification items are clear. Strong acquisition at the current price.';
+    }
+    return 'The property is within the adjusted comp range, but the final offer should be capped until septic, well, HOA, insurance, and utility history are verified. Use the conditions message below.';
+  }
+
+  function renderMO() {
+    const totalReserves = MO_RESERVES.reduce((s, r) => s + moState.reserves[r.key], 0);
+    const safetyMargin = moState.reserves.safety;
+    const reservesExSafety = totalReserves - safetyMargin;
+    const adjComp = moState.adjustedComp;
+    const walkAway = adjComp - totalReserves;
+    const bestCase = adjComp;
+    const fairLow = walkAway + Math.round(reservesExSafety * 0.4);
+    const fairHigh = adjComp - safetyMargin;
+    const inspectionCredits = MO_ISSUES.reduce((s, i) => s + (moState.issues[i.key] ? i.credit : 0), 0);
+    const inspectionAdjusted = adjComp - inspectionCredits;
+    const checkedCount = MO_ISSUES.filter(i => moState.issues[i.key]).length;
+    const asking = MO_ASKING;
+    const rec = determineMOAction(asking, walkAway, fairLow, fairHigh, inspectionCredits, moState.reserves.missingProof);
+    const actionText = moActionText(rec.kind, asking, walkAway, fairLow, fairHigh, inspectionCredits);
+
+    const recEl = document.getElementById('mo-rec');
+    if (recEl) {
+      recEl.className = 'mo-rec ' + rec.cls;
+      const actionEl = document.getElementById('mo-rec-action');
+      const textEl = document.getElementById('mo-rec-text');
+      if (actionEl) actionEl.textContent = rec.action;
+      if (textEl) textEl.textContent = actionText;
+    }
+
+    const bestEl = document.getElementById('mo-best-value');
+    if (bestEl) bestEl.textContent = moFmtUSD(bestCase);
+    const fairEl = document.getElementById('mo-fair-value');
+    if (fairEl) fairEl.textContent = moFmtK(fairLow) + ' to ' + moFmtK(fairHigh);
+    const inspEl = document.getElementById('mo-insp-value');
+    if (inspEl) inspEl.textContent = moFmtUSD(inspectionAdjusted);
+    const inspSubEl = document.getElementById('mo-insp-sub');
+    if (inspSubEl) {
+      inspSubEl.textContent = checkedCount === 0
+        ? 'No issues checked.'
+        : checkedCount + ' item' + (checkedCount > 1 ? 's' : '') + ' totaling ' + moFmtUSD(inspectionCredits) + '.';
+    }
+    const walkEl = document.getElementById('mo-walk-value');
+    if (walkEl) walkEl.textContent = moFmtUSD(walkAway);
+    const askingWalkEl = document.getElementById('mo-asking-walk');
+    if (askingWalkEl) askingWalkEl.textContent = moFmtUSD(walkAway);
+
+    const gap = asking - walkAway;
+    const gapEl = document.getElementById('mo-asking-gap');
+    if (gapEl) {
+      if (gap > 0) {
+        gapEl.textContent = moFmtUSD(gap) + ' over';
+        gapEl.className = 'mo-asking-val over';
+      } else if (gap < 0) {
+        gapEl.textContent = moFmtUSD(Math.abs(gap)) + ' under';
+        gapEl.className = 'mo-asking-val under';
+      } else {
+        gapEl.textContent = 'Exactly at limit';
+        gapEl.className = 'mo-asking-val';
+      }
+    }
+
+    const wfEl = document.getElementById('mo-waterfall');
+    if (wfEl) {
+      let running = adjComp;
+      let wfHtml = '<div class="mo-wf-row mo-wf-start">' +
+        '<span class="mo-wf-label">Adjusted Comp Value</span>' +
+        '<span class="mo-wf-amount">' + moFmtUSD(adjComp) + '</span>' +
+        '<span class="mo-wf-running">' + moFmtUSD(running) + '</span>' +
+        '</div>';
+      MO_RESERVES.forEach(r => {
+        const v = moState.reserves[r.key];
+        running -= v;
+        wfHtml += '<div class="mo-wf-row">' +
+          '<span class="mo-wf-label">' + r.label + '</span>' +
+          '<span class="mo-wf-amount negative">\u2212' + moFmtUSD(v) + '</span>' +
+          '<span class="mo-wf-running">' + moFmtUSD(running) + '</span>' +
+          '</div>';
+      });
+      wfHtml += '<div class="mo-wf-row mo-wf-end">' +
+        '<span class="mo-wf-label">Walk Away Price</span>' +
+        '<span class="mo-wf-amount"></span>' +
+        '<span class="mo-wf-running">' + moFmtUSD(running) + '</span>' +
+        '</div>';
+      wfEl.innerHTML = wfHtml;
+    }
+
+    renderMORealtorMessage(rec.kind, inspectionCredits, fairHigh, walkAway);
+  }
+
+  function renderMORealtorMessage(kind, inspectionCredits, fairHigh, walkAway) {
+    const issueDescriptions = {
+      roof:       'roof condition and remaining service life',
+      septic:     'septic system capacity and condition',
+      well:       'well water flow rate and water quality',
+      hvac:       'HVAC and heat pump function',
+      deck:       'deck structural condition',
+      water:      'water intrusion or moisture',
+      electrical: 'electrical panel and grounding',
+      plumbing:   'plumbing supply and drainage',
+      termite:    'WDO and termite inspection findings',
+      window:     'window and door operation',
+      foundation: 'foundation and grading',
+      fireplace:  'fireplace and chimney'
+    };
+    const checked = MO_ISSUES.filter(i => moState.issues[i.key]);
+    const checkedLabels = checked.map(i => issueDescriptions[i.key]);
+    const sig = '\n\nBest,\nJerry\n\u260E\uFE0F 917-400-9292.';
+    const conditionsList =
+      '\u2022 Last 12 months of utility bills, electric and propane if applicable.\n' +
+      '\u2022 HOA rules document, with explicit confirmation around short term rental eligibility.\n' +
+      '\u2022 Septic maintenance records, capacity, last pump date, any recent repairs.\n' +
+      '\u2022 Well water test results, flow rate, potability, full panel.\n' +
+      '\u2022 STR rental history if the seller has any.\n' +
+      '\u2022 Insurance binding confirmation given the heat type and fireplace.';
+    let msg = '';
+    if (kind === 'walkaway' || kind === 'pause') {
+      msg = 'Hi,\n\n' +
+        'After reviewing the recent closed sales in Locust Lake Village and Arrowhead Lake, our underwriting puts our maximum acceptable price at ' + moFmtUSD(walkAway) + ' on this property. Above that, the risk reserves we are carrying do not justify the price relative to the comp set.\n\n' +
+        'We need the following items verified before we can move forward at any price.\n\n' +
+        conditionsList + '\n\n' +
+        'Let me know if the seller is open to revising.' + sig;
+    } else if (kind === 'renegotiate-inspection') {
+      const bullets = checkedLabels.length
+        ? checkedLabels.map(l => '\u2022 ' + l).join('\n')
+        : '\u2022 Items detailed in the inspection report.';
+      msg = 'Hi,\n\n' +
+        'Thank you for sending the inspection report. Based on the findings, we are requesting a seller credit of ' + moFmtUSD(inspectionCredits) + ' at closing to address the following.\n\n' +
+        bullets + '\n\n' +
+        'This credit reflects fair market repair pricing based on local contractor work in Monroe County. We are otherwise prepared to proceed at the current contract terms and timeline.' + sig;
+    } else if (kind === 'renegotiate-comps') {
+      msg = 'Hi,\n\n' +
+        'After reviewing recent closed sales in Locust Lake Village and Arrowhead Lake, our adjusted offer for 157 Cardinal Ln is ' + moFmtUSD(fairHigh) + '. The comp set supports this range.\n\n' +
+        '\u2022 1819 Stag Run, 2022 build, 3 BR, 1392 SF, sold $355K.\n' +
+        '\u2022 1428 Lake Ln, 2000 build, 4 BR, 1978 SF, sold $410K.\n' +
+        '\u2022 218 Barberry Ln, 1994 build, 3 BR, 1176 SF, sold $400K.\n' +
+        '\u2022 1540 Lake Ln, 2025 build, 3 BR, 1224 SF, sold $340K.\n\n' +
+        'We are well qualified, pre approved, and prepared to close on the original timeline. Let me know if the seller would consider this number.' + sig;
+    } else if (kind === 'proceed-conditions') {
+      msg = 'Hi,\n\n' +
+        'We are prepared to move forward at the current contract price, conditional on the following items before commitment.\n\n' +
+        conditionsList + '\n\n' +
+        'Once these are received and clean, we proceed without delay.' + sig;
+    } else {
+      msg = 'Hi,\n\n' +
+        'We are prepared to proceed at the current contract price. The adjusted comp analysis from Locust Lake Village and Arrowhead Lake closed sales supports the listing. We are ready to close on schedule.\n\n' +
+        'Please send the final closing instructions and any remaining items the seller needs from us.' + sig;
+    }
+    const ta = document.getElementById('mo-message');
+    if (ta) ta.value = msg;
+  }
+
+  function copyMOMessage() {
+    const ta = document.getElementById('mo-message');
+    if (!ta) return;
+    const showFeedback = () => {
+      const fb = document.getElementById('mo-copy-feedback');
+      if (fb) {
+        fb.textContent = 'Copied to clipboard.';
+        fb.classList.add('visible');
+        setTimeout(() => fb.classList.remove('visible'), 2000);
+      }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ta.value).then(showFeedback).catch(() => {
+        ta.select();
+        try { document.execCommand('copy'); showFeedback(); } catch (e) {}
+      });
+    } else {
+      ta.select();
+      try { document.execCommand('copy'); showFeedback(); } catch (e) {}
+    }
+  }
+
+  function initMaxOfferCalculator() {
+    try {
+      buildMOInputs();
+      buildMOIssues();
+      renderMO();
+    } catch (e) {
+      console.error('Max Offer Calculator init failed:', e);
+    }
+  }
+
   // ============== Mortgage Rate Pulse update ==============
   const CURRENT_MARKET_RATE = 6.51; // Freddie Mac PMMS May 21, 2026
   function updateRatePulse(targetRate) {
@@ -4948,6 +5763,7 @@
     } catch (e) {
       console.error('comp render failed:', e);
     }
+    initMaxOfferCalculator();
   });
 </script>
 </body>
