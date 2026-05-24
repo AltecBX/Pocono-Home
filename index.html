@@ -2778,167 +2778,7 @@
     .mo-issues-grid { grid-template-columns: 1fr; }
   }
 
-  /* ========== Neighborhood Map (Leaflet) ========== */
-  .map-controls {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-  }
-  .map-tab {
-    padding: 8px 16px;
-    background: var(--surface-2);
-    border: 1px solid var(--hairline);
-    border-radius: 999px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-    letter-spacing: 0.01em;
-  }
-  .map-tab:hover {
-    background: rgba(212, 175, 55, 0.08);
-    border-color: rgba(212, 175, 55, 0.25);
-  }
-  .map-tab.active {
-    background: rgba(212, 175, 55, 0.18);
-    color: var(--gold-2);
-    border-color: rgba(212, 175, 55, 0.4);
-  }
-  .map-status {
-    margin-left: auto;
-    font-size: 11px;
-    color: var(--text-tertiary);
-    align-self: center;
-    font-variant-numeric: tabular-nums;
-  }
-  #neighborhood-map {
-    height: 520px;
-    width: 100%;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--hairline);
-    background: #0b0d11;
-    overflow: hidden;
-  }
-  .leaflet-container {
-    background: #0b0d11 !important;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  }
-  .leaflet-popup-content-wrapper {
-    background: #1c1c1f;
-    color: var(--text-primary);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  }
-  .leaflet-popup-tip { background: #1c1c1f; }
-  .leaflet-popup-content {
-    margin: 12px 14px;
-    font-size: 12.5px;
-    line-height: 1.55;
-  }
-  .leaflet-popup-content a {
-    color: var(--gold-2);
-    text-decoration: none;
-  }
-  .leaflet-popup-content a:hover { text-decoration: underline; }
-  .leaflet-popup-close-button { color: var(--text-tertiary) !important; }
-  .leaflet-control-zoom a {
-    background: #1c1c1f !important;
-    color: var(--text-primary) !important;
-    border-color: rgba(255,255,255,0.15) !important;
-  }
-  .leaflet-control-zoom a:hover { background: #2a2a2e !important; }
-  .leaflet-control-attribution {
-    background: rgba(0,0,0,0.7) !important;
-    color: var(--text-tertiary) !important;
-    font-size: 10px !important;
-  }
-  .leaflet-control-attribution a { color: var(--gold-2) !important; }
-
-  .subject-marker-wrap {
-    background: transparent !important;
-    border: none !important;
-  }
-  .sm-inner {
-    background: var(--gold-2);
-    color: #000;
-    padding: 7px 12px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 0 3px rgba(212,175,55,0.3);
-    border: 2px solid #fff;
-    white-space: nowrap;
-    position: relative;
-  }
-  .sm-inner::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 8px solid var(--gold-2);
-  }
-  .sm-price {
-    font-size: 13px;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
-  }
-  .sm-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 1px;
-    opacity: 0.7;
-  }
-
-  .comp-marker-wrap {
-    background: transparent !important;
-    border: none !important;
-  }
-  .cm-pill {
-    background: rgba(0,0,0,0.88);
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 14px;
-    font-size: 11.5px;
-    font-weight: 600;
-    white-space: nowrap;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.18);
-    font-variant-numeric: tabular-nums;
-    cursor: pointer;
-    transition: transform 0.12s, box-shadow 0.12s;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  }
-  .cm-pill:hover {
-    transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    z-index: 1000;
-  }
-  .comp-marker-active .cm-pill {
-    background: rgba(48, 209, 88, 0.92);
-    color: #000;
-    border-color: rgba(255,255,255,0.3);
-  }
-  .comp-marker-sold .cm-pill {
-    background: rgba(20, 20, 23, 0.92);
-    color: #fff;
-  }
-  @media (max-width: 720px) {
-    #neighborhood-map { height: 380px; }
-    .cm-pill { font-size: 10px; padding: 3px 8px; }
-    .sm-price { font-size: 11.5px; }
-  }
-
 </style>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 </head>
 <body>
 <div class="hero-photo" aria-hidden="true"></div>
@@ -3883,19 +3723,18 @@
   <section class="section">
     <div class="section-head">
       <h2>Neighborhood Map</h2>
-      <span class="hint">Locust Lake Village, satellite + lot context</span>
+      <span class="hint">Locust Lake Village, Coolbaugh Township, Monroe County</span>
     </div>
 
     <div class="card" style="padding: 14px; margin-bottom: 14px;">
-      <div class="map-controls">
-        <button class="map-tab active" data-view="satellite" onclick="setMapView('satellite')">Satellite</button>
-        <button class="map-tab" data-view="topo" onclick="setMapView('topo')">Topo</button>
-        <button class="map-tab" data-view="road" onclick="setMapView('road')">Road</button>
-        <span class="map-status" id="map-status">Loading comp pins</span>
-      </div>
-      <div id="neighborhood-map"></div>
-      <p style="margin: 10px 4px 0; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
-        Subject in gold. Active listings in green. Sold comps in black. Click any pin to see year built, size, and Zillow link. Comp positions geocoded from address; rural address geocoding is approximate. Use Satellite for lot context, Topo for terrain, Road for street layout.
+      <iframe id="property-map"
+        src="https://www.google.com/maps?q=157+Cardinal+Ln+Pocono+Lake+PA+18347&z=16&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+        title="157 Cardinal Ln map"></iframe>
+      <p style="margin: 10px 4px 0; font-size: 11px; color: var(--text-tertiary);">
+        Click the map to open in Google Maps for satellite view, Street View, directions, and area exploration.
       </p>
     </div>
 
@@ -6012,141 +5851,6 @@
     } catch (e) {}
   }
 
-  // ============== Neighborhood Map ==============
-  const SUBJECT_COORD = [41.157324, -75.551245];
-  let LEAFLET_MAP = null;
-  let MAP_LAYERS = { satellite: null, topo: null, road: null };
-  let COMP_MARKERS = [];
-  let SUBJECT_MARKER = null;
-
-  function initNeighborhoodMap() {
-    const el = document.getElementById('neighborhood-map');
-    if (!el || typeof L === 'undefined') return;
-    try {
-      LEAFLET_MAP = L.map(el, {
-        center: SUBJECT_COORD,
-        zoom: 15,
-        zoomControl: true,
-        scrollWheelZoom: false,
-        attributionControl: true
-      });
-
-      MAP_LAYERS.satellite = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        { attribution: 'Esri', maxZoom: 19 }
-      );
-      MAP_LAYERS.topo = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-        { attribution: 'Esri', maxZoom: 19 }
-      );
-      MAP_LAYERS.road = L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-        { attribution: '\u00A9 OpenStreetMap \u00A9 CARTO', maxZoom: 19 }
-      );
-      MAP_LAYERS.satellite.addTo(LEAFLET_MAP);
-
-      // Subject marker
-      const subjectIcon = L.divIcon({
-        className: 'subject-marker-wrap',
-        html: '<div class="sm-inner"><div class="sm-price">$329,999</div><div class="sm-label">Subject</div></div>',
-        iconSize: [110, 50],
-        iconAnchor: [55, 58]
-      });
-      SUBJECT_MARKER = L.marker(SUBJECT_COORD, { icon: subjectIcon, zIndexOffset: 1000 }).addTo(LEAFLET_MAP);
-      SUBJECT_MARKER.bindPopup(
-        '<strong>157 Cardinal Ln</strong><br>' +
-        '3 BR / 3 BA \u00B7 1,432 SF \u00B7 Built 1995<br>' +
-        'Asking: $329,999 \u00B7 $230 per SF<br>' +
-        '<a href="https://www.zillow.com/homedetails/157-Cardinal-Ln-Pocono-Lake-PA-18347/9795158_zpid/" target="_blank" rel="noopener">View on Zillow</a>'
-      );
-
-      // Click handler to re-enable scroll zoom on first click (better UX)
-      LEAFLET_MAP.once('click', () => LEAFLET_MAP.scrollWheelZoom.enable());
-
-      geocodeAndPlaceComps();
-    } catch (e) {
-      console.error('Map init failed:', e);
-      const status = document.getElementById('map-status');
-      if (status) status.textContent = 'Map failed to load';
-    }
-  }
-
-  function setMapView(view) {
-    if (!LEAFLET_MAP || !MAP_LAYERS[view]) return;
-    ['satellite', 'topo', 'road'].forEach(v => {
-      if (LEAFLET_MAP.hasLayer(MAP_LAYERS[v])) LEAFLET_MAP.removeLayer(MAP_LAYERS[v]);
-    });
-    MAP_LAYERS[view].addTo(LEAFLET_MAP);
-    MAP_LAYERS[view].bringToBack();
-    document.querySelectorAll('.map-tab').forEach(b => {
-      b.classList.toggle('active', b.getAttribute('data-view') === view);
-    });
-  }
-
-  async function geocodeAndPlaceComps() {
-    if (!LEAFLET_MAP) return;
-    const status = document.getElementById('map-status');
-    // Pull Locust Lake comps from BOTH active and sold (skip subject). Limit to ~18 for visual clarity.
-    const allLL = [];
-    COMP_DATA.active.forEach(c => { if (!c.isSubject && c.community === 'Locust Lake') allLL.push({ comp: c, type: 'active' }); });
-    COMP_DATA.sold.forEach(c => { if (!c.isSubject && c.community === 'Locust Lake') allLL.push({ comp: c, type: 'sold' }); });
-    const toGeocode = allLL.slice(0, 18);
-    let placed = 0;
-    for (let i = 0; i < toGeocode.length; i++) {
-      const { comp, type } = toGeocode[i];
-      if (status) status.textContent = 'Loading pins ' + (i + 1) + ' of ' + toGeocode.length;
-      const coord = await geocodeAddress(comp.address);
-      if (coord) {
-        addCompMarker(comp, coord, type);
-        placed++;
-      }
-      // Throttle to respect Nominatim usage policy (max ~1 req per second)
-      await new Promise(r => setTimeout(r, 1100));
-    }
-    if (status) {
-      status.textContent = placed === toGeocode.length
-        ? placed + ' comps loaded'
-        : placed + ' of ' + toGeocode.length + ' pinned';
-    }
-  }
-
-  async function geocodeAddress(address) {
-    const fullAddr = address + ', Pocono Lake, PA 18347';
-    const url = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(fullAddr) + '&format=json&limit=1&countrycodes=us';
-    try {
-      const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
-      if (!r.ok) return null;
-      const data = await r.json();
-      if (data && data.length > 0) {
-        return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-      }
-    } catch (e) {
-      console.warn('Geocode failed for ' + address, e);
-    }
-    return null;
-  }
-
-  function addCompMarker(comp, coord, type) {
-    if (!LEAFLET_MAP) return;
-    const priceLabel = '$' + Math.round(comp.price / 1000) + 'K';
-    const icon = L.divIcon({
-      className: 'comp-marker-wrap',
-      html: '<div class="cm-pill comp-marker-' + type + '">' + priceLabel + '</div>',
-      iconSize: [60, 22],
-      iconAnchor: [30, 11]
-    });
-    const marker = L.marker(coord, { icon }).addTo(LEAFLET_MAP);
-    const yearText = comp.year ? 'Built ' + comp.year : 'Year unknown';
-    const status = type === 'active' ? 'Asking' : 'Sold';
-    marker.bindPopup(
-      '<strong>' + comp.address + '</strong><br>' +
-      comp.bedbath + ' \u00B7 ' + comp.sqft.toLocaleString('en-US') + ' SF \u00B7 ' + yearText + '<br>' +
-      status + ': $' + comp.price.toLocaleString('en-US') + ' \u00B7 $' + comp.psf + ' per SF<br>' +
-      '<a href="' + comp.zurl + '" target="_blank" rel="noopener">View on Zillow</a>'
-    );
-    COMP_MARKERS.push(marker);
-  }
-
   document.addEventListener('DOMContentLoaded', function() {
     updateCountdown();
     updateListingFreshness();
@@ -6167,8 +5871,6 @@
       console.error('comp render failed:', e);
     }
     initMaxOfferCalculator();
-    // Init map slightly delayed to let Leaflet finish loading
-    setTimeout(initNeighborhoodMap, 200);
   });
 </script>
 </body>
