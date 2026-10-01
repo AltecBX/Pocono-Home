@@ -2488,6 +2488,14 @@
   .mo-asking-val.over { color: var(--accent-pink); }
   .mo-asking-val.under { color: var(--accent-green); }
 
+  .mo-comp-check { margin-top: 8px; font-size: 11.5px; line-height: 1.5; color: var(--text-tertiary); }
+  .mo-comp-check strong { color: var(--text-secondary); }
+  .mo-comp-use {
+    margin-left: 4px; padding: 2px 10px; border-radius: 999px; cursor: pointer; font: inherit; font-weight: 600;
+    background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.35); color: var(--gold-2);
+  }
+  .mo-comp-use:hover { background: rgba(212, 175, 55, 0.2); }
+
   /* Over Ask Lens, LLV calibration block */
   .mo-overask {
     background: rgba(255,255,255,0.02);
@@ -5406,6 +5414,7 @@
       '<span class="mo-input-value" id="mo-comp-val">' + moFmtUSD(moState.adjustedComp) + '</span>' +
       '</div>' +
       '<input type="range" min="250000" max="450000" step="1000" value="' + moState.adjustedComp + '" aria-label="Adjusted Comp Value" oninput="moUpdateComp(this.value)">' +
+      '<div class="mo-comp-check" id="mo-comp-check"></div>' +
       '</div>';
     MO_RESERVES.forEach(r => {
       html += '<div class="mo-input-row">' +
@@ -5417,6 +5426,29 @@
         '</div>';
     });
     grid.innerHTML = html;
+  }
+
+  // Size matched Locust Lake closings, median $/SF times subject SF. A check on the hand set value, never applied unless chosen.
+  function compSetValue() {
+    const lo = Math.round(SUBJECT.sqft * 0.75), hi = Math.round(SUBJECT.sqft * 1.25);
+    const rows = COMP_DATA.sold.filter(r => !r.isSubject && r.community === 'Locust Lake' && r.sqft >= lo && r.sqft <= hi);
+    return { n: rows.length, lo, hi, psf: median(rows.map(r => r.psf)), value: Math.round(median(rows.map(r => r.psf)) * SUBJECT.sqft / 1000) * 1000 };
+  }
+  function renderCompCheck() {
+    const el = document.getElementById('mo-comp-check');
+    if (!el) return;
+    const c = compSetValue();
+    if (!c.n) { el.textContent = ''; return; }
+    const diff = moState.adjustedComp - c.value;
+    el.innerHTML = 'Comp set check: median $' + Math.round(c.psf) + '/SF across ' + c.n + ' Locust Lake closings from ' +
+      c.lo.toLocaleString('en-US') + ' to ' + c.hi.toLocaleString('en-US') + ' SF, times ' + SUBJECT.sqft.toLocaleString('en-US') + ' SF = <strong>' + moFmtUSD(c.value) + '</strong>' +
+      (Math.abs(diff) < 1000 ? '. Your value matches.' : '. Yours is ' + moFmtUSD(Math.abs(diff)) + (diff > 0 ? ' higher' : ' lower') + '. <button type="button" class="mo-comp-use" onclick="moUseCompSet()">Use ' + moFmtK(c.value) + '</button>');
+  }
+  function moUseCompSet() {
+    moState.adjustedComp = compSetValue().value;
+    moSave();
+    buildMOInputs();
+    renderMO();
   }
 
   function moUpdateComp(v) {
@@ -5592,6 +5624,7 @@
 
     renderMORealtorMessage(rec.kind, inspectionCredits, fairHigh, walkAway);
     renderMOOverAsk();
+    renderCompCheck();
   }
 
   // Over Ask Lens. Filters COMP_DATA.sold to Locust Lake closed sales with a delta

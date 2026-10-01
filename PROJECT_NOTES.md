@@ -69,7 +69,7 @@ The Problem, The Solution, Files Changed, Validation (only checks actually run),
 ## Open items
 
 1. Active listings are a May 2026 snapshot. Refresh or retire them.
-2. Adjusted Comp Value in the Max Offer Calculator is a hand set $345K. Could be calibrated live from the sold set.
+2. Adjusted Comp Value in the Max Offer Calculator is a hand set $345K. A live comp set check now shows beside the slider (median $/SF of Locust Lake closings within 25% of 1,432 SF, $335K as of Oct 2026) with a Use button. Decide whether to adopt it as the default.
 3. 6 active comps link to Zillow search pages instead of a zpid detail page.
 4. Mobile check on a real iPhone for the tornado, heatmap, and underwriting table.
 5. Sqft basis: rows added Oct 2026 use MLS above grade sqft to match the subject 1,432. Older rows came from Zillow, which sometimes includes finished basement. Where MLS and county record disagree on beds, baths, or sqft, the MLS value is used.
