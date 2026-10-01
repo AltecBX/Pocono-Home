@@ -527,51 +527,6 @@
     .waterfall-bar .wf-amt { min-width: 80px; font-size: 13px; }
   }
 
-  /* Comp position chart */
-  .comp-chart {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 18px;
-  }
-  .comp-row {
-    display: grid;
-    grid-template-columns: 170px 1fr 60px;
-    gap: 10px;
-    align-items: center;
-    padding: 4px 0;
-  }
-  .comp-row .cr-addr { font-size: 12px; color: var(--text-secondary); }
-  .comp-row.subject .cr-addr { color: var(--gold-1); font-weight: 600; }
-  .comp-row .cr-bar-wrap {
-    height: 18px;
-    background: var(--surface-2);
-    border-radius: 3px;
-    overflow: hidden;
-    position: relative;
-  }
-  .comp-row .cr-bar {
-    height: 100%;
-    background: var(--surface-3);
-    border-radius: 3px;
-  }
-  .comp-row.subject .cr-bar {
-    background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
-  }
-  .comp-row .cr-val {
-    font-family: var(--font-display);
-    font-variant-numeric: tabular-nums;
-    font-size: 12px;
-    color: var(--text-secondary);
-    text-align: right;
-  }
-  .comp-row.subject .cr-val { color: var(--gold-1); font-weight: 600; }
-  @media (max-width: 720px) {
-    .comp-row { grid-template-columns: 110px 1fr 48px; gap: 6px; }
-    .comp-row .cr-addr { font-size: 11px; }
-    .comp-row .cr-val { font-size: 11px; }
-  }
-
   .lineitems {
     display: grid;
     grid-template-columns: 1fr;
@@ -749,6 +704,10 @@
   .comm-tile-v { font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
   .cash-split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 720px) { .comm-stats, .cash-split { grid-template-columns: 1fr; } }
+
+  /* Keyboard focus ring for every interactive element */
+  :focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; border-radius: 6px; }
+  .section-head[role="button"] { cursor: pointer; }
 
   /* Map legend below the map */
   .map-legend {
@@ -1073,31 +1032,6 @@
   }
   .input-row input:focus { border-color: var(--accent-blue); }
 
-  /* Costs forget chip cloud */
-  .chip-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 12px;
-  }
-  .chip {
-    padding: 14px 16px;
-    background: var(--surface-2);
-    border: 1px solid var(--hairline);
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .chip .chip-title { font-size: 13px; color: var(--text-primary); font-weight: 500; }
-  .chip .chip-amt {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 18px;
-    letter-spacing: -0.01em;
-    font-variant-numeric: tabular-nums;
-  }
-  .chip .chip-note { font-size: 11px; color: var(--text-tertiary); }
-
   /* Footnote */
   .footnote {
     margin-top: 32px;
@@ -1303,13 +1237,6 @@
     }
     .input-row label { font-size: 12.5px; }
     .input-row .sub-label { font-size: 10.5px; }
-
-    /* Chip grid uses single column on phones */
-    .chip-grid { grid-template-columns: 1fr; gap: 10px; }
-    .chip { padding: 12px 14px; }
-    .chip .chip-title { font-size: 12.5px; }
-    .chip .chip-amt { font-size: 16px; }
-    .chip .chip-note { font-size: 11px; }
 
     /* Stack bar slimmer */
     .stack { height: 10px; }
@@ -2281,7 +2208,7 @@
   }
   .heatmap-months {
     display: grid;
-    grid-template-columns: 50px repeat(12, 1fr);
+    grid-template-columns: 50px repeat(52, 1fr);
     gap: 2px;
     margin-top: 8px;
     min-width: 720px;
@@ -2291,10 +2218,10 @@
     letter-spacing: 0.05em;
   }
   .heatmap-months > span:first-child { color: transparent; }
-  .heatmap-months > span:not(:first-child) {
-    grid-column-end: span 4.33;
-    text-align: center;
-  }
+  .heatmap-months > span:not(:first-child) { grid-column-end: span 4; text-align: center; }
+  /* Mar, Jul, Sep, Dec carry 5 weeks in the model */
+  .heatmap-months > span:nth-child(4), .heatmap-months > span:nth-child(8),
+  .heatmap-months > span:nth-child(10), .heatmap-months > span:nth-child(13) { grid-column-end: span 5; }
   .heatmap-legend {
     display: flex;
     align-items: center;
@@ -3027,22 +2954,22 @@
     <div class="section-head">
       <div class="head-left">
         <h2>Recent Comps</h2>
-        <span class="hint" id="comp-filter-hint">Locust Lake Village only</span>
+        <span class="hint" id="comp-filter-hint">Locust Lake Village only, active listings as of May 2026</span>
       </div>
       <div class="head-right">
-        <div class="comp-filter-toggle" role="tablist" aria-label="Community filter">
-          <button class="cft-btn active" data-comm="locust" onclick="setCompCommunityFilter('locust')">Locust Lake</button>
-          <button class="cft-btn" data-comm="all" onclick="setCompCommunityFilter('all')">All</button>
+        <div class="comp-filter-toggle" role="group" aria-label="Community filter">
+          <button type="button" aria-pressed="true" class="cft-btn active" data-comm="locust" onclick="setCompCommunityFilter('locust')">Locust Lake</button>
+          <button type="button" aria-pressed="false" class="cft-btn" data-comm="all" onclick="setCompCommunityFilter('all')">All</button>
         </div>
       </div>
     </div>
     <div class="card" style="margin-bottom: 14px;">
-      <div class="tabs-wrap">
-        <button class="tab-btn active" data-tab="active" onclick="switchCompTab('active')">
+      <div class="tabs-wrap" role="tablist" aria-label="Comp status">
+        <button type="button" role="tab" aria-selected="true" class="tab-btn active" data-tab="active" onclick="switchCompTab('active')">
           <span class="tab-dot"></span>
           Active Listings <span class="tab-count" id="tab-count-active">0</span>
         </button>
-        <button class="tab-btn" data-tab="sold" onclick="switchCompTab('sold')">
+        <button type="button" role="tab" aria-selected="false" class="tab-btn" data-tab="sold" onclick="switchCompTab('sold')">
           Recently Sold <span class="tab-count" id="tab-count-sold">0</span>
         </button>
       </div>
@@ -3050,15 +2977,15 @@
         <table class="comps-table sortable">
           <thead>
             <tr id="comp-thead-row">
-              <th data-key="address" onclick="sortComps('address')">Address <span class="sort-arrow"></span></th>
-              <th data-key="community" class="hide-mobile" onclick="sortComps('community')">Community <span class="sort-arrow"></span></th>
-              <th data-key="year" class="center hide-mobile" onclick="sortComps('year')">Year Built <span class="sort-arrow"></span></th>
-              <th data-key="bedbath" class="hide-mobile" onclick="sortComps('bedbath')">Bed / Bath <span class="sort-arrow"></span></th>
-              <th data-key="sqft" class="num hide-mobile" onclick="sortComps('sqft')">Sq Ft <span class="sort-arrow"></span></th>
-              <th data-key="psf" class="num hide-mobile" onclick="sortComps('psf')">$ / SF <span class="sort-arrow"></span></th>
-              <th data-key="dom" class="num hide-mobile sold-only" onclick="sortComps('dom')">Days on Mkt <span class="sort-arrow"></span></th>
-              <th data-key="delta" class="num hide-mobile sold-only" onclick="sortComps('delta')">Sold vs Ask <span class="sort-arrow"></span></th>
-              <th data-key="price" class="num" onclick="sortComps('price')">Price <span class="sort-arrow"></span></th>
+              <th data-key="address" tabindex="0" aria-sort="none" onclick="sortComps('address')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('address');}">Address <span class="sort-arrow"></span></th>
+              <th data-key="community" class="hide-mobile" tabindex="0" aria-sort="none" onclick="sortComps('community')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('community');}">Community <span class="sort-arrow"></span></th>
+              <th data-key="year" class="center hide-mobile" tabindex="0" aria-sort="none" onclick="sortComps('year')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('year');}">Year Built <span class="sort-arrow"></span></th>
+              <th data-key="bedbath" class="hide-mobile" tabindex="0" aria-sort="none" onclick="sortComps('bedbath')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('bedbath');}">Bed / Bath <span class="sort-arrow"></span></th>
+              <th data-key="sqft" class="num hide-mobile" tabindex="0" aria-sort="none" onclick="sortComps('sqft')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('sqft');}">Sq Ft <span class="sort-arrow"></span></th>
+              <th data-key="psf" class="num hide-mobile" tabindex="0" aria-sort="none" onclick="sortComps('psf')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('psf');}">$ / SF <span class="sort-arrow"></span></th>
+              <th data-key="dom" class="num hide-mobile sold-only" tabindex="0" aria-sort="none" onclick="sortComps('dom')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('dom');}">Days on Mkt <span class="sort-arrow"></span></th>
+              <th data-key="delta" class="num hide-mobile sold-only" tabindex="0" aria-sort="none" onclick="sortComps('delta')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('delta');}">Sold vs Ask <span class="sort-arrow"></span></th>
+              <th data-key="price" class="num" tabindex="0" aria-sort="none" onclick="sortComps('price')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sortComps('price');}">Price <span class="sort-arrow"></span></th>
             </tr>
           </thead>
           <tbody id="comps-tbody"></tbody>
@@ -4212,83 +4139,83 @@
     <div class="card">
       <div class="inputs-grid">
         <div class="input-row">
-          <label>Purchase Price<span class="sub-label">From listing.</span></label>
+          <label for="in-price">Purchase Price<span class="sub-label">From listing.</span></label>
           <div class="currency-wrap"><input id="in-price" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>Down Payment %<span class="sub-label">25% is your default.</span></label>
+          <label for="in-down">Down Payment %<span class="sub-label">25% is your default.</span></label>
           <input id="in-down" type="number" step="0.5" />
         </div>
         <div class="input-row">
-          <label>Interest Rate %<span class="sub-label">30 yr fixed.</span></label>
+          <label for="in-rate">Interest Rate %<span class="sub-label">30 yr fixed.</span></label>
           <input id="in-rate" type="number" step="0.05" />
         </div>
         <div class="input-row">
-          <label>Loan Term Years<span class="sub-label">Default 30.</span></label>
+          <label for="in-term">Loan Term Years<span class="sub-label">Default 30.</span></label>
           <input id="in-term" type="number" step="1" />
         </div>
         <div class="input-row">
-          <label>Property Taxes per Year<span class="sub-label">Listing data.</span></label>
+          <label for="in-tax">Property Taxes per Year<span class="sub-label">Listing data.</span></label>
           <div class="currency-wrap"><input id="in-tax" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>Home Insurance per Year<span class="sub-label">Per your quote.</span></label>
+          <label for="in-ins">Home Insurance per Year<span class="sub-label">Per your quote.</span></label>
           <div class="currency-wrap"><input id="in-ins" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>HOA per Month<span class="sub-label">Community fee.</span></label>
+          <label for="in-hoa">HOA per Month<span class="sub-label">Community fee.</span></label>
           <div class="currency-wrap"><input id="in-hoa" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>Electric per Month<span class="sub-label">Your estimate.</span></label>
+          <label for="in-elec">Electric per Month<span class="sub-label">Your estimate.</span></label>
           <div class="currency-wrap"><input id="in-elec" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>Water per Month<span class="sub-label">On well, no water bill.</span></label>
+          <label for="in-water">Water per Month<span class="sub-label">On well, no water bill.</span></label>
           <div class="currency-wrap"><input id="in-water" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>Internet per Month<span class="sub-label">Blue Ridge.</span></label>
+          <label for="in-cable">Internet per Month<span class="sub-label">Blue Ridge.</span></label>
           <div class="currency-wrap"><input id="in-cable" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>Propane per Month<span class="sub-label">Your estimate.</span></label>
+          <label for="in-propane">Propane per Month<span class="sub-label">Your estimate.</span></label>
           <div class="currency-wrap"><input id="in-propane" class="currency-input" type="text" inputmode="numeric" /></div>
         </div>
         <div class="input-row">
-          <label>Maintenance % of Price per Year<span class="sub-label">Rule of thumb 1%.</span></label>
+          <label for="in-maint">Maintenance % of Price per Year<span class="sub-label">Rule of thumb 1%.</span></label>
           <input id="in-maint" type="number" step="0.1" />
         </div>
         <div class="input-row">
-          <label>CapEx % of Price per Year<span class="sub-label">Roofs, HVAC, big ticket items.</span></label>
+          <label for="in-capex">CapEx % of Price per Year<span class="sub-label">Roofs, HVAC, big ticket items.</span></label>
           <input id="in-capex" type="number" step="0.1" />
         </div>
         <div class="input-row">
-          <label>Origination Fee % of Loan<span class="sub-label">Lender dependent.</span></label>
+          <label for="in-orig">Origination Fee % of Loan<span class="sub-label">Lender dependent.</span></label>
           <input id="in-orig" type="number" step="0.05" />
         </div>
         <div class="input-row">
-          <label>Commute One Way Miles<span class="sub-label">Yonkers to Pocono Lake.</span></label>
+          <label for="in-miles">Commute One Way Miles<span class="sub-label">Yonkers to Pocono Lake.</span></label>
           <input id="in-miles" type="number" step="1" />
         </div>
         <div class="input-row">
-          <label>Vehicle MPG<span class="sub-label">Highway mix.</span></label>
+          <label for="in-mpg">Vehicle MPG<span class="sub-label">Highway mix.</span></label>
           <input id="in-mpg" type="number" step="1" />
         </div>
         <div class="input-row">
-          <label>Gas Price per Gallon<span class="sub-label">Verified for NY area, May 2026.</span></label>
+          <label for="in-gas">Gas Price per Gallon<span class="sub-label">Verified for NY area, May 2026.</span></label>
           <div class="currency-wrap"><input id="in-gas" class="currency-input" type="text" inputmode="decimal" /></div>
         </div>
         <div class="input-row">
-          <label>GWB Toll, Return<span class="sub-label">EZ Pass off peak, 2026.</span></label>
+          <label for="in-toll">GWB Toll, Return<span class="sub-label">EZ Pass off peak, 2026.</span></label>
           <div class="currency-wrap"><input id="in-toll" class="currency-input" type="text" inputmode="decimal" /></div>
         </div>
         <div class="input-row">
-          <label>Delaware Water Gap Toll, Outbound<span class="sub-label">I 80 bridge into PA, EZ Pass 2026.</span></label>
+          <label for="in-toll-dwg">Delaware Water Gap Toll, Outbound<span class="sub-label">I 80 bridge into PA, EZ Pass 2026.</span></label>
           <div class="currency-wrap"><input id="in-toll-dwg" class="currency-input" type="text" inputmode="decimal" /></div>
         </div>
         <div class="input-row">
-          <label>Trips per Month<span class="sub-label">How often you go up.</span></label>
+          <label for="in-trips">Trips per Month<span class="sub-label">How often you go up.</span></label>
           <input id="in-trips" type="number" step="1" />
         </div>
       </div>
@@ -4726,12 +4653,14 @@
     CURRENT_COMP_COMMUNITY = mode;
     document.querySelectorAll('.cft-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-comm') === mode);
+      btn.setAttribute('aria-pressed', String(btn.getAttribute('data-comm') === mode));
     });
     const hint = document.getElementById('comp-filter-hint');
     if (hint) {
       hint.textContent = mode === 'locust'
         ? 'Locust Lake Village only'
         : 'Locust Lake Village and Arrowhead Lakes';
+      if (CURRENT_COMP_TAB === 'active') hint.textContent += ', active listings as of May 2026';
     }
     updateCompCounts();
     renderCompsTable();
@@ -4771,6 +4700,7 @@
     // Update sort arrow indicators
     document.querySelectorAll('#comp-thead-row th').forEach(th => {
       th.removeAttribute('data-active-sort');
+      th.setAttribute('aria-sort', 'none');
       const arrow = th.querySelector('.sort-arrow');
       if (arrow) arrow.textContent = '';
     });
@@ -4778,6 +4708,7 @@
       const th = document.querySelector('#comp-thead-row th[data-key="' + CURRENT_SORT_KEY + '"]');
       if (th) {
         th.setAttribute('data-active-sort', '1');
+        th.setAttribute('aria-sort', CURRENT_SORT_DIR === 'asc' ? 'ascending' : 'descending');
         const arrow = th.querySelector('.sort-arrow');
         if (arrow) arrow.textContent = CURRENT_SORT_DIR === 'asc' ? '▲' : '▼';
       }
@@ -4793,8 +4724,9 @@
     CURRENT_SORT_DIR = 'asc';
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+      btn.setAttribute('aria-selected', String(btn.getAttribute('data-tab') === tab));
     });
-    renderCompsTable();
+    setCompCommunityFilter(CURRENT_COMP_COMMUNITY); // refreshes hint text and renders
   }
 
   function sortComps(key) {
@@ -5104,7 +5036,7 @@
       const room = safePrice - v.price;  // positive means your price is under the safe price
       const ok = room >= 0;
       const roomText = '$' + Math.round(Math.abs(room)).toLocaleString('en-US') + (ok ? ' under' : ' over');
-      const roomPct = (ok ? '' : '+') + ((-room / v.price) * 100).toFixed(1) + '%';
+      const roomPct = Math.abs((room / v.price) * 100).toFixed(1) + '%';
       return `
         <tr>
           <td>${t.name}<span class="target-tag ${t.tag}">${t.capRate.toFixed(1)}%</span></td>
@@ -5318,7 +5250,7 @@
       const isBlocked = blockedWeeks.has(i);
       const weeklyRev = (w / weightSum) * totalAnnual;
       const cls = 'heatmap-cell' + (isBlocked ? ' blocked' : '');
-      return `<div class="${cls}" data-week="${i}" data-rev="${weeklyRev.toFixed(0)}" style="background-color: ${heatmapColor(w)};" onclick="toggleHeatmapWeek(${i})" onmouseenter="showHeatmapTooltip(event, ${i}, ${weeklyRev.toFixed(0)}, ${w.toFixed(2)})" onmouseleave="hideHeatmapTooltip()"></div>`;
+      return `<div class="${cls}" data-week="${i}" data-rev="${weeklyRev.toFixed(0)}" role="button" tabindex="0" aria-pressed="${isBlocked}" aria-label="Week of ${weekDateLabel(i)}, ${fmt(weeklyRev)}${isBlocked ? ', blocked for personal use' : ''}" style="background-color: ${heatmapColor(w)};" onclick="toggleHeatmapWeek(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleHeatmapWeek(${i});}" onmouseenter="showHeatmapTooltip(event, ${i}, ${weeklyRev.toFixed(0)}, ${w.toFixed(2)})" onmouseleave="hideHeatmapTooltip()"></div>`;
     }).join('');
     container.innerHTML = cells;
 
@@ -5726,6 +5658,17 @@
     wrap.innerHTML = html;
   }
 
+  // The Locust Lake closings nearest the subject in size, pulled live from COMP_DATA
+  function closestCompBullets(n) {
+    return COMP_DATA.sold
+      .filter(r => !r.isSubject && r.community === 'Locust Lake' && r.sqft > 0)
+      .sort((a, b) => Math.abs(a.sqft - SUBJECT.sqft) - Math.abs(b.sqft - SUBJECT.sqft))
+      .slice(0, n)
+      .map(r => '\u2022 ' + r.address + ', ' + r.year + ' build, ' + r.bedbath.split(' / ')[0] + ' BR, ' +
+        r.sqft.toLocaleString('en-US') + ' SF, sold ' + moFmtK(r.price) + (r.soldDate ? ' on ' + r.soldDate : '') + '.')
+      .join('\n');
+  }
+
   function renderMORealtorMessage(kind, inspectionCredits, fairHigh, walkAway) {
     const issueDescriptions = {
       roof:       'roof condition and remaining service life',
@@ -5769,10 +5712,7 @@
     } else if (kind === 'renegotiate-comps') {
       msg = 'Hi,\n\n' +
         'After reviewing recent closed sales in Locust Lake Village and Arrowhead Lake, our adjusted offer for 157 Cardinal Ln is ' + moFmtUSD(fairHigh) + '. The comp set supports this range.\n\n' +
-        '\u2022 1819 Stag Run, 2022 build, 3 BR, 1392 SF, sold $355K.\n' +
-        '\u2022 1428 Lake Ln, 2000 build, 4 BR, 1978 SF, sold $410K.\n' +
-        '\u2022 218 Barberry Ln, 1994 build, 3 BR, 1176 SF, sold $400K.\n' +
-        '\u2022 1540 Lake Ln, 2025 build, 3 BR, 1224 SF, sold $340K.\n\n' +
+        closestCompBullets(4) + '\n\n' +
         'We are well qualified, pre approved, and prepared to close on the original timeline. Let me know if the seller would consider this number.' + sig;
     } else if (kind === 'proceed-conditions') {
       msg = 'Hi,\n\n' +
@@ -5979,6 +5919,7 @@
     const section = headEl.closest('.section.collapsible');
     if (!section) return;
     section.classList.toggle('collapsed');
+    headEl.setAttribute('aria-expanded', String(!section.classList.contains('collapsed')));
     if (section.id) {
       saveCollapseState(section.id, section.classList.contains('collapsed'));
     }
@@ -5997,6 +5938,16 @@
         } else {
           section.classList.remove('collapsed');
         }
+      }
+      // Keyboard and screen reader support for the clickable header
+      const head = section.querySelector(':scope > .section-head');
+      if (head) {
+        head.setAttribute('role', 'button');
+        head.setAttribute('tabindex', '0');
+        head.setAttribute('aria-expanded', String(!section.classList.contains('collapsed')));
+        head.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCollapse(head); }
+        });
       }
     });
   }
@@ -6183,6 +6134,12 @@
         const tip = this.comp.address + (this.comp.bedbath ? ' · ' + this.comp.bedbath : '') + (this.comp.sqft ? ' · ' + this.comp.sqft.toLocaleString('en-US') + ' SF' : '');
         div.title = tip;
         const that = this;
+        div.setAttribute('role', 'link');
+        div.setAttribute('tabindex', '0');
+        div.setAttribute('aria-label', pricePillLabel(this.comp.price) + ', ' + tip);
+        div.addEventListener('keydown', function (e) {
+          if ((e.key === 'Enter' || e.key === ' ') && that.comp.zurl) { e.preventDefault(); window.open(that.comp.zurl, '_blank', 'noopener,noreferrer'); }
+        });
         div.addEventListener('click', function (e) {
           e.stopPropagation();
           if (that.comp.zurl) window.open(that.comp.zurl, '_blank', 'noopener,noreferrer');
