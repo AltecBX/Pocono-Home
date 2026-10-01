@@ -68,8 +68,8 @@ The Problem, The Solution, Files Changed, Validation (only checks actually run),
 
 ## Open items
 
-1. 11 sold comps from the verified spreadsheet still need year, beds, baths, sqft, zpid before they can go in: 275 Selig Rd, 1827 Stag Run, 276 Mountain View Dr, 136 Netcong Cir, 286 Fawn Rd, 111 Hillside Ter, 104 White Pine Dr, 1520 Lake Ln (LLV), 3145 Ogontz Dr, 112 Moshannon Dr, 117 Shawnee Dr (Arrowhead). Their sale facts are in the spreadsheet.
-2. Active listings are a May 2026 snapshot. Refresh or retire them.
-3. Adjusted Comp Value in the Max Offer Calculator is a hand set $345K. Could be calibrated live from the sold set.
-4. 6 active comps link to Zillow search pages instead of a zpid detail page.
-5. Mobile check on a real iPhone for the tornado, heatmap, and underwriting table.
+1. Active listings are a May 2026 snapshot. Refresh or retire them.
+2. Adjusted Comp Value in the Max Offer Calculator is a hand set $345K. Could be calibrated live from the sold set.
+3. 6 active comps link to Zillow search pages instead of a zpid detail page.
+4. Mobile check on a real iPhone for the tornado, heatmap, and underwriting table.
+5. Sqft basis: rows added Oct 2026 use MLS above grade sqft to match the subject 1,432. Older rows came from Zillow, which sometimes includes finished basement. Where MLS and county record disagree on beds, baths, or sqft, the MLS value is used.
