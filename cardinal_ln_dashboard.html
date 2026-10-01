@@ -740,6 +740,16 @@
   }
   .map-fallback a { color: var(--gold-2); }
 
+  /* Comp set stat tiles under Recent Comps */
+  .comm-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .comm-tile { padding: 14px 16px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm); }
+  .comm-tile-title { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500; }
+  .comm-tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-top: 10px; }
+  .comm-tile-k { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; }
+  .comm-tile-v { font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .cash-split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 720px) { .comm-stats, .cash-split { grid-template-columns: 1fr; } }
+
   /* Map legend below the map */
   .map-legend {
     display: flex;
@@ -2976,7 +2986,7 @@
       <div class="metric-tile">
         <div class="label">Price per Square Foot</div>
         <div class="value" id="hero-psf">$230</div>
-        <div class="meta">LLV avg $208, AHL avg $225</div>
+        <div class="meta" id="hero-psf-meta">Locust Lake and Arrowhead sold medians</div>
       </div>
       <div class="metric-tile primary">
         <div class="label">Estimated Monthly Payment</div>
@@ -2986,7 +2996,7 @@
       <div class="metric-tile gold">
         <div class="label">Cash to Close</div>
         <div class="value" id="hero-cash">$0</div>
-        <div class="meta">25% down plus estimated closing costs</div>
+        <div class="meta" id="hero-cash-meta">25% down plus estimated closing costs</div>
       </div>
     </div>
   </section>
@@ -3000,7 +3010,7 @@
     <div class="card">
       <div class="summary-rows">
         <div class="sum-row"><span class="k">Purchase Price</span><span class="v" id="s-price"></span></div>
-        <div class="sum-row"><span class="k">Price per Square Foot <span class="pill fixed">1,432 SF</span></span><span class="v">$230</span></div>
+        <div class="sum-row"><span class="k">Price per Square Foot <span class="pill fixed">1,432 SF</span></span><span class="v" id="s-psf">$230</span></div>
         <div class="sum-row"><span class="k">Down Payment <span class="pill fixed" id="s-down-pct">25%</span></span><span class="v" id="s-down"></span></div>
         <div class="sum-row"><span class="k">Loan Amount</span><span class="v" id="s-loan"></span></div>
         <div class="sum-row"><span class="k">Interest Rate <span class="pill fixed" id="s-term">30 yr fixed</span></span><span class="v" id="s-rate"></span></div>
@@ -3054,26 +3064,7 @@
           <tbody id="comps-tbody"></tbody>
         </table>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px;">
-        <div style="padding: 14px 16px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
-          <div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;">Locust Lake Village</div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-top: 10px;">
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Active</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">25</div></div>
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Sold past 12 mo</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">61</div></div>
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Median sold</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$290K</div></div>
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">$ / SF avg</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$215</div></div>
-          </div>
-        </div>
-        <div style="padding: 14px 16px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);">
-          <div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;">Arrowhead Lakes</div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-top: 10px;">
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Active</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">60</div></div>
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Sold past 12 mo</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">95</div></div>
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">Median sold</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$295K</div></div>
-            <div><div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">$ / SF avg</div><div style="font-size: 15px; color: var(--text-primary); font-weight: 600; margin-top: 2px;">$225</div></div>
-          </div>
-        </div>
-      </div>
+      <div class="comm-stats" id="comm-stats"></div>
       <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
         Subject row always pinned at top. Default sort is community then square footage then price. Click any column header to sort. Click again to reverse direction. Days on Mkt is the count from list date to closing for each sold comp. Sold vs Ask shows the percentage above or below the most recent list price the home actually traded at. Green is at or above list, pink is below list. All comps shown are within the last 12 months. Click any address to open the Zillow listing. Click a community name to open its property owners association website.
       </p>
@@ -3160,8 +3151,8 @@
             <path d="M 0 20 L 15 19 L 30 17 L 45 16 L 60 14 L 75 13 L 90 11 L 105 10 L 120 9 L 120 28 L 0 28 Z" fill="rgba(48,209,88,0.12)"/>
           </svg>
           <div class="market-tile-delta">
-            <span class="lbl">Subject $230</span>
-            <span class="up">+17% premium</span>
+            <span class="lbl" id="mkt-subj-psf">Subject $230</span>
+            <span class="up" id="mkt-subj-prem">+17% premium</span>
           </div>
         </div>
 
@@ -3328,7 +3319,7 @@
       </div>
 
       <p class="mo-footer">
-        How the math works. Walk Away Price equals Adjusted Comp Value minus all risk reserves. Fair Offer Range sits between Walk Away plus a soft buffer (low side) and Adjusted Comp Value minus the safety margin (high side). Best Case Offer equals Adjusted Comp Value and assumes everything checks out. Inspection Adjusted Offer subtracts only the checked inspection credits from Best Case. Recommendation logic compares the current asking against these bands. Adjusted Comp Value is calibrated to Locust Lake Village and Arrowhead Lake closed sales only, with weighting for size, year built, bath count, lake access, and rental appeal.
+        How the math works. Walk Away Price equals Adjusted Comp Value minus all risk reserves. When checked inspection credits exceed the Inspection Reserve, the overage comes off Walk Away too. Fair Offer Range sits between Walk Away plus a soft buffer (low side) and Adjusted Comp Value minus the safety margin (high side). Best Case Offer equals Adjusted Comp Value and assumes everything checks out. Inspection Adjusted Offer subtracts only the checked inspection credits from Best Case. Recommendation logic compares the current asking against these bands. Adjusted Comp Value is calibrated to Locust Lake Village and Arrowhead Lake closed sales only, with weighting for size, year built, bath count, lake access, and rental appeal.
       </p>
     </div>
     </div>
@@ -3351,49 +3342,7 @@
     </div>
     <div class="collapse-content">
     <div class="card">
-      <div class="risk-grid">
-
-        <div class="risk-card amber">
-          <div class="risk-head">
-            <div class="risk-title">Asking PSF vs Locust Lake Median</div>
-            <span class="risk-badge amber">Above market</span>
-          </div>
-          <div class="risk-value">$230 vs $215</div>
-          <div class="risk-note">Subject lists at 7.0% over the Locust Lake Village median PSF. Some negotiation room, but justified by new roof and 3 BA layout.</div>
-          <div class="risk-bar"><div class="risk-bar-fill amber" style="width: 65%;"></div></div>
-        </div>
-
-        <div class="risk-card green">
-          <div class="risk-head">
-            <div class="risk-title">True PSF with Finished Basement</div>
-            <span class="risk-badge green">Opportunity</span>
-          </div>
-          <div class="risk-value">$158 effective</div>
-          <div class="risk-note">657 SF county confirmed finished basement brings effective living to 2,089 SF. That is 31% below the listed $230 PSF and 27% below community median.</div>
-          <div class="risk-bar"><div class="risk-bar-fill green" style="width: 78%;"></div></div>
-        </div>
-
-        <div class="risk-card red">
-          <div class="risk-head">
-            <div class="risk-title">Days on Market</div>
-            <span class="risk-badge red">Hot listing</span>
-          </div>
-          <div class="risk-value">2 days listed</div>
-          <div class="risk-note">Listed May 21, under contract within days. Locust Lake median DOM is closer to 30. Strong demand means limited negotiation leverage on minor items.</div>
-          <div class="risk-bar"><div class="risk-bar-fill red" style="width: 92%;"></div></div>
-        </div>
-
-        <div class="risk-card neutral">
-          <div class="risk-head">
-            <div class="risk-title">Sold vs Ask, Recent Comps</div>
-            <span class="risk-badge neutral">Moderate</span>
-          </div>
-          <div class="risk-value">-3.7% avg discount</div>
-          <div class="risk-note">Average sold price came in 3.7% below ask across the 15 recent comps. Range from +4% over to -10.7% under. Inspection findings could support modest concession.</div>
-          <div class="risk-bar"><div class="risk-bar-fill neutral" style="width: 50%;"></div></div>
-        </div>
-
-      </div>
+      <div class="risk-grid" id="risk-grid"></div>
       <p style="margin-top: 14px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
         Color cues. Green is opportunity, amber is caution, red is risk requiring attention, neutral is balanced. Values reflect listing price and current Locust Lake Village plus Arrowhead Lakes comp data.
       </p>
@@ -3419,7 +3368,7 @@
     <div class="collapse-content">
     <div class="card">
       <div id="waterfall" style="margin-bottom: 20px;"></div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+      <div class="cash-split">
         <div>
           <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 10px;">Cash to Wire</div>
           <div class="lineitems" id="cash-needed"></div>
@@ -3485,65 +3434,12 @@
     </div>
     <div class="collapse-content">
     <div class="card">
-      <div class="rental-grid">
-
-        <div class="rental-card">
-          <div class="rental-head">
-            <div class="rental-title">Conservative</div>
-            <span class="rental-tag">Off season weight</span>
-          </div>
-          <div class="rental-key">$21,900</div>
-          <div class="rental-key-label">Gross annual revenue</div>
-          <div class="rental-rows">
-            <div class="rr"><span class="rk">Nightly rate</span><span class="rv">$200</span></div>
-            <div class="rr"><span class="rk">Occupancy</span><span class="rv">30%</span></div>
-            <div class="rr"><span class="rk">Operating expenses</span><span class="rv">$8,860</span></div>
-            <div class="rr"><span class="rk">Net operating income</span><span class="rv">$13,040</span></div>
-            <div class="rr divider"><span class="rk">Annual PITI</span><span class="rv">$27,914</span></div>
-            <div class="rr cashflow negative"><span class="rk">Net annual cash flow</span><span class="rv">-$14,874</span></div>
-          </div>
-        </div>
-
-        <div class="rental-card moderate">
-          <div class="rental-head">
-            <div class="rental-title">Moderate</div>
-            <span class="rental-tag">Most likely</span>
-          </div>
-          <div class="rental-key">$40,150</div>
-          <div class="rental-key-label">Gross annual revenue</div>
-          <div class="rental-rows">
-            <div class="rr"><span class="rk">Nightly rate</span><span class="rv">$275</span></div>
-            <div class="rr"><span class="rk">Occupancy</span><span class="rv">40%</span></div>
-            <div class="rr"><span class="rk">Operating expenses</span><span class="rv">$10,675</span></div>
-            <div class="rr"><span class="rk">Net operating income</span><span class="rv">$29,475</span></div>
-            <div class="rr divider"><span class="rk">Annual PITI</span><span class="rv">$27,914</span></div>
-            <div class="rr cashflow positive"><span class="rk">Net annual cash flow</span><span class="rv">+$1,561</span></div>
-          </div>
-        </div>
-
-        <div class="rental-card">
-          <div class="rental-head">
-            <div class="rental-title">Optimistic</div>
-            <span class="rental-tag">Peak summer focus</span>
-          </div>
-          <div class="rental-key">$59,313</div>
-          <div class="rental-key-label">Gross annual revenue</div>
-          <div class="rental-rows">
-            <div class="rr"><span class="rk">Nightly rate</span><span class="rv">$325</span></div>
-            <div class="rr"><span class="rk">Occupancy</span><span class="rv">50%</span></div>
-            <div class="rr"><span class="rk">Operating expenses</span><span class="rv">$12,580</span></div>
-            <div class="rr"><span class="rk">Net operating income</span><span class="rv">$46,733</span></div>
-            <div class="rr divider"><span class="rk">Annual PITI</span><span class="rv">$27,914</span></div>
-            <div class="rr cashflow positive"><span class="rk">Net annual cash flow</span><span class="rv">+$18,819</span></div>
-          </div>
-        </div>
-
-      </div>
+      <div class="rental-grid" id="rental-grid"></div>
 
       <div class="rental-assumptions">
-        <strong>Operating expense buildup.</strong> HOA $1,800, Coolbaugh Township STR permit and inspection $400, additional STR insurance rider $500, propane and electric $4,400, internet $660, supplies and consumables $300, plus variable cleaning and turnover costs that scale with bookings. Mid case assumes self management. Property management at 10% to 20% reduces all three scenarios by $4,000 to $12,000 annually.
+        <strong>Operating expense buildup.</strong> STR costs: Coolbaugh Township STR permit and inspection $400, additional STR insurance rider $500, propane and electric $4,400, internet $660, supplies and consumables $300, plus cleaning and turnover that scale with bookings. Owner costs: HOA, property tax, and base insurance pulled live from Adjustable Assumptions. Cash flow subtracts mortgage principal and interest only, so nothing is counted twice. Mid case assumes self management. Property management at 10% to 20% reduces all three scenarios by $4,000 to $12,000 annually.
         <br><br>
-        <strong>Break even occupancy at $275 ADR is roughly 39%.</strong> AirDNA reports Pocono Lake market median 39% occupancy at $330 ADR with $26.8K monthly top performer revenue. Pocono Pines averages 45% at $342 ADR. Properties with hot tub, sauna, or lake view command 30 to 60% higher rates.
+        <strong id="rental-breakeven">Break even occupancy at $275 ADR is roughly 39%.</strong> AirDNA reports Pocono Lake market median 39% occupancy at $330 ADR with $26.8K monthly top performer revenue. Pocono Pines averages 45% at $342 ADR. Properties with hot tub, sauna, or lake view command 30 to 60% higher rates.
         <br><br>
         <strong>Tax note.</strong> If used as second home only with under 14 rental days per year, rental income is tax free but expenses are not deductible. If 14 plus days, rental losses and depreciation are deductible against rental income, and Schedule E applies. Consult your CPA before transitioning use.
       </div>
@@ -3705,7 +3601,7 @@
             <th class="num">Cap Rate</th>
             <th class="num">Cash on Cash</th>
             <th class="num">Safe Acquisition Price</th>
-            <th class="num">Vs Listing</th>
+            <th class="num">Your Price vs Safe Price</th>
           </tr>
         </thead>
         <tbody id="uw-tbody"></tbody>
@@ -3719,7 +3615,7 @@
       </div>
 
       <p style="margin-top: 16px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
-        NOI uses the Moderate scenario from Rental Analysis ($40,150 gross at $275 ADR and 40% occupancy, $10,675 opex). Cap rate is NOI divided by acquisition price. Cash on Cash is annual cash flow (NOI minus PITI) divided by total cash invested (down payment plus closing costs). All metrics recalculate when you edit Adjustable Assumptions. Safe acquisition price = NOI divided by target cap rate. Pay above and your returns drop below target. Pay below and you have additional margin of safety.
+        NOI uses the Moderate scenario from Rental Analysis ($275 ADR at 40% occupancy) minus STR operating costs, HOA, property tax, and base insurance. Cap rate is NOI divided by price. Cash on Cash is annual cash flow (NOI minus mortgage principal and interest) divided by cash invested (down payment plus closing costs), recomputed at each target price. All metrics recalculate when you edit Adjustable Assumptions. Safe acquisition price = NOI divided by target cap rate. Pay above and your returns drop below target. Pay below and you have additional margin of safety.
       </p>
     </div>
     </div>
@@ -3793,7 +3689,7 @@
       </div>
 
       <p style="margin-top: 18px; font-size: 11px; color: var(--text-tertiary); line-height: 1.55;">
-        Seasonality model based on Pocono Lake AirDNA and Rabbu market data. July and August peak ($9,000 monthly top performer revenue), April lowest ($2,480), with secondary winter bumps in December (ski / holiday demand) and February (ski season). Spread between best and worst week is roughly 4.5x. Block out weeks you want for your own use to see the revenue cost of personal use. Strategy. Block low season weeks (mid October through mid May) at almost no cost. Peak summer weekends are where the money is.
+        Seasonality model based on Pocono Lake AirDNA and Rabbu market data. July and August peak ($9,000 monthly top performer revenue), April lowest ($2,480), with secondary winter bumps in December (ski / holiday demand) and February (ski season). Spread between best and worst week is roughly 4x. Block out weeks you want for your own use to see the revenue cost of personal use. Strategy. Block low season weeks (mid October through mid May) at almost no cost. Peak summer weekends are where the money is.
       </p>
     </div>
     </div>
@@ -3980,7 +3876,7 @@
         <div class="drive-item">
           <div class="dest">Yonkers, home base</div>
           <div class="dist">100 miles via I 80 and GWB</div>
-          <div class="time">2h 5m</div>
+          <div class="time" id="drive-home-time">2h 5m</div>
         </div>
       </div>
     </div>
@@ -4180,7 +4076,7 @@
 
         </div>
       </div>
-      <p class="records-note">From $450 in 1985 to $329,999 in 2026, the land plus improvements have compounded at roughly 4.3% per year over forty years. The Maguire holding period from 1996 to 2026 alone compounded at 2.9% annually. Sources: Monroe County Recorder of Deeds, county permits, MLS PM-141523.</p>
+      <p class="records-note">The Maguire holding period, $139,000 in 1996 to $329,999 in 2026, compounded at 2.9% a year. The 1985 and 1990 records are a lot sale and a non arms length transfer, so they are not a fair base for appreciation. Sources: Monroe County Recorder of Deeds, county permits, MLS PM-141523.</p>
     </div>
     </div>
   </section>
@@ -4275,7 +4171,7 @@
           </defs>
           <!-- Path data uses 12 weekly Freddie Mac PMMS values from Mar 5 to May 21, 2026 -->
           <!-- Rates: 6.76, 6.65, 6.67, 6.62, 6.58, 6.50, 6.62, 6.76, 6.81, 6.30, 6.36, 6.51 -->
-          <!-- Normalized to viewBox 700w x 110h, y axis from 6.10 to 6.90 -->
+          <!-- Normalized to viewBox 700w x 110h, y axis from 6.10 to 6.98 -->
           <path d="M 25 27.5 L 86 41.25 L 147 38.75 L 208 45 L 269 50 L 330 60 L 391 45 L 452 27.5 L 513 21.25 L 574 85 L 635 77.5 L 696 58.75"
                 stroke="#64d2ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M 25 27.5 L 86 41.25 L 147 38.75 L 208 45 L 269 50 L 330 60 L 391 45 L 452 27.5 L 513 21.25 L 574 85 L 635 77.5 L 696 58.75 L 696 110 L 25 110 Z"
@@ -4435,6 +4331,9 @@
     trips: 3
   };
 
+  // Subject facts used across the page
+  const SUBJECT = { asking: 329999, sqft: 1432, finishedBasement: 657, dom: 2 };
+
   const ids = {
     price: 'in-price', down: 'in-down', rate: 'in-rate', term: 'in-term',
     tax: 'in-tax', ins: 'in-ins', hoa: 'in-hoa',
@@ -4508,7 +4407,7 @@
   // PA TIRBOP standard owner title insurance, sale rate, calibrated to $330k = $2,017.
   // Approximation. Actual rate from filed schedule. Estimate only.
   function ownerTitleInsurance(price) {
-    if (price <= 30000) return Math.max(569, 175);
+    if (price <= 30000) return 569;
     return 570 + (price - 30000) * 0.00482;
   }
 
@@ -4673,18 +4572,6 @@
         <div class="li-amt">${fmt(total)}</div>
         <div class="li-tag">Subtotal</div>
       </div>`;
-  }
-
-  function buildForget(items) {
-    const wrap = document.getElementById('forget-grid');
-    if (!wrap) return; // Costs People Forget section was removed
-    wrap.innerHTML = items.map(i => `
-      <div class="chip">
-        <div class="chip-title">${i.name}</div>
-        <div class="chip-amt">${i.value}</div>
-        <div class="chip-note">${i.note}</div>
-      </div>
-    `).join('');
   }
 
   // ============== Comps tabbed sortable table ==============
@@ -4929,71 +4816,71 @@
     if (s) s.textContent = (soldFiltered.length - 1);
   }
 
-  // ============== Main recalc ==============
-  function recalc() {
-    const v = readInputs();
-    const loan = v.price * (1 - v.downPct / 100);
-    const down = v.price - loan;
+  // ============== Cost helpers ==============
+  // Pure functions so underwriting can price any target, not only the input price.
+  const SEPTIC_MO = 325 / 36;     // $325 pump every 3 years
+  const WELL_TEST_MO = 150 / 12;  // $150 a year
+
+  function housingCost(v, price) {
+    const loan = price * (1 - v.downPct / 100);
+    const down = price - loan;
     const pi = pmt(loan, v.ratePct, v.termYrs);
     const taxMo = v.taxYr / 12;
     const insMo = v.insYr / 12;
     const hoaMo = v.hoaMo;
+    return { loan, down, pi, taxMo, insMo, hoaMo, monthly: pi + taxMo + insMo + hoaMo };
+  }
 
-    const housingMonthly = pi + taxMo + insMo + hoaMo;
+  function closingCosts(v, price) {
+    const h = housingCost(v, price);
+    const ownerTitle = ownerTitleInsurance(price);
+    const items = [
+      { name: 'Loan Origination Fee', value: h.loan * v.origPct / 100, note: v.origPct.toFixed(2) + '% of loan amount.', tag: 'Lender' },
+      { name: 'Lender Underwriting and Processing', value: 1000, note: 'Underwriting plus processing combined.', tag: 'Lender' },
+      { name: 'Appraisal', value: 600, note: 'Required by lender.', tag: 'Third party' },
+      { name: 'Credit Report', value: 50, note: 'Pulled at application.', tag: 'Third party' },
+      { name: 'Title Search and Exam', value: 300, note: 'Title company search work.', tag: 'Title' },
+      { name: 'Owner Title Insurance', value: ownerTitle, note: 'PA TIRBOP standard rate, one time premium.', tag: 'Title' },
+      { name: 'Lender Title Insurance', value: Math.max(ownerTitle * 0.3, 100), note: 'Simultaneous issue at 30% of owner premium.', tag: 'Title' },
+      { name: 'Settlement Closing Fee', value: 600, note: 'Title company closing fee.', tag: 'Title' },
+      { name: 'Recording Fees', value: 200, note: 'Monroe County Recorder of Deeds.', tag: 'County' },
+      { name: 'PA Realty Transfer Tax', value: price * 0.01, note: 'Buyer half of 2% standard split, per contract Section 4(F).', tag: 'State and local' },
+      { name: 'Prepaid Homeowners Insurance', value: v.insYr, note: 'First year paid at closing.', tag: 'Prepaid' },
+      { name: 'Prepaid Interest', value: (h.loan * (v.ratePct / 100) / 360) * 15, note: 'About 15 days at the note rate.', tag: 'Prepaid' },
+      { name: 'Escrow Reserve, Taxes', value: h.taxMo * 2, note: 'About 2 months held by servicer.', tag: 'Escrow' },
+      { name: 'Escrow Reserve, Insurance', value: h.insMo * 2, note: 'About 2 months held by servicer.', tag: 'Escrow' },
+      { name: 'Buyer Broker Fee', value: 3999, note: 'Out of pocket per BEC. Seller assist is $0 in this contract.', tag: 'Broker' },
+      { name: 'HOA Capital Contribution', value: 1663, note: 'One time initiation fee at closing, per BEC.', tag: 'HOA' },
+      { name: 'HOA Fee Proration', value: 886, note: 'Adjustment at closing, per BEC.', tag: 'HOA' },
+      { name: 'Home Inspection', value: 500, note: 'General inspection, paid before closing.', tag: 'Buyer' }
+    ];
+    const total = items.reduce((a, b) => a + b.value, 0);
+    return { items, total, cashToClose: h.down + total };
+  }
+
+  // ============== Main recalc ==============
+  function recalc() {
+    const v = readInputs();
+    const h = housingCost(v, v.price);
+    const { loan, down, pi, taxMo, insMo, hoaMo } = h;
+    const housingMonthly = h.monthly;
 
     const utilities = v.elec + v.water + v.cable + v.propane;
     const realMonthly = housingMonthly + utilities;
 
     const maintMo = (v.price * v.maintPct / 100) / 12;
     const capexMo = (v.price * v.capexPct / 100) / 12;
-    const trueMonthly = realMonthly + maintMo + capexMo;
 
     // ===== Closing costs =====
-    const orig = loan * v.origPct / 100;
-    const appraisal = 600;
-    const credit = 50;
-    const titleSearch = 300;
-    const ownerTitle = ownerTitleInsurance(v.price);
-    const lenderTitle = Math.max(ownerTitle * 0.3, 100);
-    const settlement = 600;
-    const recording = 200;
-    const transferTax = v.price * 0.01; // buyer half of 2%
-    const prepaidIns = v.insYr; // 1 year upfront
-    const prepaidInterest = (loan * (v.ratePct / 100) / 360) * 15; // 15 days
-    const escrowTax = taxMo * 2;
-    const escrowIns = insMo * 2;
-    const hoaTransfer = 300;
-    const inspection = 500;
-    const survey = 0; // optional, leave at 0
-    const lenderFees = 1000;
-
-    const closingItems = [
-      { name: 'Loan Origination Fee', value: orig, note: v.origPct.toFixed(2) + '% of loan amount.', tag: 'Lender' },
-      { name: 'Lender Underwriting and Processing', value: lenderFees, note: 'Underwriting plus processing combined.', tag: 'Lender' },
-      { name: 'Appraisal', value: appraisal, note: 'Required by lender.', tag: 'Third party' },
-      { name: 'Credit Report', value: credit, note: 'Pulled at application.', tag: 'Third party' },
-      { name: 'Title Search and Exam', value: titleSearch, note: 'Title company search work.', tag: 'Title' },
-      { name: 'Owner Title Insurance', value: ownerTitle, note: 'PA TIRBOP standard rate, one time premium.', tag: 'Title' },
-      { name: 'Lender Title Insurance', value: lenderTitle, note: 'Simultaneous issue at 30% of owner premium.', tag: 'Title' },
-      { name: 'Settlement Closing Fee', value: settlement, note: 'Title company closing fee.', tag: 'Title' },
-      { name: 'Recording Fees', value: recording, note: 'Monroe County Recorder of Deeds.', tag: 'County' },
-      { name: 'PA Realty Transfer Tax', value: transferTax, note: 'Buyer half of 2% standard split, per contract Section 4(F).', tag: 'State and local' },
-      { name: 'Prepaid Homeowners Insurance', value: prepaidIns, note: 'First year paid at closing.', tag: 'Prepaid' },
-      { name: 'Prepaid Interest', value: prepaidInterest, note: 'About 15 days at the note rate.', tag: 'Prepaid' },
-      { name: 'Escrow Reserve, Taxes', value: escrowTax, note: 'About 2 months held by servicer.', tag: 'Escrow' },
-      { name: 'Escrow Reserve, Insurance', value: escrowIns, note: 'About 2 months held by servicer.', tag: 'Escrow' },
-      { name: 'Buyer Broker Fee', value: 3999, note: 'Out of pocket per BEC. Seller assist is $0 in this contract.', tag: 'Broker' },
-      { name: 'HOA Capital Contribution', value: 1663, note: 'One time initiation fee at closing, per BEC.', tag: 'HOA' },
-      { name: 'HOA Fee Proration', value: 886, note: 'Adjustment at closing, per BEC.', tag: 'HOA' },
-      { name: 'Home Inspection', value: inspection, note: 'General inspection, paid pre closing.', tag: 'Buyer' }
-    ];
-    const closingTotal = closingItems.reduce((a, b) => a + b.value, 0);
+    const closing = closingCosts(v, v.price);
+    const closingItems = closing.items;
+    const closingTotal = closing.total;
 
     const cashItems = [
       { name: 'Down Payment', value: down, note: v.downPct.toFixed(1) + '% of purchase price.', tag: 'Equity' },
       { name: 'Estimated Closing Costs', value: closingTotal, note: 'Sum of buyer side line items above.', tag: 'Est' }
     ];
-    const cashTotal = down + closingTotal;
+    const cashTotal = closing.cashToClose;
 
     // ===== Donut + legend =====
     const housingParts = [
@@ -5012,14 +4899,14 @@
       { label: 'Ins', value: insMo, color: COLORS.ins },
       { label: 'HOA', value: hoaMo, color: COLORS.hoa },
       { label: 'Utilities', value: utilities, color: '#64d2ff' },
-      { label: 'Septic + Well', value: (325/36) + (150/12), color: '#5e5ce6' },
+      { label: 'Septic + Well', value: SEPTIC_MO + WELL_TEST_MO, color: '#5e5ce6' },
       { label: 'Maint', value: maintMo, color: '#ff375f' },
       { label: 'CapEx', value: capexMo, color: '#ffd60a' }
     ];
     buildStack(monthlyParts);
 
-    const septicMo = 325 / 36;
-    const wellTestMo = 150 / 12;
+    const septicMo = SEPTIC_MO;
+    const wellTestMo = WELL_TEST_MO;
 
     const monthlyLines = [
       { name: 'Principal and Interest', value: pi, tag: 'Fixed' },
@@ -5059,11 +4946,13 @@
     $('hero-housing').textContent = fmt(housingMonthly);
     $('hero-cash').textContent = fmt(cashTotal);
 
-    // Hero price tile dynamics, reflect adjustable purchase price vs $329,999 asking
-    const ASKING = 329999;
-    const SQFT = 1432;
+    // Hero price tile dynamics, reflect adjustable purchase price vs asking
+    const ASKING = SUBJECT.asking;
+    const subjPsf = Math.round(v.price / SUBJECT.sqft);
     $('hero-price').textContent = fmt(v.price);
-    $('hero-psf').textContent = '$' + Math.round(v.price / SQFT);
+    $('hero-psf').textContent = '$' + subjPsf;
+    $('s-psf').textContent = '$' + subjPsf;
+    $('hero-cash-meta').textContent = (v.downPct % 1 === 0 ? v.downPct.toFixed(0) : v.downPct.toFixed(1)) + '% down plus estimated closing costs';
     const metaEl = $('hero-price-meta');
     const delta = v.price - ASKING;
     const pct = (delta / ASKING) * 100;
@@ -5076,21 +4965,6 @@
       metaEl.innerHTML = '<span class="delta-under">' + fmt(-delta) + ' under asking, ' + Math.abs(pct).toFixed(1) + '%</span>. ' + baseInfo;
     }
 
-    // ===== Costs people forget =====
-    const forget = [
-      { name: 'Snow Removal', value: '$60 to $120 per month', note: 'Pocono winters can be heavy. Plow contract or own equipment.' },
-      { name: 'Pest Control', value: '$40 per month', note: 'Quarterly service spread monthly. Wooded lot, more important.' },
-      { name: 'Lawn and Tree Care', value: '$80 per month', note: 'Mowing in season plus tree work for storm damage prevention.' },
-      { name: 'Security System', value: '$30 per month', note: 'Optional. Useful if this becomes a second home or rental.' },
-      { name: 'Generator and Fuel', value: '$60 per month avg', note: 'Power outages happen. Run, maintain, and refuel.' },
-      { name: 'Well Pump Replacement', value: '$1,500 to $3,000 every 10 to 15 years', note: 'On well systems. Plan for it before the failure.' },
-      { name: 'Furniture and Setup', value: '$5,000 to $15,000 one time', note: 'Beds, sofa, dining, window treatments, kitchenware.' },
-      { name: 'Emergency Repair Reserve', value: '$1,500 one time start', note: 'Have it parked before move in for the first big surprise.' },
-      { name: 'Short Term Rental Setup', value: '$8,000 to $20,000 one time', note: 'If you ever Airbnb. Linens, decor, lockbox, photography, listing fees.' },
-      { name: 'Vacancy and Mgmt Reserve', value: '8% to 12% of rent', note: 'If renting. Build into the underwriting.' }
-    ];
-    buildForget(forget);
-
     // ===== Commute =====
     const rtMiles = v.miles * 2;
     const fuelRT = v.mpg > 0 ? (rtMiles / v.mpg) * v.gas : 0;
@@ -5099,6 +4973,12 @@
     const monthlyCommute = costRT * v.trips;
 
     $('cm-dist').textContent = v.miles + ' mi';
+    // 2h 5m for the 100 mile baseline, scales with distance
+    const driveMin = Math.round(v.miles * 1.25);
+    const driveTxt = Math.floor(driveMin / 60) + 'h ' + (driveMin % 60) + 'm';
+    $('cm-time').textContent = driveTxt;
+    const dh = document.getElementById('drive-home-time');
+    if (dh) dh.textContent = driveTxt;
     $('cm-rt').textContent = fmt(costRT);
     $('cm-2').textContent = fmt(costRT * 2);
     $('cm-3').textContent = fmt(costRT * 3);
@@ -5131,49 +5011,76 @@
     // ===== Sensitivity / Tornado =====
     renderTornado(v, housingMonthly);
 
-    // ===== Live Underwriting / Safe Acquisition Price =====
-    renderUnderwriting(v, housingMonthly, cashTotal, closingTotal, down);
+    // ===== Rental Analysis + Live Underwriting =====
+    renderRental(v);
+    renderUnderwriting(v, cashTotal);
+
+    // ===== Comp derived stats =====
+    renderCompStats(v);
 
     // ===== STR Seasonal Heatmap (reflects rental scenario, refreshes on input) =====
     renderHeatmap();
   }
 
-  // ============== Live Underwriting ==============
-  // STR rental assumptions, sourced from Rental Analysis Moderate scenario.
-  // These are baseline numbers. When the user edits Adjustable Assumptions,
-  // PITI changes and so do cash on cash returns. NOI changes only if HOA changes
-  // because everything else in opex is held constant in this model.
-  function getRentalNumbers(v) {
-    // Moderate STR projection
-    const grossAnnual = 40150;
-    // Opex buildup: HOA (annual), STR permit, insurance rider, utilities, internet, supplies
-    // HOA pulls from Adjustable Assumptions live, everything else is calibrated to Rental Analysis card
-    const hoaAnnual = v.hoaMo * 12;
-    const strPermit = 400;
-    const insuranceRider = 500;
-    const utilities = 4400;
-    const internet = 660;
-    const supplies = 300;
-    const cleaningTurnover = 2615;
-    const opex = hoaAnnual + strPermit + insuranceRider + utilities + internet + supplies + cleaningTurnover;
-    const noi = grossAnnual - opex;
-    return { grossAnnual, opex, noi };
+  // ============== Rental model ==============
+  // strOpex is STR only cost per scenario: permit $400, STR insurance rider $500,
+  // utilities $4,400, internet $660, supplies $300, plus cleaning that scales with bookings.
+  // Owner costs (HOA, property tax, base insurance) come from Adjustable Assumptions.
+  // NOI = gross minus STR costs minus owner costs. Cash flow = NOI minus mortgage P&I.
+  const RENTAL_SCENARIOS = {
+    conservative: { label: 'Conservative', tag: 'Off season weight', adr: 200, occ: 0.30, strOpex: 7060 },
+    moderate:     { label: 'Moderate',     tag: 'Most likely',       adr: 275, occ: 0.40, strOpex: 8875 },
+    optimistic:   { label: 'Optimistic',   tag: 'Peak summer focus', adr: 325, occ: 0.50, strOpex: 10780 }
+  };
+
+  function rentalFor(v, sc, price) {
+    const gross = Math.round(sc.adr * 365 * sc.occ);
+    const ownerCosts = v.hoaMo * 12 + v.taxYr + v.insYr;
+    const noi = gross - sc.strOpex - ownerCosts;
+    const debt = housingCost(v, price).pi * 12;
+    return { gross, ownerCosts, noi, debt, cashFlow: noi - debt };
   }
 
-  function renderUnderwriting(v, housingMonthly, cashTotal, closingTotal, down) {
+  function fmtSigned(n) { return (n < 0 ? '-' : '+') + fmt(Math.abs(n)); }
+
+  function renderRental(v) {
+    const grid = document.getElementById('rental-grid');
+    if (!grid) return;
+    grid.innerHTML = Object.keys(RENTAL_SCENARIOS).map(k => {
+      const sc = RENTAL_SCENARIOS[k];
+      const r = rentalFor(v, sc, v.price);
+      return '<div class="rental-card' + (k === 'moderate' ? ' moderate' : '') + '">' +
+        '<div class="rental-head"><div class="rental-title">' + sc.label + '</div><span class="rental-tag">' + sc.tag + '</span></div>' +
+        '<div class="rental-key">' + fmt(r.gross) + '</div>' +
+        '<div class="rental-key-label">Gross annual revenue</div>' +
+        '<div class="rental-rows">' +
+        '<div class="rr"><span class="rk">Nightly rate</span><span class="rv">$' + sc.adr + '</span></div>' +
+        '<div class="rr"><span class="rk">Occupancy</span><span class="rv">' + Math.round(sc.occ * 100) + '%</span></div>' +
+        '<div class="rr"><span class="rk">STR operating costs</span><span class="rv">' + fmt(sc.strOpex) + '</span></div>' +
+        '<div class="rr"><span class="rk">HOA, taxes, insurance</span><span class="rv">' + fmt(r.ownerCosts) + '</span></div>' +
+        '<div class="rr"><span class="rk">Net operating income</span><span class="rv">' + fmt(r.noi) + '</span></div>' +
+        '<div class="rr divider"><span class="rk">Mortgage P&amp;I</span><span class="rv">' + fmt(r.debt) + '</span></div>' +
+        '<div class="rr cashflow ' + (r.cashFlow >= 0 ? 'positive' : 'negative') + '"><span class="rk">Net annual cash flow</span><span class="rv">' + fmtSigned(r.cashFlow) + '</span></div>' +
+        '</div></div>';
+    }).join('');
+    const be = document.getElementById('rental-breakeven');
+    if (be) {
+      const m = RENTAL_SCENARIOS.moderate;
+      const need = m.strOpex + rentalFor(v, m, v.price).ownerCosts + rentalFor(v, m, v.price).debt;
+      be.textContent = 'Break even occupancy at $' + m.adr + ' ADR is roughly ' + Math.round(need / (m.adr * 365) * 100) + '%.';
+    }
+  }
+
+  // ============== Live Underwriting ==============
+  function renderUnderwriting(v, cashTotal) {
     const tbody = document.getElementById('uw-tbody');
     if (!tbody) return;
 
-    const rental = getRentalNumbers(v);
-    const noi = rental.noi;
-    const annualPITI = housingMonthly * 12;
-    const annualCashFlow = noi - annualPITI;
-    const totalCashInvested = down + closingTotal;
-
+    const r = rentalFor(v, RENTAL_SCENARIOS.moderate, v.price);
+    const noi = r.noi;
     const currentCapRate = (noi / v.price) * 100;
-    const currentCoC = totalCashInvested > 0 ? (annualCashFlow / totalCashInvested) * 100 : 0;
+    const currentCoC = cashTotal > 0 ? (r.cashFlow / cashTotal) * 100 : 0;
 
-    // Update summary tiles
     $('uw-current-price').textContent = fmt(v.price);
     $('uw-noi').textContent = fmt(noi);
     $('uw-cap-rate').textContent = currentCapRate.toFixed(2) + '%';
@@ -5183,52 +5090,123 @@
     if (currentCoC > 0) cocEl.classList.add('positive');
     else if (currentCoC < 0) cocEl.classList.add('negative');
 
-    // Targets. For each target cap rate, compute the price that would hit it.
-    // Safe price = NOI / target cap rate
+    // Safe price = NOI / target cap rate. Cash on cash recomputed at that price.
     const targets = [
-      { name: 'Conservative', tag: 'conservative', capRate: 5.0, cocTarget: '< 0%', note: 'Safe but not investor grade. Reasonable for primary use.' },
-      { name: 'Moderate', tag: 'moderate', capRate: 7.0, cocTarget: '~3%', note: 'Solid investment threshold. Most STR investors aim here.' },
-      { name: 'Aggressive', tag: 'aggressive', capRate: 9.0, cocTarget: '~6%', note: 'High return target. Limits acquisition price aggressively.' }
+      { name: 'Conservative', tag: 'conservative', capRate: 5.0 },
+      { name: 'Moderate', tag: 'moderate', capRate: 7.0 },
+      { name: 'Aggressive', tag: 'aggressive', capRate: 9.0 }
     ];
-
     tbody.innerHTML = targets.map(t => {
       const safePrice = noi / (t.capRate / 100);
-      const delta = v.price - safePrice;
-      const deltaPct = (delta / safePrice) * 100;
-      // If subject price <= safe price, we're under target (good). If above, we're paying too much for that target.
-      const isUnder = delta <= 0;
-      const priceClass = isUnder ? 'uw-safe-price' : 'uw-over-pay';
-      const deltaText = isUnder
-        ? '$' + Math.round(Math.abs(delta)).toLocaleString('en-US') + ' below listing'
-        : '$' + Math.round(delta).toLocaleString('en-US') + ' above listing';
-      const deltaPctText = (isUnder ? '' : '+') + deltaPct.toFixed(1) + '%';
+      const cash = closingCosts(v, safePrice).cashToClose;
+      const cf = noi - housingCost(v, safePrice).pi * 12;
+      const coc = cash > 0 ? (cf / cash) * 100 : 0;
+      const room = safePrice - v.price;  // positive means your price is under the safe price
+      const ok = room >= 0;
+      const roomText = '$' + Math.round(Math.abs(room)).toLocaleString('en-US') + (ok ? ' under' : ' over');
+      const roomPct = (ok ? '' : '+') + ((-room / v.price) * 100).toFixed(1) + '%';
       return `
         <tr>
           <td>${t.name}<span class="target-tag ${t.tag}">${t.capRate.toFixed(1)}%</span></td>
           <td class="num">${t.capRate.toFixed(1)}%</td>
-          <td class="num">${t.cocTarget}</td>
-          <td class="num"><span class="${priceClass}">${fmt(safePrice)}</span></td>
-          <td class="num">${deltaText}<span class="uw-delta">${deltaPctText}</span></td>
+          <td class="num">${coc.toFixed(1)}%</td>
+          <td class="num"><span class="${ok ? 'uw-safe-price' : 'uw-over-pay'}">${fmt(safePrice)}</span></td>
+          <td class="num">${roomText}<span class="uw-delta">${roomPct}</span></td>
         </tr>
       `;
     }).join('');
 
-    // Action statement
     const actionEl = document.getElementById('uw-action-text');
     if (actionEl) {
-      let actionHtml = '';
       const moderate = noi / 0.07;
       const aggressive = noi / 0.09;
+      const at = 'At <strong>' + fmt(v.price) + '</strong> the moderate STR case produces a <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong>';
+      let actionHtml;
       if (currentCapRate >= 9) {
-        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces a <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong> at moderate STR assumptions. That clears every target tier including the 9% aggressive threshold. Strong deal at current price.';
+        actionHtml = at + '. That clears every tier including the 9% aggressive target.';
       } else if (currentCapRate >= 7) {
-        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces an <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong> at moderate STR assumptions. That clears the 7% moderate threshold with cushion. To hit a 9% target, you would need to acquire at <strong>' + fmt(aggressive) + '</strong> or below. This deal is fundamentally strong, but you have limited room to push the price up before returns degrade.';
+        actionHtml = at + ', ' + (currentCapRate - 7).toFixed(2) + ' points over the 7% moderate target. Above <strong>' + fmt(moderate) + '</strong> it drops under 7%. Hitting 9% needs a price of <strong>' + fmt(aggressive) + '</strong> or below.';
       } else if (currentCapRate >= 5) {
-        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces a <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong>. That clears the 5% conservative threshold but falls below the 7% moderate target. To hit moderate, you would need to acquire at <strong>' + fmt(moderate) + '</strong>, which is <strong>' + fmt(v.price - moderate) + '</strong> below listing. Worth considering as a personal use property or a counter offer if seller is flexible.';
+        actionHtml = at + '. That clears the 5% conservative floor but misses the 7% moderate target. Hitting 7% needs a price of <strong>' + fmt(moderate) + '</strong>, which is <strong>' + fmt(v.price - moderate) + '</strong> lower. Works as a personal use home with rental as an offset.';
       } else {
-        actionHtml = 'The listing of <strong>' + fmt(v.price) + '</strong> produces only a <strong>' + currentCapRate.toFixed(2) + '% cap rate</strong>. Below the 5% conservative threshold. The numbers do not work as a pure investment at listing. Either negotiate down to <strong>' + fmt(moderate) + '</strong> for a 7% target, or treat as a personal use property with rental as a partial offset.';
+        actionHtml = at + ', under the 5% conservative floor. As a pure rental the numbers do not work at this price. Hitting 7% needs <strong>' + fmt(moderate) + '</strong>. Treat it as a personal use home with rental as a partial offset.';
       }
       actionEl.innerHTML = actionHtml;
+    }
+  }
+
+  // ============== Comp derived stats ==============
+  // Every number quoted about the comp set is computed here from COMP_DATA.
+  function compStats(rows) {
+    const psfs = rows.map(r => r.psf).filter(n => n > 0);
+    const doms = rows.map(r => r.dom).filter(n => n != null);
+    const deltas = rows.map(r => r.delta).filter(n => typeof n === 'number');
+    return {
+      n: rows.length,
+      medPsf: median(psfs),
+      medPrice: median(rows.map(r => r.price)),
+      medDom: median(doms),
+      avgDelta: deltas.length ? deltas.reduce((a, b) => a + b, 0) / deltas.length : 0,
+      minDelta: deltas.length ? Math.min(...deltas) : 0,
+      maxDelta: deltas.length ? Math.max(...deltas) : 0,
+      atOrOver: deltas.filter(d => d >= 0).length
+    };
+  }
+
+  function renderCompStats(v) {
+    const sold = COMP_DATA.sold.filter(r => !r.isSubject);
+    const active = COMP_DATA.active.filter(r => !r.isSubject);
+    const llv = compStats(sold.filter(r => r.community === 'Locust Lake'));
+    const ah = compStats(sold.filter(r => r.community === 'Arrowhead'));
+    const all = compStats(sold);
+    const subjPsf = v.price / SUBJECT.sqft;
+    const pctTxt = n => (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+
+    const heroMeta = document.getElementById('hero-psf-meta');
+    if (heroMeta) heroMeta.textContent = 'Sold median, LLV $' + Math.round(llv.medPsf) + ', Arrowhead $' + Math.round(ah.medPsf);
+
+    const mp = document.getElementById('mkt-subj-psf');
+    const mprem = document.getElementById('mkt-subj-prem');
+    if (mp && mprem) {
+      const prem = (subjPsf / 197 - 1) * 100;
+      mp.textContent = 'Subject $' + Math.round(subjPsf);
+      mprem.textContent = pctTxt(prem) + (prem >= 0 ? ' premium' : ' discount');
+    }
+
+    const comm = document.getElementById('comm-stats');
+    if (comm) {
+      const tile = (title, st, nActive) => '<div class="comm-tile"><div class="comm-tile-title">' + title + ', this comp set</div><div class="comm-tile-grid">' +
+        '<div><div class="comm-tile-k">Active</div><div class="comm-tile-v">' + nActive + '</div></div>' +
+        '<div><div class="comm-tile-k">Sold</div><div class="comm-tile-v">' + st.n + '</div></div>' +
+        '<div><div class="comm-tile-k">Median sold</div><div class="comm-tile-v">$' + Math.round(st.medPrice / 1000) + 'K</div></div>' +
+        '<div><div class="comm-tile-k">Median $ / SF</div><div class="comm-tile-v">$' + Math.round(st.medPsf) + '</div></div>' +
+        '</div></div>';
+      comm.innerHTML = tile('Locust Lake Village', llv, active.filter(r => r.community === 'Locust Lake').length) +
+                       tile('Arrowhead Lakes', ah, active.filter(r => r.community === 'Arrowhead').length);
+    }
+
+    const risk = document.getElementById('risk-grid');
+    if (risk) {
+      const effSqft = SUBJECT.sqft + SUBJECT.finishedBasement;
+      const effPsf = v.price / effSqft;
+      const vsMed = (subjPsf / llv.medPsf - 1) * 100;
+      const effVsList = (effPsf / subjPsf - 1) * 100;
+      const effVsMed = (effPsf / llv.medPsf - 1) * 100;
+      const psfCls = vsMed > 3 ? 'amber' : vsMed < -3 ? 'green' : 'neutral';
+      const psfBadge = vsMed > 3 ? 'Above market' : vsMed < -3 ? 'Below market' : 'In line';
+      const card = (cls, title, badge, value, note, bar) =>
+        '<div class="risk-card ' + cls + '"><div class="risk-head"><div class="risk-title">' + title + '</div><span class="risk-badge ' + cls + '">' + badge + '</span></div>' +
+        '<div class="risk-value">' + value + '</div><div class="risk-note">' + note + '</div>' +
+        '<div class="risk-bar"><div class="risk-bar-fill ' + cls + '" style="width: ' + Math.max(8, Math.min(100, bar)).toFixed(0) + '%;"></div></div></div>';
+      risk.innerHTML =
+        card(psfCls, 'Price PSF vs Locust Lake Median', psfBadge, '$' + Math.round(subjPsf) + ' vs $' + Math.round(llv.medPsf),
+          'Subject sits ' + Math.abs(vsMed).toFixed(1) + '% ' + (vsMed >= 0 ? 'over' : 'under') + ' the median $/SF of ' + llv.n + ' Locust Lake Village closings.', 50 + vsMed * 3) +
+        card('green', 'True PSF with Finished Basement', 'Opportunity', '$' + Math.round(effPsf) + ' effective',
+          SUBJECT.finishedBasement + ' SF county confirmed finished basement brings effective living to ' + effSqft.toLocaleString('en-US') + ' SF. That is ' + Math.abs(effVsList).toFixed(0) + '% below the listed $/SF and ' + Math.abs(effVsMed).toFixed(0) + '% ' + (effVsMed <= 0 ? 'below' : 'above') + ' the Locust Lake median.', 50 - effVsMed) +
+        card('red', 'Days on Market', 'Hot listing', SUBJECT.dom + ' days listed',
+          'Listed May 21, under contract within days. Locust Lake closings took a median ' + Math.round(llv.medDom) + ' days. Strong demand meant limited leverage on minor items.', 100 - SUBJECT.dom / llv.medDom * 100) +
+        card('neutral', 'Sold vs Ask, Recent Comps', all.avgDelta < -5 ? 'Buyer leverage' : 'Moderate', all.avgDelta.toFixed(1) + '% avg vs ask',
+          all.n + ' closings across both communities averaged ' + Math.abs(all.avgDelta).toFixed(1) + '% ' + (all.avgDelta < 0 ? 'under' : 'over') + ' ask. Range ' + pctTxt(all.maxDelta) + ' to ' + pctTxt(all.minDelta) + '. ' + all.atOrOver + ' of ' + all.n + ' closed at or over ask.', 50 + all.avgDelta * 3);
     }
   }
 
@@ -5269,11 +5247,11 @@
     0.55, 0.68, 0.85, 0.92, 0.78
   ];
 
-  const SCENARIO_TOTALS = {
-    conservative: 21900,
-    moderate: 40150,
-    optimistic: 59313
-  };
+  const SCENARIO_TOTALS = {};
+  Object.keys(RENTAL_SCENARIOS).forEach(k => {
+    const sc = RENTAL_SCENARIOS[k];
+    SCENARIO_TOTALS[k] = Math.round(sc.adr * 365 * sc.occ);
+  });
 
   let blockedWeeks = new Set();
   let currentScenario = 'moderate';
@@ -5426,7 +5404,7 @@
     { key: 'repair',       label: 'Immediate Repair Reserve', defaultVal: 1500, max: 15000 },
     { key: 'safety',       label: 'Required Safety Margin',   defaultVal: 1000, max: 15000 }
   ];
-  const MO_ASKING = 329999;
+  const MO_ASKING = SUBJECT.asking;
   const MO_COMP_DEFAULT = 345000;
   const MO_ISSUES = [
     { key: 'roof',       label: 'Roof concern',                credit: 8000 },
@@ -5592,15 +5570,18 @@
     const safetyMargin = moState.reserves.safety;
     const reservesExSafety = totalReserves - safetyMargin;
     const adjComp = moState.adjustedComp;
-    const walkAway = adjComp - totalReserves;
+    const inspectionCredits = MO_ISSUES.reduce((s, i) => s + (moState.issues[i.key] ? i.credit : 0), 0);
+    // Known inspection findings replace the generic inspection reserve once they exceed it
+    const inspectionOverage = Math.max(0, inspectionCredits - moState.reserves.inspection);
+    const walkAway = adjComp - totalReserves - inspectionOverage;
     const bestCase = adjComp;
     const fairLow = walkAway + Math.round(reservesExSafety * 0.4);
-    const fairHigh = adjComp - safetyMargin;
-    const inspectionCredits = MO_ISSUES.reduce((s, i) => s + (moState.issues[i.key] ? i.credit : 0), 0);
+    const fairHigh = adjComp - safetyMargin - inspectionOverage;
     const inspectionAdjusted = adjComp - inspectionCredits;
     const checkedCount = MO_ISSUES.filter(i => moState.issues[i.key]).length;
     const asking = MO_ASKING;
-    const rec = determineMOAction(asking, walkAway, fairLow, fairHigh, inspectionCredits, moState.reserves.missingProof);
+    // Judge the deal on the net price after any inspection credit you would request
+    const rec = determineMOAction(asking - inspectionCredits, walkAway, fairLow, fairHigh, inspectionCredits, moState.reserves.missingProof);
     const actionText = moActionText(rec.kind, asking, walkAway, fairLow, fairHigh, inspectionCredits);
 
     const recEl = document.getElementById('mo-rec');
@@ -5661,6 +5642,14 @@
           '<span class="mo-wf-running">' + moFmtUSD(running) + '</span>' +
           '</div>';
       });
+      if (inspectionOverage > 0) {
+        running -= inspectionOverage;
+        wfHtml += '<div class="mo-wf-row">' +
+          '<span class="mo-wf-label">Inspection findings over reserve</span>' +
+          '<span class="mo-wf-amount negative">\u2212' + moFmtUSD(inspectionOverage) + '</span>' +
+          '<span class="mo-wf-running">' + moFmtUSD(running) + '</span>' +
+          '</div>';
+      }
       wfHtml += '<div class="mo-wf-row mo-wf-end">' +
         '<span class="mo-wf-label">Walk Away Price</span>' +
         '<span class="mo-wf-amount"></span>' +
@@ -5839,7 +5828,8 @@
     if (!tEl) return;
     tEl.textContent = targetRate.toFixed(2) + '%';
 
-    const spreadBps = Math.round((CURRENT_MARKET_RATE - targetRate) * 100);
+    // Positive spread means the market is below your modeled rate, which is good for you
+    const spreadBps = Math.round((targetRate - CURRENT_MARKET_RATE) * 100);
     const spreadVal = $('rate-spread-value');
     const spreadTrend = $('rate-spread-trend');
     const spreadNote = $('rate-spread-note');
@@ -5850,26 +5840,23 @@
       spreadTrend.textContent = 'Market matches your target';
       spreadNote.textContent = 'Your modeled payment matches the current market exactly.';
       spreadTile.classList.remove('negative');
-    } else if (spreadBps < 0) {
-      // Market is HIGHER than target, bad for you
-      spreadVal.textContent = '+' + Math.abs(spreadBps) + ' bps';
-      spreadTrend.textContent = 'Market is above your target';
-      spreadNote.textContent = 'Current market rate exceeds your assumption. A lock today would increase your monthly payment.';
-      spreadTile.classList.add('negative');
-    } else {
-      // Market is LOWER than target, good for you
-      spreadVal.textContent = '-' + spreadBps + ' bps';
+    } else if (spreadBps > 0) {
+      spreadVal.textContent = '+' + spreadBps + ' bps';
       spreadTrend.textContent = 'Market is below your target';
       spreadNote.textContent = 'Your modeled payment has cushion. A lock at the current market would beat the assumption.';
       spreadTile.classList.remove('negative');
+    } else {
+      spreadVal.textContent = '-' + Math.abs(spreadBps) + ' bps';
+      spreadTrend.textContent = 'Market is above your target';
+      spreadNote.textContent = 'Current market rate exceeds your assumption. A lock today would raise your monthly payment.';
+      spreadTile.classList.add('negative');
     }
 
     // Move the gold dashed target line in the sparkline.
-    // viewBox is 700 x 110. y axis maps rate 6.10 to 6.90 -> y 110 to 0.
-    // y = 110 - ((rate - 6.10) / 0.80) * 110
+    // viewBox is 700 x 110. The plotted path maps rate 6.10 to 6.98 onto y 110 to 0.
     const targetLine = document.getElementById('rate-target-line');
     if (targetLine) {
-      const y = 110 - ((targetRate - 6.10) / 0.80) * 110;
+      const y = 110 - ((targetRate - 6.10) / 0.88) * 110;
       // Clamp into visible range so the line shows even at extreme targets
       const yClamped = Math.max(2, Math.min(108, y));
       targetLine.setAttribute('y1', yClamped);
@@ -5911,9 +5898,9 @@
       },
       {
         label: 'Down Payment %',
-        range: '20% to 30%',
-        low: calcMonthly({ downPct: 30 }),
-        high: calcMonthly({ downPct: 20 })
+        range: Math.max(0, v.downPct - 5) + '% to ' + Math.min(100, v.downPct + 5) + '%',
+        low: calcMonthly({ downPct: Math.min(100, v.downPct + 5) }),
+        high: calcMonthly({ downPct: Math.max(0, v.downPct - 5) })
       },
       {
         label: 'Property Taxes',
