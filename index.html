@@ -726,6 +726,20 @@
   .price-pill.subject .pp-amt { color: #1a1a1a; }
   .price-pill .pp-amt { font-variant-numeric: tabular-nums; }
 
+  .map-fallback {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+  .map-fallback a { color: var(--gold-2); }
+
   /* Map legend below the map */
   .map-legend {
     display: flex;
@@ -6242,8 +6256,29 @@
     s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GMAPS_KEY + '&v=weekly&callback=__onGoogleMapsReady&loading=async';
     s.async = true;
     s.defer = true;
-    s.onerror = function () { console.error('Google Maps script failed to load'); };
+    s.onerror = function () { showMapFallback('The map could not load right now.'); };
     document.head.appendChild(s);
+  }
+
+  // Maps calls this global when the key is rejected, e.g. opening the file locally
+  window.gm_authFailure = function () { showMapFallback('The map only loads on the live site.'); };
+
+  function showMapFallback(reason) {
+    const el = document.getElementById('property-map');
+    if (!el) return;
+    el.innerHTML = '<div class="map-fallback">' + reason +
+      ' <a href="https://www.google.com/maps/search/?api=1&query=157+Cardinal+Ln+Pocono+Lake+PA+18347" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></div>';
+  }
+
+  // Load the map only when it scrolls near view, saves a paid map load on visits that never reach it
+  function lazyLoadGoogleMaps() {
+    const el = document.getElementById('property-map');
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { loadGoogleMaps(); return; }
+    const io = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { io.disconnect(); loadGoogleMaps(); }
+    }, { rootMargin: '600px 0px' });
+    io.observe(el);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -6266,7 +6301,7 @@
       console.error('comp render failed:', e);
     }
     initMaxOfferCalculator();
-    try { loadGoogleMaps(); }
+    try { lazyLoadGoogleMaps(); }
     catch (e) { console.error('Google Maps load failed:', e); }
   });
 </script>
